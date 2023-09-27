@@ -3,7 +3,9 @@ import { CalendarController } from './controller/calendar.controller';
 import { EventController } from './controller/event.controller';
 import { SectionController } from './controller/section.controller';
 import { UnitController } from './controller/unit.controller';
-import { createConnection } from "typeorm";
+import { UserController } from './controller/user.controller';
+import { createConnection } from 'typeorm';
+import config from './ormconfig';
 require('dotenv').config();
 
 class Server {
@@ -11,6 +13,7 @@ class Server {
   private eventController: EventController;
   private sectionController: SectionController;
   private unitController: UnitController;
+  private userController: UserController;
   private app: express.Application;
 
   constructor(){
@@ -34,14 +37,7 @@ class Server {
    */
   public async routes(){
     await createConnection({
-      type: "postgres",
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      entities: ["build/database/entities/**/*.js"],
-      synchronize: true,
+      ...config,
       name: "schedule"
     });
 
@@ -49,11 +45,13 @@ class Server {
     this.eventController = new EventController();
     this.sectionController = new SectionController();
     this.unitController = new UnitController();
+    this.userController = new UserController();
 
     this.app.use(`/calendars/`,this.calendarController.router);
     this.app.use(`/events/`,this.eventController.router);
     this.app.use(`/sections/`,this.sectionController.router);
     this.app.use(`/units/`,this.unitController.router);
+    this.app.use(`/users/`,this.userController.router);
   }
 
   /**
