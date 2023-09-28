@@ -1,13 +1,17 @@
 import { Router, Response, Request } from "express";
 import { EventService } from "../services/event.service";
-import { EVENT_ALLOW_FIELDS } from "../constants/Event.constant"; // import service
+import { EVENT_ALLOW_FIELDS } from "../constants/Event.constant";
+import {deserializeUser} from "../middleware/deserializeUser";
+import {UserService} from "../services/user.service"; // import service
 
 export class EventController {
   public router: Router;
   private eventService: EventService;
+  private userService: UserService;
 
   constructor(){
-    this.eventService = new EventService(); // Create a new instance of EventController
+    this.eventService = new EventService();
+    this.userService = new UserService();
     this.router = Router();
     this.routes();
   }
@@ -20,13 +24,14 @@ export class EventController {
   }
 
   public create = async (req: Request, res: Response) => {
+    const user = await this.userService.findUserById(parseInt(res.locals.user.id as string));
     const event = {} as any;
     for (const f in req.body) {
       if (EVENT_ALLOW_FIELDS.indexOf(f) !== -1) {
         event[f] = req.body[f];
       }
     }
-    const newEvent = await this.eventService.create(event);
+    const newEvent = await this.eventService.create(event, user!);
     res.send(newEvent);
   }
 
@@ -52,7 +57,7 @@ export class EventController {
    */
   public routes(){
     this.router.get('/', this.index);
-    this.router.post('/', this.create);
+    this.router.post('/', deserializeUser, this.create);
     this.router.put('/:id', this.update);
     this.router.delete('/:id', this.delete);
   }

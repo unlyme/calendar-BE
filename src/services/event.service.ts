@@ -2,6 +2,7 @@ import {getConnection, MoreThanOrEqual, Not} from 'typeorm';
 import Event from '../database/entities/event.entity';
 import {EventRepository} from '../repository/event.repository';
 import {RECURRING_UPDATE_MODE} from "../database/enums/event.enum";
+import {User} from "../database/entities/user.entity";
 
 export class EventService {
   private eventRepository: EventRepository;
@@ -28,8 +29,8 @@ export class EventService {
     }
   }
   
-  public create = async (event: Event) => {
-    return await this.eventRepository.save(event);
+  public create = async (event: Partial<Event>, user: User) => {
+    return await this.eventRepository.save(this.eventRepository.create({...event, user}));
   }
   
   public update =  async(event: Event, id: number, mode: RECURRING_UPDATE_MODE, date: string | undefined) => {

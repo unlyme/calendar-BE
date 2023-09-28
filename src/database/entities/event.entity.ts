@@ -1,7 +1,8 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import Calendar from "./calendar.entity";
 import Unit from "./unit.entity";
 import Section from "./section.entity";
+import {User} from "./user.entity";
 
 @Entity()
 export class Event {
@@ -43,6 +44,10 @@ export class Event {
   
   @ManyToOne(() => Section, (section) => section.id)
   public section: Section;
+  
+  @ManyToOne(() => User, (user) => user.events)
+  @JoinColumn()
+  public user: User;
 }
 
 export default Event;

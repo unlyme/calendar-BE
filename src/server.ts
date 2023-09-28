@@ -1,11 +1,12 @@
 import express from 'express';
+import { createConnection } from 'typeorm';
 import { CalendarController } from './controller/calendar.controller';
 import { EventController } from './controller/event.controller';
 import { SectionController } from './controller/section.controller';
 import { UnitController } from './controller/unit.controller';
 import { UserController } from './controller/user.controller';
-import { createConnection } from 'typeorm';
 import config from './ormconfig';
+import { AuthController } from "./controller/auth.controller";
 require('dotenv').config();
 
 class Server {
@@ -14,6 +15,7 @@ class Server {
   private sectionController: SectionController;
   private unitController: UnitController;
   private userController: UserController;
+  private authController: AuthController;
   private app: express.Application;
 
   constructor(){
@@ -46,12 +48,14 @@ class Server {
     this.sectionController = new SectionController();
     this.unitController = new UnitController();
     this.userController = new UserController();
+    this.authController = new AuthController();
 
     this.app.use(`/calendars/`,this.calendarController.router);
     this.app.use(`/events/`,this.eventController.router);
     this.app.use(`/sections/`,this.sectionController.router);
     this.app.use(`/units/`,this.unitController.router);
     this.app.use(`/users/`,this.userController.router);
+    this.app.use(`/auth/`,this.authController.router);
   }
 
   /**

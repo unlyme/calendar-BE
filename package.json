@@ -23,10 +23,12 @@
   "license": "MIT",
   "homepage": "",
   "dependencies": {
+    "@types/bcryptjs": "^2.4.4",
     "@types/config": "^3.3.1",
     "@types/express": "^4.17.11",
     "@types/jsonwebtoken": "^9.0.3",
     "@types/node": "^14.14.34",
+    "bcryptjs": "^2.4.3",
     "config": "^3.3.9",
     "dotenv": "^16.3.1",
     "express": "^4.17.1",
