@@ -1,5 +1,4 @@
 import { Router, Response, Request, NextFunction, CookieOptions } from "express";
-import config from "config";
 import { UserService } from "../services/user.service";
 import { deserializeUser } from "../middleware/deserializeUser";
 import { requireUser } from "../middleware/requireUser";
@@ -9,6 +8,7 @@ import AppError from "../utils/appError";
 import { User } from "../database/entities/user.entity";
 import redisClient from "../utils/connectRedis";
 import { signJwt, verifyJwt } from "../utils/jwt"; // import service
+require('dotenv').config();
 
 export class AuthController {
   public router: Router;
@@ -28,17 +28,17 @@ export class AuthController {
   private accessTokenCookieOptions: CookieOptions = {
     ...this.cookiesOptions,
     expires: new Date(
-      Date.now() + config.get<number>('accessTokenExpiresIn') * 60 * 1000
+      Date.now() + parseInt(process.env.ACCESS_TOKEN_EXPIRES_IN ?? '15') * 60 * 1000
     ),
-    maxAge: config.get<number>('accessTokenExpiresIn') * 60 * 1000,
+    maxAge: parseInt(process.env.ACCESS_TOKEN_EXPIRES_IN ?? '15') * 60 * 1000,
   };
   
   private refreshTokenCookieOptions: CookieOptions = {
     ...this.cookiesOptions,
     expires: new Date(
-      Date.now() + config.get<number>('refreshTokenExpiresIn') * 60 * 1000
+      Date.now() + parseInt(process.env.REFRESH_TOKEN_EXPIRES_IN ?? '60') * 60 * 1000
     ),
-    maxAge: config.get<number>('refreshTokenExpiresIn') * 60 * 1000,
+    maxAge: parseInt(process.env.REFRESH_TOKEN_EXPIRES_IN ?? '60') * 60 * 1000,
   };
   
   public register = async (req: Request, res: Response) => {
@@ -108,7 +108,7 @@ export class AuthController {
       
       const decoded = verifyJwt<{ sub: string }>(
         refresh_token,
-        'refreshTokenPublicKey'
+        'JWT_REFRESH_TOKEN_PUBLIC_KEY'
       );
       
       if (!decoded) {
@@ -127,8 +127,8 @@ export class AuthController {
         return next(new AppError(403, message));
       }
       
-      const access_token = signJwt({ sub: user.id }, 'accessTokenPrivateKey', {
-        expiresIn: `${config.get<number>('accessTokenExpiresIn')}m`,
+      const access_token = signJwt({ sub: user.id }, 'JWT_ACCESS_TOKEN_PRIVATE_KEY', {
+        expiresIn: `${parseInt(process.env.ACCESS_TOKEN_EXPIRES_IN ?? '15')}m`,
       });
       
       res.cookie('access_token', access_token, this.accessTokenCookieOptions);

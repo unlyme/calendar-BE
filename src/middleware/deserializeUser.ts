@@ -30,7 +30,7 @@ export const deserializeUser = async (
     // Validate the access token
     const decoded = verifyJwt<{ sub: string }>(
       access_token,
-      'accessTokenPublicKey'
+      'JWT_ACCESS_TOKEN_PUBLIC_KEY'
     );
     
     if (!decoded) {

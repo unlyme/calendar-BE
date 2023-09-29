@@ -1,9 +1,9 @@
 import {getConnection} from 'typeorm';
-import config from "config";
 import {User} from '../database/entities/user.entity';
 import {UserRepository} from '../repository/user.repository';
 import redisClient from "../utils/connectRedis";
 import {signJwt} from "../utils/jwt";
+require('dotenv').config();
 
 export class UserService {
   private userRepository: UserRepository;
@@ -34,16 +34,16 @@ export class UserService {
   
   public signTokens = async (user: User) => {
     await redisClient.set(`${user.id}`, JSON.stringify(user), {
-      EX: config.get<number>('redisCacheExpiresIn') * 60,
+      EX: parseInt(process.env.REDIS_CACHE_EXPIRES_IN ?? '60') * 60,
     });
     
     // 2. Create Access and Refresh tokens
-    const access_token = signJwt({ sub: user.id }, 'accessTokenPrivateKey', {
-      expiresIn: `${config.get<number>('accessTokenExpiresIn')}m`,
+    const access_token = signJwt({ sub: user.id }, 'JWT_ACCESS_TOKEN_PRIVATE_KEY', {
+      expiresIn: `${parseInt(process.env.ACCESS_TOKEN_EXPIRES_IN ?? '15')}m`,
     });
     
-    const refresh_token = signJwt({ sub: user.id }, 'refreshTokenPrivateKey', {
-      expiresIn: `${config.get<number>('refreshTokenExpiresIn')}m`,
+    const refresh_token = signJwt({ sub: user.id }, 'JWT_REFRESH_TOKEN_PRIVATE_KEY', {
+      expiresIn: `${parseInt(process.env.REFRESH_TOKEN_EXPIRES_IN ?? '60')}m`,
     });
     
     return { access_token, refresh_token };
