@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
 export class Section1695673414660 implements MigrationInterface {
-
+    name = 'Section1695673414660'
     public async up(queryRunner: QueryRunner): Promise<void> {
       const initialSections = [
         {

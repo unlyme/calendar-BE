@@ -6,7 +6,6 @@ import { validate } from "../middleware/validate";
 import { createUserSchema, loginUserSchema } from "../schemas/user.schema";
 import AppError from "../utils/appError";
 import { User } from "../database/entities/user.entity";
-import redisClient from "../utils/connectRedis";
 import { signJwt, verifyJwt } from "../utils/jwt"; // import service
 require('dotenv').config();
 
@@ -81,10 +80,6 @@ export class AuthController {
   
   public logout = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = res['locals']['user'];
-      
-      await redisClient.del(`${user.id}`);
-      
       res.cookie('access_token', '', { maxAge: 1 });
       res.cookie('refresh_token', '', { maxAge: 1 });
       res.cookie('logged_in', '', { maxAge: 1 });
@@ -115,13 +110,7 @@ export class AuthController {
         return next(new AppError(403, message));
       }
       
-      const session = await redisClient.get(decoded.sub);
-      
-      if (!session) {
-        return next(new AppError(403, message));
-      }
-      
-      const user = await this.userService.findUserById(JSON.parse(session).id);
+      const user = await this.userService.findUserById(parseInt(decoded.sub));
       
       if (!user) {
         return next(new AppError(403, message));

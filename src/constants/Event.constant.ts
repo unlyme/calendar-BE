@@ -9,6 +9,6 @@ export const EVENT_ALLOW_FIELDS = [
   "calendar",
   "origin_id",
   "series_end_date",
-  "units",
+  "unit",
   "section"
 ];

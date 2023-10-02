@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
 export class Unit1695674345177 implements MigrationInterface {
-
+    name = 'Unit1695674345177'
     public async up(queryRunner: QueryRunner): Promise<void> {
       const initialUnits = [
         {

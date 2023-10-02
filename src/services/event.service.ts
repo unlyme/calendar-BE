@@ -11,10 +11,11 @@ export class EventService {
     this.eventRepository = getConnection("schedule").getCustomRepository(EventRepository);
   }
   
-  public index = async (from: string | undefined, to: string | undefined) => {
+  public index = async (from: string | undefined, to: string | undefined, userId: number | undefined) => {
     if (from && to) {
       return await this.eventRepository.createQueryBuilder('event')
-        .where('event.start_date < :to', { to })
+        .where('event.userId = :userId', { userId })
+        .andWhere('event.start_date < :to', { to })
         .andWhere(
           '(event.end_date >= :from OR event.series_end_date >= :from OR (event.recurring <> "" AND event.series_end_date = ""))',
           { from }
@@ -24,6 +25,7 @@ export class EventService {
         .getMany();
     } else {
       return await this.eventRepository.createQueryBuilder('event')
+        .where('event.userId = :userId', { userId })
         .orderBy('event.start_date', 'ASC')
         .getMany();
     }

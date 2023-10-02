@@ -9,6 +9,8 @@ const config: ConnectionOptions = {
   database: process.env.DB_NAME,
   entities: ["build/database/entities/**/*.js"],
   synchronize: true,
+  migrations: ["src/migrations/*.js"],
+  migrationsTableName: "migrations",
   cli: {
     migrationsDir: 'src/migrations',
   }

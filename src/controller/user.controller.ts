@@ -1,5 +1,6 @@
 import { Router, Response, Request } from "express";
 import { User } from "../database/entities/user.entity";
+import {deserializeUser} from "../middleware/deserializeUser";
 
 export class UserController {
   public router: Router;
@@ -11,13 +12,14 @@ export class UserController {
   
   public me = async (req: Request, res: Response) => {
     const user = res['locals']['user'] as User;
-    res.send(user).json();
+    const { password, ...rest } = user;
+    res.send(rest).json();
   }
   
   /**
    * Configure the routes of controller
    */
   public routes(){
-    this.router.get('/me', this.me);
+    this.router.get('/me', deserializeUser, this.me);
   }
 }

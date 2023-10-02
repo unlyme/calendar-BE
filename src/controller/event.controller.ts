@@ -1,8 +1,9 @@
-import { Router, Response, Request } from "express";
+import {Router, Response, Request, NextFunction} from "express";
 import { EventService } from "../services/event.service";
 import { EVENT_ALLOW_FIELDS } from "../constants/Event.constant";
 import {deserializeUser} from "../middleware/deserializeUser";
-import {UserService} from "../services/user.service"; // import service
+import {UserService} from "../services/user.service";
+import {User} from "../database/entities/user.entity"; // import service
 
 export class EventController {
   public router: Router;
@@ -19,7 +20,8 @@ export class EventController {
   public index = async (req: Request, res: Response) => {
     const from = req.query.from as string;
     const to = req.query.to as string;
-    const events = await this.eventService.index(from, to);
+    const user = res['locals']['user'] as User;
+    const events = await this.eventService.index(from, to, user.id);
     res.send(events).json();
   }
 
@@ -47,16 +49,21 @@ export class EventController {
     res.send(this.eventService.update(event, Number(id), mode, date));
   }
 
-  public delete = async (req: Request, res: Response) => {
-    const id =  req['params']['id'];
-    res.send(this.eventService.delete(Number(id)));
+  public delete = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id =  req['params']['id'];
+      await this.eventService.delete(Number(id))
+      res.send({success: true});
+    } catch (e) {
+      next(e);
+    }
   }
 
   /**
    * Configure the routes of controller
    */
   public routes(){
-    this.router.get('/', this.index);
+    this.router.get('/', deserializeUser, this.index);
     this.router.post('/', deserializeUser, this.create);
     this.router.put('/:id', this.update);
     this.router.delete('/:id', this.delete);

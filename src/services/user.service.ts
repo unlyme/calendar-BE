@@ -1,7 +1,6 @@
 import {getConnection} from 'typeorm';
 import {User} from '../database/entities/user.entity';
 import {UserRepository} from '../repository/user.repository';
-import redisClient from "../utils/connectRedis";
 import {signJwt} from "../utils/jwt";
 require('dotenv').config();
 
@@ -33,11 +32,6 @@ export class UserService {
   }
   
   public signTokens = async (user: User) => {
-    await redisClient.set(`${user.id}`, JSON.stringify(user), {
-      EX: parseInt(process.env.REDIS_CACHE_EXPIRES_IN ?? '60') * 60,
-    });
-    
-    // 2. Create Access and Refresh tokens
     const access_token = signJwt({ sub: user.id }, 'JWT_ACCESS_TOKEN_PRIVATE_KEY', {
       expiresIn: `${parseInt(process.env.ACCESS_TOKEN_EXPIRES_IN ?? '15')}m`,
     });
