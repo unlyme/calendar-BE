@@ -1,22 +1,15 @@
-import { Router, Response, Request, NextFunction, CookieOptions } from "express";
+import { Response, Request, NextFunction, CookieOptions } from "express";
 import { UserService } from "../services/user.service";
-import { deserializeUser } from "../middleware/deserializeUser";
-import { requireUser } from "../middleware/requireUser";
-import { validate } from "../middleware/validate";
-import { createUserSchema, loginUserSchema } from "../schemas/user.schema";
 import AppError from "../utils/appError";
 import { User } from "../database/entities/user.entity";
 import { signJwt, verifyJwt } from "../utils/jwt"; // import service
 require('dotenv').config();
 
 export class AuthController {
-  public router: Router;
   private userService: UserService;
   
   constructor() {
     this.userService = new UserService(); // Create a new instance of UserController
-    this.router = Router();
-    this.routes();
   }
   
   private cookiesOptions: CookieOptions = {
@@ -45,9 +38,10 @@ export class AuthController {
     
     const newUser = await this.userService.create({ email: email.toLowerCase(), name, password });
     if (newUser) {
-      res.json({message: 'success'})
+      const { password, ...userWithoutPassword } = newUser;
+      res.json(userWithoutPassword)
     } else {
-      res.json({message: 'failed'})
+      res.status(500).json({message: 'failed'})
     }
   }
   
@@ -94,7 +88,7 @@ export class AuthController {
   
   public refresh = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const refresh_token = req['cookies']['refresh_token'];
+      const refresh_token = res['locals']['cookies']['refresh_token'];
       const message = 'Could not refresh access token';
       
       if (!refresh_token) {
@@ -133,15 +127,5 @@ export class AuthController {
     } catch (err: any) {
       next(err);
     }
-  }
-  
-  /**
-   * Configure the routes of controller
-   */
-  public routes(){
-    this.router.post('/register', validate(createUserSchema),this.register);
-    this.router.post('/login', validate(loginUserSchema), this.login);
-    this.router.get('/logout', deserializeUser, requireUser, this.logout);
-    this.router.get('/refresh', this.refresh);
   }
 }

@@ -1,20 +1,16 @@
-import {Router, Response, Request, NextFunction} from "express";
+import { Response, Request, NextFunction } from "express";
 import { EventService } from "../services/event.service";
 import { EVENT_ALLOW_FIELDS } from "../constants/Event.constant";
-import {deserializeUser} from "../middleware/deserializeUser";
-import {UserService} from "../services/user.service";
-import {User} from "../database/entities/user.entity"; // import service
+import { UserService } from "../services/user.service";
+import { User } from "../database/entities/user.entity"; // import service
 
 export class EventController {
-  public router: Router;
   private eventService: EventService;
   private userService: UserService;
 
   constructor(){
     this.eventService = new EventService();
     this.userService = new UserService();
-    this.router = Router();
-    this.routes();
   }
 
   public index = async (req: Request, res: Response) => {
@@ -22,7 +18,7 @@ export class EventController {
     const to = req.query.to as string;
     const user = res['locals']['user'] as User;
     const events = await this.eventService.index(from, to, user.id);
-    res.send(events).json();
+    res.send(events);
   }
 
   public create = async (req: Request, res: Response) => {
@@ -45,8 +41,8 @@ export class EventController {
     const id =  req['params']['id'];
     const mode = req['body']['recurring_update_mode'];
     const date = req['body']['recurring_update_date'];
-    
-    res.send(this.eventService.update(event, Number(id), mode, date));
+    const updatedEvent = await this.eventService.update(event, Number(id), mode, date);
+    res.send({ ...event, id });
   }
 
   public delete = async (req: Request, res: Response, next: NextFunction) => {
@@ -57,15 +53,5 @@ export class EventController {
     } catch (e) {
       next(e);
     }
-  }
-
-  /**
-   * Configure the routes of controller
-   */
-  public routes(){
-    this.router.get('/', deserializeUser, this.index);
-    this.router.post('/', deserializeUser, this.create);
-    this.router.put('/:id', this.update);
-    this.router.delete('/:id', this.delete);
   }
 }
