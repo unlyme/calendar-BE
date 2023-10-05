@@ -29,7 +29,7 @@ import { object, string } from 'zod';
  *          type: string
  */
 
-export const loginUserSchema = object({
+export const loginAdminSchema = object({
   body: object({
     email: string({
       required_error: 'Invalid credentials',

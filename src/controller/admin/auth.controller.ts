@@ -2,6 +2,7 @@ import { Response, Request, NextFunction, CookieOptions } from "express";
 import { AdminService } from "../../services/admin.service";
 import AppError from "../../utils/appError";
 import { Admin } from "../../database/entities/admin.entity";
+import { signJwt, verifyJwt } from "../../utils/jwt";
 
 export class AdminAuthController {
   private adminService: AdminService;
@@ -61,5 +62,62 @@ export class AdminAuthController {
       status: 'success',
       access_token,
     });
+  }
+
+  public logout = async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+      res.cookie('access_token', '', { maxAge: 1 });
+      res.cookie('refresh_token', '', { maxAge: 1 });
+      res.cookie('logged_in', '', { maxAge: 1 });
+
+      res.status(200).json({
+        status: 'success',
+      });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public refresh = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const refresh_token = res['locals']['cookies']['refresh_token'];
+      const message = 'Could not refresh access token';
+
+      if (!refresh_token) {
+        return next(new AppError(403, message));
+      }
+
+      const decoded = verifyJwt<{ sub: string }>(
+        refresh_token,
+        'JWT_REFRESH_TOKEN_PUBLIC_KEY'
+      );
+
+      if (!decoded) {
+        return next(new AppError(403, message));
+      }
+
+      const user = await this.adminService.findAdminById(parseInt(decoded.sub));
+
+      if (!user) {
+        return next(new AppError(403, message));
+      }
+
+      const access_token = signJwt({ sub: user.id }, 'JWT_ACCESS_TOKEN_PRIVATE_KEY', {
+        expiresIn: `${parseInt(process.env.ACCESS_TOKEN_EXPIRES_IN ?? '15')}m`,
+      });
+
+      res.cookie('access_token', access_token, this.accessTokenCookieOptions);
+      res.cookie('logged_in', true, {
+        ...this.accessTokenCookieOptions,
+        httpOnly: false,
+      });
+
+      res.status(200).json({
+        status: 'success',
+        access_token,
+      });
+    } catch (err: any) {
+      next(err);
+    }
   }
 }
