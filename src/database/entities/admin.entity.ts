@@ -10,9 +10,6 @@ export class Admin {
   email!: string;
 
   @Column()
-  name!: string;
-
-  @Column()
   password!: string;
 
   @BeforeInsert()

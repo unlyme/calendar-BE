@@ -12,18 +12,18 @@ export class User {
 
   @Column()
   name!: string;
-  
+
   @Column()
   password!: string;
-  
+
   @OneToMany(() => Event, (post) => post.user)
   events: Event[];
-  
+
   @BeforeInsert()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 12);
   }
-  
+
   static async comparePasswords(
     candidatePassword: string,
     hashedPassword: string

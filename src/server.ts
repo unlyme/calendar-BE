@@ -7,6 +7,7 @@ import { calendarRoutes } from "./routes/calendar";
 import { eventRoutes } from "./routes/event";
 import { sectionRoutes } from "./routes/section";
 import { unitRoutes } from "./routes/unit";
+import { adminRoutes } from './routes/admin';
 const swagger = require("./utils/swagger");
 require('dotenv').config();
 
@@ -38,7 +39,7 @@ class Server {
       ...config,
       name: "schedule"
     });
-    
+
     this.app.use(swagger);
     this.userController = new UserController();
 
@@ -47,6 +48,7 @@ class Server {
     this.app.use(`/sections/`, sectionRoutes());
     this.app.use(`/units/`, unitRoutes());
     this.app.use(`/auth/`, authRoutes());
+    this.app.use('/admin', adminRoutes());
   }
 
   /**
