@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { UserService } from '../services/user.service';
 import AppError from '../utils/appError';
 import { verifyJwt } from '../utils/jwt';
-import { AdminService } from '../services/admin.service';
+import { StaffService } from '../services/staff.service';
 
 export const deserializeUser = async (
   req: Request,
@@ -10,7 +10,7 @@ export const deserializeUser = async (
   next: NextFunction
 ) => {
   const userService = new UserService();
-  const adminService = new AdminService();
+  const staffService = new StaffService();
 
   try {
     let access_token;
@@ -50,10 +50,14 @@ export const deserializeUser = async (
     }
 
     if (decoded.role === 'admin') {
-      const admin = await adminService.findAdminById(parseInt(decoded.sub));
+      const admin = await staffService.findStaffById(parseInt(decoded.sub));
 
       if (!admin) {
         return next(new AppError(401, `Invalid token or session has expired`));
+      }
+
+      if (!admin.isAdminPrivileges) {
+        return next(new AppError(403, 'Forbidden'));
       }
 
       res.locals.admin = admin;

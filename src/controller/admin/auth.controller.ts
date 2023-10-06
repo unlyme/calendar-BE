@@ -1,14 +1,14 @@
 import { Response, Request, NextFunction, CookieOptions } from "express";
-import { AdminService } from "../../services/admin.service";
+import { StaffService } from "../../services/staff.service";
 import AppError from "../../utils/appError";
-import { Admin } from "../../database/entities/admin.entity";
+import { Staff } from "../../database/entities/staff.entity";
 import { signJwt, verifyJwt } from "../../utils/jwt";
 
 export class AdminAuthController {
-  private adminService: AdminService;
+  private staffService: StaffService;
 
   constructor() {
-    this.adminService = new AdminService();
+    this.staffService = new StaffService();
   }
 
   private cookiesOptions: CookieOptions = {
@@ -39,17 +39,21 @@ export class AdminAuthController {
       return next(new AppError(401, 'Invalid credentials'));
     }
 
-    const admin = await this.adminService.findAdminByEmail(email);
+    const admin = await this.staffService.findStaffByEmail(email);
 
     if (!admin) {
       return next(new AppError(401, 'Invalid credentials'));
     }
 
-    if (!(await Admin.comparePasswords(password, admin.password))) {
+    if (!(await Staff.comparePasswords(password, admin.password))) {
       return next(new AppError(401, 'Invalid credentials'));
     }
 
-    const { access_token, refresh_token } = await this.adminService.signTokens(admin);
+    if (!admin.isAdminPrivileges) {
+      return next(new AppError(401, 'Invalid credentials'));
+    }
+
+    const { access_token, refresh_token } = await this.staffService.signTokens(admin);
 
     res.cookie('access_token', access_token, this.accessTokenCookieOptions);
     res.cookie('refresh_token', refresh_token, this.refreshTokenCookieOptions);
@@ -96,7 +100,7 @@ export class AdminAuthController {
         return next(new AppError(403, message));
       }
 
-      const user = await this.adminService.findAdminById(parseInt(decoded.sub));
+      const user = await this.staffService.findStaffById(parseInt(decoded.sub));
 
       if (!user) {
         return next(new AppError(403, message));

@@ -1,15 +1,15 @@
 import { Response, Request } from "express";
-import { AdminService } from "../../services/admin.service";
+import { StaffService } from "../../services/staff.service";
 
 export class StaffController {
-  private adminService: AdminService;
+  private staffService: StaffService;
 
   constructor() {
-    this.adminService = new AdminService();
+    this.staffService = new StaffService();
   }
 
   public index = async (_req: Request, res: Response) => {
-    const staffs = await this.adminService.index();
+    const staffs = await this.staffService.index();
 
     return res.send(staffs);
   }

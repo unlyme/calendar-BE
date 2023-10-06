@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from "typeorm";
 import bcrypt from 'bcryptjs';
 
 @Entity()
-export class Admin {
+export class Staff {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -10,7 +10,19 @@ export class Admin {
   email!: string;
 
   @Column()
+  login!: string;
+
+  @Column()
+  firstName!: string;
+
+  @Column()
+  lastName!: string;
+
+  @Column()
   password!: string;
+
+  @Column({ type: 'boolean', default: false })
+  isAdminPrivileges: boolean = false;
 
   @BeforeInsert()
   async hashPassword() {

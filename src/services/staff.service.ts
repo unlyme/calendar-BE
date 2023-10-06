@@ -1,33 +1,33 @@
 import { getConnection } from "typeorm";
-import { AdminRepository } from "../repository/admin.repository";
-import { Admin } from "../database/entities/admin.entity";
+import { StaffRepository } from "../repository/staff.repository";
+import { Staff } from "../database/entities/staff.entity";
 import { signJwt } from "../utils/jwt";
 require('dotenv').config();
 
-export class AdminService {
-  private adminRepositor: AdminRepository;
+export class StaffService {
+  private staffRepository: StaffRepository;
 
   constructor() {
-    this.adminRepositor = getConnection(process.env.DB_NAME).getCustomRepository(AdminRepository);
+    this.staffRepository = getConnection(process.env.DB_NAME).getCustomRepository(StaffRepository);
   }
 
   public index = async () => {
-    return await this.adminRepositor.find({
+    return await this.staffRepository.find({
       order: {
         id: 'ASC'
       }
     })
   }
 
-  public findAdminById = async (id: number) => {
-    return await this.adminRepositor.findOne({ id });
+  public findStaffById = async (id: number) => {
+    return await this.staffRepository.findOne({ id });
   }
 
-  public findAdminByEmail = async (email: string) => {
-    return await this.adminRepositor.findOne({ email });
+  public findStaffByEmail = async (email: string) => {
+    return await this.staffRepository.findOne({ email });
   }
 
-  public signTokens = async (user: Admin) => {
+  public signTokens = async (user: Staff) => {
     const access_token = signJwt({ sub: user.id, role: 'admin' }, 'JWT_ACCESS_TOKEN_PRIVATE_KEY', {
       expiresIn: `${parseInt(process.env.ACCESS_TOKEN_EXPIRES_IN ?? '15')}m`,
     });
