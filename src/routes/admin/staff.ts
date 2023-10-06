@@ -99,6 +99,9 @@ export const adminStaffRoutes = () => {
    *         description: Some server error
    */
   router.get('/', deserializeUser, requireAdmin, staffController.index);
+  router.post('/', deserializeUser, requireAdmin, staffController.create);
+  router.put('/:id', deserializeUser, requireAdmin, staffController.update);
+  router.delete('/:id', deserializeUser, requireAdmin, staffController.delete);
 
   return router;
 }
