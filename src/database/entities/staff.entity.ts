@@ -1,5 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from "typeorm";
-import bcrypt from 'bcryptjs';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  BeforeInsert,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
+import bcrypt from "bcryptjs";
 
 @Entity()
 export class Staff {
@@ -12,17 +19,37 @@ export class Staff {
   @Column()
   login!: string;
 
-  @Column()
+  @Column({ name: "first_name" })
   firstName!: string;
 
-  @Column()
+  @Column({ name: "last_name" })
   lastName!: string;
 
   @Column()
   password!: string;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ name: "is_admin_privileges", type: "boolean", default: false })
   isAdminPrivileges: boolean = false;
+
+  @Column({
+    type: "jsonb",
+  })
+  public contacts: string[];
+
+  @CreateDateColumn({
+    name: "created_at",
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP(6)",
+  })
+  public createdAt: Date;
+
+  @UpdateDateColumn({
+    name: "updated_at",
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP(6)",
+    onUpdate: "CURRENT_TIMESTAMP(6)",
+  })
+  public updatedAt: Date;
 
   @BeforeInsert()
   async hashPassword() {

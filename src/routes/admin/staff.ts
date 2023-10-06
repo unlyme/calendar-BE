@@ -29,6 +29,7 @@ export const adminStaffRoutes = () => {
    *         description: Bad request
    *       500:
    *         description: Some server error
+   *
    *   post:
    *     summary: Create new staff
    *     tags: [AdminStaff]
@@ -39,7 +40,7 @@ export const adminStaffRoutes = () => {
    *       content:
    *         application/json:
    *           schema:
-   *              $ref: '#/components/schemas/UpsertCalendarInput'
+   *              $ref: '#/components/schemas/CreateStaffInput'
    *     responses:
    *       200:
    *         description: The created staff.
@@ -47,6 +48,51 @@ export const adminStaffRoutes = () => {
    *           application/json:
    *             schema:
    *              $ref: '#/components/schemas/Staff'
+   *       400:
+   *         description: Bad request
+   *       500:
+   *         description: Some server error
+   *
+   *   put:
+   *     summary: Update staff
+   *     tags: [AdminStaff]
+   *     security:
+   *      - BearerAuth: []
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *              $ref: '#/components/schemas/UpdateStaffInput'
+   *     responses:
+   *       200:
+   *         description: The updated staff.
+   *         content:
+   *           application/json:
+   *             schema:
+   *              $ref: '#/components/schemas/Staff'
+   *       400:
+   *         description: Bad request
+   *       500:
+   *         description: Some server error
+   *
+   *   delete:
+   *     summary: Delete Staff
+   *     tags: [AdminStaff]
+   *     security:
+   *      - BearerAuth: []
+   *     parameters:
+   *      - name: id
+   *        in: path
+   *        description: The id of staff
+   *        required: true
+   *     responses:
+   *       200:
+   *         description: Deleting staff status.
+   *         content:
+   *           application/json:
+   *             schema:
+   *              $ref: '#/components/schemas/DeleteStaffResponse'
    *       400:
    *         description: Bad request
    *       500:

@@ -1,6 +1,6 @@
 import {Router} from "express";
 import {validate} from "../../middleware/validate";
-import { loginAdminSchema } from "../../schemas/admin.schema";
+import { loginAdminSchema } from "../../schemas/staff.schema";
 import { AdminAuthController } from "../../controller/admin/auth.controller";
 import { deserializeUser } from "../../middleware/deserializeUser";
 import { requireAdmin } from "../../middleware/requireAdmin";
