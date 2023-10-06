@@ -19,6 +19,23 @@ export class StaffService {
     })
   }
 
+  public create = async (staff: Partial<Staff>) => {
+    return await this.staffRepository.save(this.staffRepository.create(staff))
+  }
+
+  public update =  async(id: number, staff: Partial<Staff>) => {
+    const updateResult = await this.staffRepository.update(id, staff);
+    if (updateResult) {
+      const updatedStaff = await this.findStaffById(id);
+      return updatedStaff;
+    }
+    return undefined;
+  }
+
+  public delete = async (id: number) => {
+    return await this.staffRepository.delete(id);
+  }
+
   public findStaffById = async (id: number) => {
     return await this.staffRepository.findOne({ id });
   }

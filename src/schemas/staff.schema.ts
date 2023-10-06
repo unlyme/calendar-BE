@@ -13,6 +13,26 @@ import { object, string } from 'zod';
  *      proerties:
  *        id:
  *          type: string
+ *    CreateStaffInput:
+ *      type: object
+ *      required:
+ *        - login
+ *        - firstName
+ *        - lastName
+ *        - isAdminPrivileges
+ *        - email
+ *      properties:
+ *        login:
+ *          type: string
+ *        firstName:
+ *          type: string
+ *        lastName:
+ *          type: string
+ *        isAdminPrivileges:
+ *          type: boolean
+ *          default: false
+ *        email:
+ *          type: string
  *    LoginAdminInput:
  *      type: object
  *      required:

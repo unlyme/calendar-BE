@@ -24,7 +24,29 @@ export const adminStaffRoutes = () => {
    *         content:
    *           application/json:
    *             schema:
-   *              $ref: '#/components/schemas/User'
+   *              $ref: '#/components/schemas/Staff'
+   *       400:
+   *         description: Bad request
+   *       500:
+   *         description: Some server error
+   *   post:
+   *     summary: Create new staff
+   *     tags: [AdminStaff]
+   *     security:
+   *      - BearerAuth: []
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *              $ref: '#/components/schemas/UpsertCalendarInput'
+   *     responses:
+   *       200:
+   *         description: The created staff.
+   *         content:
+   *           application/json:
+   *             schema:
+   *              $ref: '#/components/schemas/Staff'
    *       400:
    *         description: Bad request
    *       500:
