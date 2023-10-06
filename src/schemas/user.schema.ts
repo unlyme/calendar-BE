@@ -8,6 +8,13 @@ import { object, string } from 'zod';
  *      type: http
  *      scheme: bearer
  *  schemas:
+ *    User:
+ *      type: object
+ *      proerties:
+ *        id:
+ *          type: string
+ *        name:
+ *          type: string
  *    CreateUserInput:
  *      type: object
  *      required:
