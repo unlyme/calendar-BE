@@ -11,6 +11,14 @@ export class AdminService {
     this.adminRepositor = getConnection(process.env.DB_NAME).getCustomRepository(AdminRepository);
   }
 
+  public index = async () => {
+    return await this.adminRepositor.find({
+      order: {
+        id: 'ASC'
+      }
+    })
+  }
+
   public findAdminById = async (id: number) => {
     return await this.adminRepositor.findOne({ id });
   }

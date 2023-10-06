@@ -8,6 +8,11 @@ import { object, string } from 'zod';
  *      type: http
  *      scheme: bearer
  *  schemas:
+ *    Staff:
+ *      type: object
+ *      proerties:
+ *        id:
+ *          type: string
  *    LoginAdminInput:
  *      type: object
  *      required:
