@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { createConnection } from 'typeorm';
 import { UserController } from './controller/user.controller';
 import config from './ormconfig';
@@ -40,6 +41,9 @@ class Server {
       name: "schedule"
     });
 
+    this.app.use(cors({
+      origin: '*'
+    }))
     this.app.use(swagger);
     this.userController = new UserController();
 

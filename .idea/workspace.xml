@@ -4,13 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a2999e9-eaf6-451d-8960-ae19a4d612d7" name="Changes" comment="fix: fixed api issue" />
+    <list default="true" id="0a2999e9-eaf6-451d-8960-ae19a4d612d7" name="Changes" comment="feat: project/services api">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -21,23 +28,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "E:/workspace/scheduler-node/src/controller",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/admin-auth&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/workspace/scheduler-node/src/controller&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2023.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\workspace\scheduler-node\src\controller" />
@@ -92,6 +99,12 @@
       <updated>1695620926622</updated>
       <workItem from="1695620928262" duration="21479000" />
       <workItem from="1695664894510" duration="4090000" />
+      <workItem from="1696501440909" duration="923000" />
+      <workItem from="1696534026136" duration="720000" />
+      <workItem from="1696619076179" duration="542000" />
+      <workItem from="1696846184001" duration="736000" />
+      <workItem from="1696878702121" duration="17000" />
+      <workItem from="1696878722078" duration="17000" />
     </task>
     <task id="LOCAL-00001" summary="fix: fixed api issue">
       <option name="closed" value="true" />
@@ -101,7 +114,95 @@
       <option name="project" value="LOCAL" />
       <updated>1696240580297</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="feat: setup admin module">
+      <option name="closed" value="true" />
+      <created>1696534071147</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1696534071147</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat: admin auth login routes">
+      <option name="closed" value="true" />
+      <created>1696534084036</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1696534084037</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat: add logout and refresh admin api">
+      <option name="closed" value="true" />
+      <created>1696534095045</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1696534095045</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: admin users api">
+      <option name="closed" value="true" />
+      <created>1696619123065</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1696619123065</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: add staffs api">
+      <option name="closed" value="true" />
+      <created>1696619137687</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1696619137687</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat: update Staff auth">
+      <option name="closed" value="true" />
+      <created>1696619157890</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1696619157890</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: add staff apis">
+      <option name="closed" value="true" />
+      <created>1696619171333</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1696619171333</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat: update swagger for staff api">
+      <option name="closed" value="true" />
+      <created>1696619183649</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1696619183649</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat: add Project, Service entities">
+      <option name="closed" value="true" />
+      <created>1696619199398</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1696619199398</updated>
+    </task>
+    <task id="LOCAL-00011" summary="feat: add project index api">
+      <option name="closed" value="true" />
+      <created>1696619212512</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1696619212512</updated>
+    </task>
+    <task id="LOCAL-00012" summary="feat: project/services api">
+      <option name="closed" value="true" />
+      <created>1696846286617</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1696846286617</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -120,6 +221,17 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fix: fixed api issue" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: fixed api issue" />
+    <MESSAGE value="feat: setup admin module" />
+    <MESSAGE value="feat: admin auth login routes" />
+    <MESSAGE value="feat: add logout and refresh admin api" />
+    <MESSAGE value="feat: admin users api" />
+    <MESSAGE value="feat: add staffs api" />
+    <MESSAGE value="feat: update Staff auth" />
+    <MESSAGE value="feat: add staff apis" />
+    <MESSAGE value="feat: update swagger for staff api" />
+    <MESSAGE value="feat: add Project, Service entities" />
+    <MESSAGE value="feat: add project index api" />
+    <MESSAGE value="feat: project/services api" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: project/services api" />
   </component>
 </project>
