@@ -1,12 +1,10 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToMany, BeforeInsert} from "typeorm";
+import {Entity, Column, OneToMany, BeforeInsert} from "typeorm";
 import bcrypt from 'bcryptjs';
 import Event from "./event.entity";
+import BaseEntity from "./base.entity";
 
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id!: number;
-
+export class User extends BaseEntity {
   @Column({ unique: true })
   email!: string;
 

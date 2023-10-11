@@ -1,55 +1,35 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   BeforeInsert,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from "typeorm";
-import bcrypt from "bcryptjs";
+} from 'typeorm';
+import bcrypt from 'bcryptjs';
+import BaseEntity from './base.entity';
 
 @Entity()
-export class Staff {
-  @PrimaryGeneratedColumn()
-  id!: number;
-
+export class Staff extends BaseEntity {
   @Column({ unique: true })
   email!: string;
 
   @Column()
   login!: string;
 
-  @Column({ name: "first_name" })
+  @Column({ name: 'first_name' })
   firstName!: string;
 
-  @Column({ name: "last_name" })
+  @Column({ name: 'last_name' })
   lastName!: string;
 
   @Column()
   password!: string;
 
-  @Column({ name: "is_admin_privileges", type: "boolean", default: false })
+  @Column({ name: 'is_admin_privileges', type: 'boolean', default: false })
   isAdminPrivileges: boolean = false;
 
   @Column({
-    type: "jsonb",
+    type: 'jsonb',
   })
   public contacts: string[];
-
-  @CreateDateColumn({
-    name: "created_at",
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(6)",
-  })
-  public createdAt: Date;
-
-  @UpdateDateColumn({
-    name: "updated_at",
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(6)",
-    onUpdate: "CURRENT_TIMESTAMP(6)",
-  })
-  public updatedAt: Date;
 
   @BeforeInsert()
   async hashPassword() {

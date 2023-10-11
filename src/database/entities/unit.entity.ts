@@ -1,12 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity } from "typeorm";
 import { CALENDAR_UNIT } from "../enums/calendar.enum";
+import { BaseEntity } from "./base.entity";
 
 @Entity()
-export class Unit {
-  
-  @PrimaryGeneratedColumn()
-  public id: number;
-  
+export class Unit extends BaseEntity {
   @Column({ enum: CALENDAR_UNIT })
   public value: CALENDAR_UNIT;
 }

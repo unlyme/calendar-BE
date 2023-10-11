@@ -6,11 +6,11 @@ import {User} from "../database/entities/user.entity";
 
 export class EventService {
   private eventRepository: EventRepository;
-  
+
   constructor(){
     this.eventRepository = getConnection("schedule").getCustomRepository(EventRepository);
   }
-  
+
   public index = async (from: string | undefined, to: string | undefined, userId: number | undefined) => {
     if (from && to) {
       return await this.eventRepository.createQueryBuilder('event')
@@ -30,17 +30,17 @@ export class EventService {
         .getMany();
     }
   }
-  
+
   public create = async (event: Partial<Event>, user: User) => {
     return await this.eventRepository.save(this.eventRepository.create({...event, user}));
   }
-  
+
   public update =  async(event: Event, id: number, mode: RECURRING_UPDATE_MODE, date: string | undefined) => {
     const updatedEvent = await this.eventRepository.update({ id }, event);
-    
+
     if (mode === "all") {
       // remove all sub-events
-      await this.eventRepository.delete({ origin_id: id });
+      await this.eventRepository.delete({ originId: id });
     } else if (mode === "next") {
       // remove all sub-events after new 'this and next' group
       if (!date) {
@@ -49,25 +49,25 @@ export class EventService {
         // in case update came for a subevent, search the master event
         const data = await this.eventRepository.find({
           id,
-          origin_id: Not(0)
+          originId: Not(0)
         });
         if (data.length) {
-          id = data[0].origin_id;
+          id = data[0].originId;
         }
         await this.eventRepository.delete({
-          origin_id: id,
-          start_date: MoreThanOrEqual(date)
+          originId: id,
+          startDate: MoreThanOrEqual(date)
         });
       }
     }
-    
+
     return updatedEvent;
   }
-  
+
   public delete = async (id: number) => {
     const result = await this.eventRepository.delete(id);
-    await this.eventRepository.delete({ origin_id: id });
-    
+    await this.eventRepository.delete({ originId: id });
+
     return result;
   }
 }

@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { createConnection } from 'typeorm';
 import { UserController } from './controller/user.controller';
@@ -9,6 +9,7 @@ import { eventRoutes } from "./routes/event";
 import { sectionRoutes } from "./routes/section";
 import { unitRoutes } from "./routes/unit";
 import { adminRoutes } from './routes/admin';
+import AppError from './utils/appError';
 const swagger = require("./utils/swagger");
 require('dotenv').config();
 

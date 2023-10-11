@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a2999e9-eaf6-451d-8960-ae19a4d612d7" name="Changes" comment="feat: project/services api">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="0a2999e9-eaf6-451d-8960-ae19a4d612d7" name="Changes" comment="feat: add cors" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -105,6 +103,7 @@
       <workItem from="1696846184001" duration="736000" />
       <workItem from="1696878702121" duration="17000" />
       <workItem from="1696878722078" duration="17000" />
+      <workItem from="1696966279631" duration="73000" />
     </task>
     <task id="LOCAL-00001" summary="fix: fixed api issue">
       <option name="closed" value="true" />
@@ -202,7 +201,15 @@
       <option name="project" value="LOCAL" />
       <updated>1696846286617</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="feat: add cors">
+      <option name="closed" value="true" />
+      <created>1696966331159</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1696966331159</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -232,6 +239,7 @@
     <MESSAGE value="feat: add Project, Service entities" />
     <MESSAGE value="feat: add project index api" />
     <MESSAGE value="feat: project/services api" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: project/services api" />
+    <MESSAGE value="feat: add cors" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add cors" />
   </component>
 </project>
