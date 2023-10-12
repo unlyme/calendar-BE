@@ -10,7 +10,7 @@ export class Calendar extends BaseEntity {
   @Column()
   public color: string;
 
-  @Column()
+  @Column({ default: true })
   public active: boolean;
 }
 
