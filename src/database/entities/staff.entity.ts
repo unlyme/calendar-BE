@@ -6,7 +6,9 @@ import {
 import bcrypt from 'bcryptjs';
 import BaseEntity from './base.entity';
 
-@Entity()
+@Entity({
+  name: 'staffs'
+})
 export class Staff extends BaseEntity {
   @Column({ unique: true })
   email!: string;

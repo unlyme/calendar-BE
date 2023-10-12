@@ -7,9 +7,9 @@ const config: ConnectionOptions = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: ["build/database/entities/**/*.js"],
+  entities: ["src/database/entities/**/*.ts"],
   synchronize: true,
-  migrations: ["src/migrations/*.js"],
+  migrations: ["src/migrations/*.ts"],
   migrationsTableName: "migrations",
   cli: {
     migrationsDir: 'src/migrations',

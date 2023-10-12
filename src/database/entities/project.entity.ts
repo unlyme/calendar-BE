@@ -7,7 +7,9 @@ import {
 import { Service } from './service.entity';
 import BaseEntity from './base.entity';
 
-@Entity()
+@Entity({
+  name: 'projects'
+})
 export class Project extends BaseEntity {
   @Column()
   name!: string;

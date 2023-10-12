@@ -10,7 +10,9 @@ import Section from "./section.entity";
 import { User } from "./user.entity";
 import BaseEntity from "./base.entity";
 
-@Entity()
+@Entity({
+  name: 'events'
+})
 export class Event extends BaseEntity {
   @Column({
     name: 'start_date',

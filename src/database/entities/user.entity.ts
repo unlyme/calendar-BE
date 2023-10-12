@@ -3,7 +3,9 @@ import bcrypt from 'bcryptjs';
 import Event from "./event.entity";
 import BaseEntity from "./base.entity";
 
-@Entity()
+@Entity({
+  name: 'users'
+})
 export class User extends BaseEntity {
   @Column({ unique: true })
   email!: string;

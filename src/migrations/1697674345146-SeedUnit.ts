@@ -17,8 +17,8 @@ export class Unit1695674345177 implements MigrationInterface {
           "value":"Celebrations"
         }
       ];
-      
-      await queryRunner.query(`INSERT INTO units (value) VALUES ($1)`, initialUnits.map((unit) => [unit.value]));
+
+      // await queryRunner.query(`INSERT INTO units (value) VALUES ($1)`, initialUnits.map((unit) => [unit.value]));
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

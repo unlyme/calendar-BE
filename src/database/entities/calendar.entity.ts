@@ -2,7 +2,9 @@ import { Column, Entity } from "typeorm";
 import { CALENDAR_TEXT } from "../enums/calendar.enum";
 import BaseEntity from "./base.entity";
 
-@Entity()
+@Entity({
+  name: 'calendars'
+})
 export class Calendar extends BaseEntity {
   @Column({enum: CALENDAR_TEXT})
   public text: CALENDAR_TEXT;
