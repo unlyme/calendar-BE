@@ -18,7 +18,8 @@ export class EventController {
     const to = req.query.to as string;
     const user = res['locals']['user'] as User;
     const events = await this.eventService.index(from, to, user.id);
-    res.send(events);
+
+    return res.json({ status: 200, data: { events } })
   }
 
   public create = async (req: Request, res: Response) => {
@@ -29,8 +30,9 @@ export class EventController {
         event[f] = req.body[f];
       }
     }
+
     const newEvent = await this.eventService.create(event, user!);
-    res.send(newEvent);
+    return res.json({ status: 200, data: { event: newEvent } })
   }
 
   public update = async (req: Request, res: Response) => {

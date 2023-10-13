@@ -9,9 +9,9 @@ export class CalendarController {
     this.calendarService = new CalendarService(); // Create a new instance of CalendarController
   }
 
-  public index = async (req: Request, res: Response) => {
+  public index = async (_req: Request, res: Response) => {
     const calendars = await this.calendarService.index();
-    res.send(calendars).json();
+    return res.json({ status: 200, data: { calendars } })
   }
 
   public create = async (req: Request, res: Response) => {

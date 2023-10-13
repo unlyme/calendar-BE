@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "tsc": "tsc ",
-    "start:dev": "nodemon ./build/server.js",
+    "start:dev": "tsc && nodemon ./build/server.js",
     "typeorm:cli": "ts-node ./node_modules/typeorm/cli -f ./src/ormconfig.ts",
     "migration:run": "npm run typeorm:cli -- migration:run",
     "migration:generate": "npm run typeorm:cli -- migration:generate -d ./src/migrations/ -n"
