@@ -53,6 +53,6 @@ export class StaffService {
       expiresIn: `${parseInt(process.env.REFRESH_TOKEN_EXPIRES_IN ?? '60')}m`,
     });
 
-    return { access_token, refresh_token };
+    return { access_token, refresh_token, login: user.login };
   }
 }

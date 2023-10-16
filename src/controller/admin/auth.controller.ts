@@ -53,7 +53,7 @@ export class AdminAuthController {
       return next(new AppError(401, 'Invalid credentials'));
     }
 
-    const { access_token, refresh_token } = await this.staffService.signTokens(admin);
+    const { access_token, refresh_token, login } = await this.staffService.signTokens(admin);
 
     res.cookie('access_token', access_token, this.accessTokenCookieOptions);
     res.cookie('refresh_token', refresh_token, this.refreshTokenCookieOptions);
@@ -65,6 +65,7 @@ export class AdminAuthController {
     res.status(200).json({
       status: 'success',
       access_token,
+      login
     });
   }
 

@@ -1,5 +1,3 @@
-import { object, string } from 'zod';
-
 /**
  * @swagger
  * components:

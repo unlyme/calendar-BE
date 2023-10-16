@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import Event from "./event.entity";
 import BaseEntity from "./base.entity";
 import Calendar from "./calendar.entity";
+import Note from "./note.entity";
 
 @Entity({
   name: "users",
@@ -22,6 +23,9 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Calendar, (calendar) => calendar.user)
   calendars: Calendar[];
+
+  @OneToMany(() => Note, (note) => note.user)
+  notes: Note[];
 
   @BeforeInsert()
   async hashPassword() {
