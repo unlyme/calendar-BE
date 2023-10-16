@@ -1,6 +1,7 @@
 import { Response, Request } from "express";
 import Calendar from "../database/entities/calendar.entity";
 import { CalendarService } from "../services/calendar.service"; // import service
+import { User } from "../database/entities/user.entity";
 
 export class CalendarController {
   private calendarService: CalendarService;
@@ -10,14 +11,17 @@ export class CalendarController {
   }
 
   public index = async (_req: Request, res: Response) => {
-    const calendars = await this.calendarService.index();
-    return res.json({ status: 200, data: { calendars } })
+    const user = res['locals']['user'] as User;
+    const calendars = await this.calendarService.index(user.id);
+    return res.json({ status: 200, data: { calendars } });
   }
 
   public create = async (req: Request, res: Response) => {
     const calendar = req['body'] as Calendar;
+    const user = res['locals']['user'] as User;
+    calendar.user = user;
     const newCalendar = await this.calendarService.create(calendar);
-    res.send(newCalendar);
+    return res.json({ status: 200, data: { calendar: newCalendar } });
   }
 
   public update = async (req: Request, res: Response) => {

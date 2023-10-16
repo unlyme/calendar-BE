@@ -16,8 +16,9 @@ export class EventController {
   public index = async (req: Request, res: Response) => {
     const from = req.query.from as string;
     const to = req.query.to as string;
+    const calendars = req.query.calendars as string;
     const user = res['locals']['user'] as User;
-    const events = await this.eventService.index(from, to, user.id);
+    const events = await this.eventService.index(user.id, { from, to, calendars });
 
     return res.json({ status: 200, data: { events } })
   }
