@@ -59,6 +59,9 @@ export class Event extends BaseEntity {
   @ManyToOne(() => Calendar, (calendar) => calendar.id)
   public calendar: Calendar;
 
+  @Column()
+  public calendarId: number;
+
   @ManyToOne(() => Unit, (unit) => unit.id)
   public unit: Unit;
 
@@ -68,6 +71,9 @@ export class Event extends BaseEntity {
   @ManyToOne(() => User, (user) => user.events)
   @JoinColumn()
   public user: User;
+
+  @Column()
+  public userId: number;
 }
 
 export default Event;

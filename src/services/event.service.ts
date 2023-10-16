@@ -1,4 +1,4 @@
-import { getConnection, MoreThanOrEqual, Not } from "typeorm";
+import { getConnection, MoreThanOrEqual, Not, In } from "typeorm";
 import Event from "../database/entities/event.entity";
 import { EventRepository } from "../repository/event.repository";
 import { RECURRING_UPDATE_MODE } from "../database/enums/event.enum";
@@ -37,18 +37,23 @@ export class EventService {
     if (payload.calendars) {
       const calendarIds = payload.calendars.split(',').map(id => parseInt(id));
 
-      return await this.eventRepository
-        .createQueryBuilder("event")
-        .where("event.calendarId IN (:...calendarIds)", { calendarIds: calendarIds })
-        .orderBy("event.start_date", "ASC")
-        .getMany();
+      return await this.eventRepository.find({
+        where: {
+          userId: userId,
+          calendarId: In(calendarIds),
+        },
+        relations: ['calendar'],
+        order: { startDate: 'ASC' }
+      })
     }
 
-    return await this.eventRepository
-      .createQueryBuilder("event")
-      .where("event.userId = :userId", { userId })
-      .orderBy("event.start_date", "ASC")
-      .getMany();
+    return await this.eventRepository.find({
+      where: {
+        userId: userId,
+      },
+      relations: ['calendar'],
+      order: { startDate: 'ASC' }
+    })
   };
 
   public create = async (event: Partial<Event>, user: User) => {
