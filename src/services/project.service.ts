@@ -3,19 +3,25 @@ import { Project } from "../database/entities/project.entity";
 import { ProjectRepository } from "../repository/project.repository";
 import { ServiceService } from "./service.service";
 import { Service } from "../database/entities/service.entity";
+import { ProjectUserService } from "./projectUser.service";
+import { UserService } from "./user.service";
 
 export class ProjectService {
-  private projectService: ProjectRepository;
+  private projectRepository: ProjectRepository;
   private serviceService: ServiceService;
+  private projectUserService: ProjectUserService;
+  private userService: UserService;
 
   constructor() {
-    this.projectService =
+    this.projectRepository =
       getConnection("schedule").getCustomRepository(ProjectRepository);
-    this.serviceService = new ServiceService()
+    this.serviceService = new ServiceService();
+    this.projectUserService = new ProjectUserService();
+    this.userService = new UserService();
   }
 
   public index = async () => {
-    return await this.projectService.find({
+    return await this.projectRepository.find({
       order: {
         id: "ASC",
       },
@@ -23,7 +29,7 @@ export class ProjectService {
   };
 
   public findProjectById = async (id: number) => {
-    return await this.projectService.findOne({ id });
+    return await this.projectRepository.findOne({ id });
   }
 
   public create = async (project: Project) => {
@@ -36,7 +42,7 @@ export class ProjectService {
 
     project.projectServices = services as Service[];
 
-    return await this.projectService.save(project);
+    return await this.projectRepository.save(project);
   };
 
   public update = async (id: number, project: Partial<Project>, serviceIds: number[] = []) => {
@@ -48,7 +54,7 @@ export class ProjectService {
 
     project.projectServices = [...project.projectServices as Service[], ...services as Service[]]
 
-    const updateResult = await this.projectService.update(id, project);
+    const updateResult = await this.projectRepository.update(id, project);
 
     if (updateResult) {
       const updatedProject = await this.findProjectById(id);
@@ -58,6 +64,25 @@ export class ProjectService {
   };
 
   public delete = async (id: number) => {
-    return await this.projectService.delete(id);
+    return await this.projectRepository.delete(id);
   };
+
+  public assginUser = async (projectId: number, userId: number) => {
+    const user = await this.userService.findUserById(userId);
+
+    if (!user) {
+      throw Error('User not found');
+    }
+
+    const project = await this.projectRepository.findOne(projectId);
+
+    if (!project) {
+      throw Error('Project not found');
+    }
+
+    return await this.projectUserService.create({
+      projectId: projectId,
+      userId: userId,
+    })
+  }
 }

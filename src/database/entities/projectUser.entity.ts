@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, JoinColumn } from "typeorm";
+import { Entity, ManyToOne, JoinColumn, Column } from "typeorm";
 import { User } from "./user.entity";
 import { Project } from "./project.entity";
 import BaseEntity from "./base.entity";
@@ -15,6 +15,9 @@ export class ProjectUser extends BaseEntity {
   @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
   users: User[];
 
+  @Column({ name: 'user_id' })
+  userId: number;
+
   @ManyToOne(
     () => Project,
     project => project.users,
@@ -22,4 +25,7 @@ export class ProjectUser extends BaseEntity {
   )
   @JoinColumn([{ name: 'project_id', referencedColumnName: 'id' }])
   projects: Project[];
+
+  @Column({ name: 'project_id' })
+  projectId: number;
 }

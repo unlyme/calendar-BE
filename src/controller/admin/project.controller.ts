@@ -32,4 +32,13 @@ export class AdminProjectController {
     const deleted = await this.projectService.delete(Number(id));
     return res.send(deleted)
   }
+
+  public assignUser = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { userId } = req.body;
+
+    await this.projectService.assginUser(Number(id), Number(userId));
+
+    return res.json({ status: 200, message: true })
+  }
 }

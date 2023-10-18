@@ -59,6 +59,13 @@
  *          type: array
  *          items:
  *            type: number
+ *    AssignUserInput:
+ *      type: object
+ *      required:
+ *        - userId
+ *      properties:
+ *        userId:
+ *          type: number
  *    DeleteStaffResponse:
  *      type: object
  *      required:
