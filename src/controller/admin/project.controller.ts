@@ -27,7 +27,6 @@ export class AdminProjectController {
     return res.send(project);
   }
 
-
   public delete = async (req: Request, res: Response) => {
     const { id } = req.params;
     const deleted = await this.projectService.delete(Number(id));
