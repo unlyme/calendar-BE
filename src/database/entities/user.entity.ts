@@ -4,6 +4,7 @@ import Event from "./event.entity";
 import BaseEntity from "./base.entity";
 import Calendar from "./calendar.entity";
 import Note from "./note.entity";
+import Task from "./task.entity";
 
 @Entity({
   name: "users",
@@ -26,6 +27,9 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Note, (note) => note.user)
   notes: Note[];
+
+  @OneToMany(() => Task, (task) => task.user)
+  tasks: Task[];
 
   @BeforeInsert()
   async hashPassword() {

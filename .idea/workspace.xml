@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a2999e9-eaf6-451d-8960-ae19a4d612d7" name="Changes" comment="feat: add cors" />
+    <list default="true" id="0a2999e9-eaf6-451d-8960-ae19a4d612d7" name="Changes" comment="feat: note api">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -104,6 +106,8 @@
       <workItem from="1696878702121" duration="17000" />
       <workItem from="1696878722078" duration="17000" />
       <workItem from="1696966279631" duration="73000" />
+      <workItem from="1697481049768" duration="82000" />
+      <workItem from="1697485276511" duration="19000" />
     </task>
     <task id="LOCAL-00001" summary="fix: fixed api issue">
       <option name="closed" value="true" />
@@ -209,7 +213,31 @@
       <option name="project" value="LOCAL" />
       <updated>1696966331159</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="feat: add calendar for user and filter events by calendar">
+      <option name="closed" value="true" />
+      <created>1697481095451</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1697481095451</updated>
+    </task>
+    <task id="LOCAL-00015" summary="feat: update event response with relation">
+      <option name="closed" value="true" />
+      <created>1697481111196</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1697481111196</updated>
+    </task>
+    <task id="LOCAL-00016" summary="feat: note api">
+      <option name="closed" value="true" />
+      <created>1697481125600</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1697481125600</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -240,6 +268,9 @@
     <MESSAGE value="feat: add project index api" />
     <MESSAGE value="feat: project/services api" />
     <MESSAGE value="feat: add cors" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add cors" />
+    <MESSAGE value="feat: add calendar for user and filter events by calendar" />
+    <MESSAGE value="feat: update event response with relation" />
+    <MESSAGE value="feat: note api" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: note api" />
   </component>
 </project>

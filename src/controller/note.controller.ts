@@ -31,12 +31,13 @@ export class NoteController {
     if (updatedNote) {
       return res.json({ status: 200, data: { note: note }});
     } else {
-      res.send({ failed: true })
+      return res.json({ status: 400, error: 'Failed to update note' });
     }
   }
 
   public delete = async (req: Request, res: Response) => {
     const id =  req['params']['id'];
-    res.send(this.noteService.delete(Number(id)));
+    await this.noteService.delete(Number(id));
+    return res.json({ status: 200, data: { deleted: true } })
   }
 }
