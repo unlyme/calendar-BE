@@ -9,36 +9,56 @@ export class AdminProjectController {
   }
 
   public index = async (_req: Request, res: Response) => {
-    const projects = await this.projectService.index();
-
-    return res.send(projects);
+    try {
+      const projects = await this.projectService.index();
+      return res.json(200).json({ projects })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
+    }
   }
 
   public create = async (req: Request, res: Response) => {
-    const payload = req.body;
-    const project = await this.projectService.create(payload);
-    return res.send(project);
+    try {
+      const payload = req.body;
+      const project = await this.projectService.create(payload);
+      return res.status(200).json({ project })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
+    }
   }
 
   public update = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const payload = req.body;
-    const project = await this.projectService.update(Number(id), payload);
-    return res.send(project);
+    try {
+      const { id } = req.params;
+      const payload = req.body;
+      const { serviceIds } = req.body;
+      const project = await this.projectService.update(Number(id), payload, serviceIds);
+      return res.status(200).json({ project })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
+    }
   }
 
   public delete = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const deleted = await this.projectService.delete(Number(id));
-    return res.send(deleted)
+    try {
+      const { id } = req.params;
+      const deleted = await this.projectService.delete(Number(id));
+      return res.status(200).json({ deleted })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
+    }
   }
 
   public assignUser = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const { userId } = req.body;
+    try {
+      const { id } = req.params;
+      const { userId } = req.body;
 
-    await this.projectService.assginUser(Number(id), Number(userId));
+      await this.projectService.assginUser(Number(id), Number(userId));
 
-    return res.json({ status: 200, message: true })
+      return res.status(200).json({ success: true })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
+    }
   }
 }
