@@ -4,6 +4,7 @@ import { adminUserRoutes } from "./user";
 import { adminStaffRoutes } from "./staff";
 import { adminProjectRoutes } from "./project";
 import { adminStatisticsRoutes } from "./statistics";
+import { adminServiceRoutes } from "./service";
 
 export const adminRoutes = () => {
   const router = Router();
@@ -13,6 +14,7 @@ export const adminRoutes = () => {
   router.use('/staffs', adminStaffRoutes())
   router.use('/projects', adminProjectRoutes())
   router.use('/statistics', adminStatisticsRoutes())
+  router.use('/services', adminServiceRoutes())
 
   return router;
 }
