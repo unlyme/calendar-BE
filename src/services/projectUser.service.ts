@@ -12,4 +12,13 @@ export class ProjectUserService {
   public create = async (payload: Partial<ProjectUser>) => {
     return await this.projectUserRepository.save(payload);
   }
+
+  public getByProject = async (projectId: number) => {
+    return await this.projectUserRepository.find({
+      where: {
+        projectId: projectId,
+      },
+      relations: ['users']
+    })
+  }
 }
