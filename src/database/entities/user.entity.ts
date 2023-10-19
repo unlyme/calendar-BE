@@ -17,7 +17,7 @@ export class User extends BaseEntity {
   @Column()
   name!: string;
 
-  @Column()
+  @Column({ select: false })
   password!: string;
 
   @OneToMany(() => Event, (post) => post.user)
