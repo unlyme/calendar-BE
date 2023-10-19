@@ -1,10 +1,11 @@
-import { getConnection } from "typeorm";
+import { Between, getConnection } from "typeorm";
 import { Project } from "../database/entities/project.entity";
 import { ProjectRepository } from "../repository/project.repository";
 import { ServiceService } from "./service.service";
 import { Service } from "../database/entities/service.entity";
 import { ProjectUserService } from "./projectUser.service";
 import { UserService } from "./user.service";
+import dayjs from "dayjs";
 
 export class ProjectService {
   private projectRepository: ProjectRepository;
@@ -85,4 +86,19 @@ export class ProjectService {
       userId: userId,
     })
   }
+
+  public getProjectsCount = async () => {
+    return await this.projectRepository.count({});
+  };
+
+  public getNewProjectsCountLastDays = async (days: number) => {
+    const today = dayjs();
+    const dayInPast = dayjs().subtract(days, 'days');
+
+    return await this.projectRepository.count({
+      where: {
+        createdAt: Between(dayInPast, today),
+      },
+    });
+  };
 }
