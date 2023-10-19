@@ -33,4 +33,8 @@ export class ServiceService {
   public delete = async (id: number) => {
     return await this.serviceSerivce.delete(id);
   };
+
+  public findByIds = async (ids: number[]) => {
+    return await this.serviceSerivce.findByIds(ids);
+  }
 }

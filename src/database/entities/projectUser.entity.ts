@@ -1,7 +1,8 @@
-import { Entity, ManyToOne, JoinColumn, Column } from "typeorm";
+import { Entity, ManyToOne, JoinColumn, Column, OneToMany, ManyToMany, JoinTable } from "typeorm";
 import { User } from "./user.entity";
 import { Project } from "./project.entity";
 import BaseEntity from "./base.entity";
+import { Service } from "./service.entity";
 
 @Entity({
   name: 'project_users'
@@ -28,4 +29,8 @@ export class ProjectUser extends BaseEntity {
 
   @Column({ name: 'project_id' })
   projectId: number;
+
+  @ManyToMany(() => Service)
+  @JoinTable({ name: 'project_user_services' })
+  services: Service[]
 }

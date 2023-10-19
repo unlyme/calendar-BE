@@ -115,4 +115,38 @@ export class ProjectService {
 
     return users;
   };
+
+  public assignServicesToUser = async (projectId: number, userId: number, serviceIds: number[]) => {
+    const project = await this.projectRepository.findOne(projectId);
+
+    if (!project) {
+      throw Error("Project not found");
+    }
+
+    const user = await this.userService.findUserById(userId);
+
+    if (!user) {
+      throw Error("User not found");
+    }
+
+    const services = await this.serviceService.findByIds(serviceIds);
+
+    if (!services.length) {
+      throw Error("Services not found");
+    }
+
+    const projectUser = await this.projectUserService.getByProjectAndUser(projectId, userId);
+
+    if (!projectUser) {
+      throw Error("ProjectUser not found");
+    }
+
+    const updateResult = await this.projectUserService.updateServices(projectUser.id, services)
+
+    if (updateResult) {
+      return await this.projectUserService.getById(projectUser.id);
+    } else {
+      throw Error('Failed to update')
+    }
+  }
 }

@@ -72,4 +72,16 @@ export class AdminProjectController {
       return res.status(400).json({ error: error.message });
     }
   }
+
+  public assignServicesToUser = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { userId, serviceIds } = req.body;
+      const projectUser = await this.projectService.assignServicesToUser(Number(id), userId, serviceIds)
+
+      return res.status(200).json({ projectUser })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
 }

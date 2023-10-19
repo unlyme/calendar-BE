@@ -159,10 +159,51 @@ export const adminProjectRoutes = () => {
    *            description: Bad request
    *          500:
    *            description: Some server error
+   * /admin/projects/{projectId}/assignServiceToUser:
+   *    post:
+   *      summary: Project Users
+   *      tags: [AdminProject]
+   *      security:
+   *        - BearerAuth: []
+   *      parameters:
+   *        - name: projectId
+   *          in: path
+   *          description: List Project Users
+   *          required: true
+   *      requestBody:
+   *        required: true
+   *        content:
+   *          application/json:
+   *            schema:
+   *              type: object
+   *              properties:
+   *                userId:
+   *                  type: number
+   *                serviceIds:
+   *                  type: array
+   *                  items:
+   *                    type: number
+   *      responses:
+   *        200:
+   *          description: The assigned User reponse.
+   *          content:
+   *            application/json:
+   *              schema:
+   *                type: object
+   *                required:
+   *                  - success
+   *          properties:
+   *            success:
+   *              type: boolean
+   *          400:
+   *            description: Bad request
+   *          500:
+   *            description: Some server error
    */
 
   router.post('/:id/assignUser', deserializeUser, requireAdmin, projectController.assignUser);
   router.get('/:id/users', deserializeUser, requireAdmin, projectController.getUsers);
+  router.post('/:id/assignServiceToUser', deserializeUser, requireAdmin, projectController.assignServicesToUser)
   router.get('/', deserializeUser, requireAdmin, projectController.index);
   router.post('/', deserializeUser, requireAdmin, projectController.create);
   router.put('/:id', deserializeUser, requireAdmin, projectController.update);
