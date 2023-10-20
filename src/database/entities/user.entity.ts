@@ -6,6 +6,7 @@ import Calendar from "./calendar.entity";
 import Note from "./note.entity";
 import Task from "./task.entity";
 import { Project } from "./project.entity";
+import { instanceToPlain, Exclude } from "class-transformer";
 
 @Entity({
   name: "users",
@@ -17,7 +18,8 @@ export class User extends BaseEntity {
   @Column()
   name!: string;
 
-  @Column({ select: false })
+  @Column()
+  @Exclude()
   password!: string;
 
   @OneToMany(() => Event, (post) => post.user)
@@ -56,5 +58,9 @@ export class User extends BaseEntity {
     hashedPassword: string
   ) {
     return await bcrypt.compare(candidatePassword, hashedPassword);
+  }
+
+  toJSON() {
+    return instanceToPlain(this);
   }
 }

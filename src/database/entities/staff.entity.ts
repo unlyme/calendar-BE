@@ -5,6 +5,7 @@ import {
 } from 'typeorm';
 import bcrypt from 'bcryptjs';
 import BaseEntity from './base.entity';
+import { Exclude, classToPlain, instanceToPlain } from 'class-transformer';
 
 @Entity({
   name: 'staffs'
@@ -22,7 +23,8 @@ export class Staff extends BaseEntity {
   @Column({ name: 'last_name' })
   lastName!: string;
 
-  @Column({ select: false })
+  @Column()
+  @Exclude()
   password!: string;
 
   @Column({ name: 'is_admin_privileges', type: 'boolean', default: false })
@@ -43,5 +45,9 @@ export class Staff extends BaseEntity {
     hashedPassword: string
   ) {
     return await bcrypt.compare(candidatePassword, hashedPassword);
+  }
+
+  toJSON() {
+    return instanceToPlain(this);
   }
 }
