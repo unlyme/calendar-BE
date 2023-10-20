@@ -16,4 +16,14 @@ export class AdminUserController {
       return res.status(400).json({ error: error.message });
     }
   }
+
+  public getProjects = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const projects = await this.userService.getProjectsByUser(Number(id));
+      return res.status(200).json({ projects });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
 }

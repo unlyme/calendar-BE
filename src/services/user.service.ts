@@ -3,14 +3,17 @@ import { User } from "../database/entities/user.entity";
 import { UserRepository } from "../repository/user.repository";
 import { signJwt } from "../utils/jwt";
 import dayjs from "dayjs";
+import { ProjectUserService } from "./projectUser.service";
 require("dotenv").config();
 
 export class UserService {
   private userRepository: UserRepository;
+  private projectUserService: ProjectUserService;
 
   constructor() {
     this.userRepository =
       getConnection("schedule").getCustomRepository(UserRepository);
+    this.projectUserService = new ProjectUserService();
   }
 
   public index = async () => {
@@ -67,4 +70,11 @@ export class UserService {
       },
     });
   };
+
+  public getProjectsByUser = async (userId: number) => {
+    const projectUsers = await this.projectUserService.getByUser(userId);
+    const projects = projectUsers.map(pu => pu.projects);
+
+    return projects;
+  }
 }
