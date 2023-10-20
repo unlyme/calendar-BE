@@ -32,7 +32,7 @@ export class ProjectUserService {
       where: {
         userId: userId,
       },
-      relations: ['projects']
+      relations: ['projects', 'services']
     })
   }
 

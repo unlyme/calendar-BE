@@ -73,7 +73,10 @@ export class UserService {
 
   public getProjectsByUser = async (userId: number) => {
     const projectUsers = await this.projectUserService.getByUser(userId);
-    const projects = projectUsers.map(pu => pu.projects);
+    const projects = projectUsers.map(pu => ({
+      project: pu.projects,
+      services: pu.services
+    }));
 
     return projects;
   }
