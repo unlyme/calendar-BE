@@ -9,8 +9,11 @@ export class AdminUserController {
   }
 
   public index = async (_req: Request, res: Response) => {
-    const users = await this.userService.index();
-
-    return res.send(users);
+    try {
+      const users = await this.userService.index();
+      return res.status(200).json({ users });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
   }
 }

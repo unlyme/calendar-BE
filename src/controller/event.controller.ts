@@ -14,47 +14,59 @@ export class EventController {
   }
 
   public index = async (req: Request, res: Response) => {
-    const from = req.query.from as string;
-    const to = req.query.to as string;
-    const calendars = req.query.calendars as string;
-    const user = res['locals']['user'] as User;
-    const events = await this.eventService.index(user.id, { from, to, calendars });
+    try {
+      const from = req.query.from as string;
+      const to = req.query.to as string;
+      const calendars = req.query.calendars as string;
+      const user = res['locals']['user'] as User;
+      const events = await this.eventService.index(user.id, { from, to, calendars });
 
-    return res.json({ status: 200, data: { events } })
+      return res.status(200).json({ status: 200, data: { events } })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
+    }
   }
 
   public create = async (req: Request, res: Response) => {
-    const user = await this.userService.findUserById(parseInt(res.locals.user.id as string));
-    const event = {} as any;
-    for (const f in req.body) {
-      if (EVENT_ALLOW_FIELDS.indexOf(f) !== -1) {
-        event[f] = req.body[f];
+    try {
+      const user = await this.userService.findUserById(parseInt(res.locals.user.id as string));
+      const event = {} as any;
+      for (const f in req.body) {
+        if (EVENT_ALLOW_FIELDS.indexOf(f) !== -1) {
+          event[f] = req.body[f];
+        }
       }
-    }
 
-    const newEvent = await this.eventService.create(event, user!);
-    return res.json({ status: 200, data: { event: newEvent } })
+      const newEvent = await this.eventService.create(event, user!);
+      return res.json({ status: 200, data: { event: newEvent } })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
+    }
   }
 
   public update = async (req: Request, res: Response) => {
-    let event = {} as any;
-    for (const f in req.body) {
-      if (EVENT_ALLOW_FIELDS.indexOf(f) !== -1) event[f] = req.body[f];
+    try {
+      let event = {} as any;
+      for (const f in req.body) {
+        if (EVENT_ALLOW_FIELDS.indexOf(f) !== -1) event[f] = req.body[f];
+      }
+      const id =  req['params']['id'];
+      const mode = req['body']['recurring_update_mode'];
+      const date = req['body']['recurring_update_date'];
+      const updatedEvent = await this.eventService.update(event, Number(id), mode, date);
+      return res.status(200).json({ ...event, id })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
     }
-    const id =  req['params']['id'];
-    const mode = req['body']['recurring_update_mode'];
-    const date = req['body']['recurring_update_date'];
-    const updatedEvent = await this.eventService.update(event, Number(id), mode, date);
-    res.send({ ...event, id });
   }
 
   public delete = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id =  req['params']['id'];
       await this.eventService.delete(Number(id))
-      res.send({success: true});
-    } catch (e) {
-      next(e);
+      return res.status(200).json({ success: true })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
     }
   }
 }
