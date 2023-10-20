@@ -22,7 +22,7 @@ export class Staff extends BaseEntity {
   @Column({ name: 'last_name' })
   lastName!: string;
 
-  @Column()
+  @Column({ select: false })
   password!: string;
 
   @Column({ name: 'is_admin_privileges', type: 'boolean', default: false })
