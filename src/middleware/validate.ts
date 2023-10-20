@@ -10,7 +10,7 @@ export const validate =
           query: req.query,
           body: req.body,
         });
-        
+
         next();
       } catch (error) {
         if (error instanceof ZodError) {

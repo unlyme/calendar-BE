@@ -36,7 +36,7 @@ export const deserializeUser = async (
     }
 
     if (!access_token) {
-      return next(new AppError(401, 'You are not logged in'));
+      return res.status(401).json({ error: 'You are not logged in' })
     }
 
     // Validate the access token
@@ -46,18 +46,18 @@ export const deserializeUser = async (
     );
 
     if (!decoded) {
-      return next(new AppError(401, `Invalid token or user doesn't exist`));
+      return res.status(401).json({ error: "Invalid token or user doesn't exist" })
     }
 
     if (decoded.role === 'admin') {
       const admin = await staffService.findStaffById(parseInt(decoded.sub));
 
       if (!admin) {
-        return next(new AppError(401, `Invalid token or session has expired`));
+        return res.status(401).json({ error: "Invalid token or user doesn't exist" })
       }
 
       if (!admin.isAdminPrivileges) {
-        return next(new AppError(403, 'Forbidden'));
+        return res.status(403).json({ error: 'Forbidden' })
       }
 
       res.locals.admin = admin;
@@ -70,7 +70,7 @@ export const deserializeUser = async (
     const user = await userService.findUserById(parseInt(decoded.sub));
 
     if (!user) {
-      return next(new AppError(401, `Invalid token or session has expired`));
+      return res.status(401).json({ error: "Invalid token or user doesn't exist" })
     }
 
     // Add user to res.locals

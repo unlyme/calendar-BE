@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import AppError from '../utils/appError';
 
 export const requireAdmin = (
   _req: Request,
@@ -10,9 +9,7 @@ export const requireAdmin = (
     const admin = res.locals.admin;
 
     if (!admin) {
-      return next(
-        new AppError(400, `Session has expired or user doesn't exist`)
-      );
+      return res.status(403).json({ error: 'Forbidden' });
     }
 
     next();

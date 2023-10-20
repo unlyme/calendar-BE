@@ -9,7 +9,6 @@ import { eventRoutes } from "./routes/event";
 import { sectionRoutes } from "./routes/section";
 import { unitRoutes } from "./routes/unit";
 import { adminRoutes } from './routes/admin';
-import AppError from './utils/appError';
 const swagger = require("./utils/swagger");
 require('dotenv').config();
 

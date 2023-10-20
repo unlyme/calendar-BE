@@ -66,7 +66,7 @@ export class AuthController {
       httpOnly: false,
     });
 
-    res.status(200).json({
+    return res.status(200).json({
       status: 'success',
       access_token,
     });
@@ -78,7 +78,7 @@ export class AuthController {
       res.cookie('refresh_token', '', { maxAge: 1 });
       res.cookie('logged_in', '', { maxAge: 1 });
 
-      res.status(200).json({
+      return res.status(200).json({
         status: 'success',
       });
     } catch (e) {
@@ -120,7 +120,7 @@ export class AuthController {
         httpOnly: false,
       });
 
-      res.status(200).json({
+      return res.status(200).json({
         status: 'success',
         access_token,
       });

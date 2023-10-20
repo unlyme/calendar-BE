@@ -36,21 +36,21 @@ export class AdminAuthController {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return next(new AppError(401, 'Invalid credentials'));
+      return res.status(401).json({ error: 'Invalid credentials' });
     }
 
     const admin = await this.staffService.findStaffByEmail(email);
 
     if (!admin) {
-      return next(new AppError(401, 'Invalid credentials'));
+      return res.status(401).json({ error: 'Invalid credentials' });
     }
 
     if (!(await Staff.comparePasswords(password, admin.password))) {
-      return next(new AppError(401, 'Invalid credentials'));
+      return res.status(401).json({ error: 'Invalid credentials' });
     }
 
     if (!admin.isAdminPrivileges) {
-      return next(new AppError(401, 'Invalid credentials'));
+      return res.status(401).json({ error: 'Invalid credentials' });
     }
 
     const { access_token, refresh_token, login } = await this.staffService.signTokens(admin);
@@ -62,7 +62,7 @@ export class AdminAuthController {
       httpOnly: false,
     });
 
-    res.status(200).json({
+    return res.status(200).json({
       status: 'success',
       access_token,
       login
@@ -98,13 +98,13 @@ export class AdminAuthController {
       );
 
       if (!decoded) {
-        return next(new AppError(403, message));
+        return res.status(403).json({ error: message });
       }
 
       const user = await this.staffService.findStaffById(parseInt(decoded.sub));
 
       if (!user) {
-        return next(new AppError(403, message));
+        return res.status(403).json({ error: message });
       }
 
       const access_token = signJwt({ sub: user.id }, 'JWT_ACCESS_TOKEN_PRIVATE_KEY', {
