@@ -11,7 +11,8 @@ export class AdminProjectController {
   public index = async (_req: Request, res: Response) => {
     try {
       const projects = await this.projectService.index();
-      return res.json(200).json({ projects })
+
+      return res.status(200).json({ projects })
     } catch (error: any) {
       return res.status(400).json({ error: error.message })
     }
@@ -20,7 +21,7 @@ export class AdminProjectController {
   public create = async (req: Request, res: Response) => {
     try {
       const payload = req.body;
-      const project = await this.projectService.create(payload);
+      const project = await this.projectService.create(payload, payload.serviceIds);
       return res.status(200).json({ project })
     } catch (error: any) {
       return res.status(400).json({ error: error.message })
@@ -32,6 +33,7 @@ export class AdminProjectController {
       const { id } = req.params;
       const payload = req.body;
       const { serviceIds } = req.body;
+      delete payload.serviceIds;
       const project = await this.projectService.update(Number(id), payload, serviceIds);
       return res.status(200).json({ project })
     } catch (error: any) {

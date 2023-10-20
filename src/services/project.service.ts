@@ -33,9 +33,8 @@ export class ProjectService {
     return await this.projectRepository.findOne({ id });
   };
 
-  public create = async (project: Project) => {
+  public create = async (project: Project, serviceIds: number[]) => {
     const services = [];
-    const serviceIds = project.projectServices.map((ps: Service) => ps.id);
     for (const serviceId of serviceIds) {
       const service = await this.serviceService.findServiceById(serviceId);
       services.push(service);
@@ -51,21 +50,16 @@ export class ProjectService {
     project: Partial<Project>,
     serviceIds: number[] = []
   ) => {
-    const services = [];
-    for (const serviceId of serviceIds) {
-      const service = await this.serviceService.findServiceById(serviceId);
-      services.push(service);
-    }
-
-    project.projectServices = [
-      ...(project.projectServices as Service[]),
-      ...(services as Service[]),
-    ];
-
+    const services = await this.serviceService.findByIds(serviceIds);
     const updateResult = await this.projectRepository.update(id, project);
 
     if (updateResult) {
       const updatedProject = await this.findProjectById(id);
+
+      updatedProject!.projectServices = services;
+
+      await this.projectRepository.save(updatedProject!);
+
       return updatedProject;
     }
     return undefined;

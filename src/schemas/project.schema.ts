@@ -37,11 +37,11 @@
  *          type: string
  *        active:
  *          type: boolean
- *        projectServices:
+ *        serviceIds:
  *          type: array
  *          items:
  *            type: number
- *    UpdateStaffInput:
+ *    UpdateProjectInput:
  *      type: object
  *      required:
  *        - name
@@ -55,7 +55,7 @@
  *          type: string
  *        active:
  *          type: boolean
- *        projectServices:
+ *        serviceIds:
  *          type: array
  *          items:
  *            type: number

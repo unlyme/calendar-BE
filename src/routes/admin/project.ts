@@ -53,11 +53,17 @@ export const adminProjectRoutes = () => {
    *       500:
    *         description: Some server error
    *
+   * /admin/projects/{projectId}:
    *   put:
    *     summary: Update Project
    *     tags: [AdminProject]
    *     security:
    *      - BearerAuth: []
+   *     parameters:
+   *       - name: projectId
+   *         in: path
+   *         description: The id of project
+   *         required: true
    *     requestBody:
    *       required: true
    *       content:
@@ -82,7 +88,7 @@ export const adminProjectRoutes = () => {
    *     security:
    *      - BearerAuth: []
    *     parameters:
-   *      - name: id
+   *      - name: projectId
    *        in: path
    *        description: The id of Project
    *        required: true
@@ -168,7 +174,7 @@ export const adminProjectRoutes = () => {
    *      parameters:
    *        - name: projectId
    *          in: path
-   *          description: List Project Users
+   *          description: The id of project
    *          required: true
    *      requestBody:
    *        required: true
@@ -201,10 +207,10 @@ export const adminProjectRoutes = () => {
    *            description: Some server error
    */
 
+  router.get('/', deserializeUser, requireAdmin, projectController.index);
   router.post('/:id/assignUser', deserializeUser, requireAdmin, projectController.assignUser);
   router.get('/:id/users', deserializeUser, requireAdmin, projectController.getUsers);
   router.post('/:id/assignServiceToUser', deserializeUser, requireAdmin, projectController.assignServicesToUser)
-  router.get('/', deserializeUser, requireAdmin, projectController.index);
   router.post('/', deserializeUser, requireAdmin, projectController.create);
   router.put('/:id', deserializeUser, requireAdmin, projectController.update);
   router.delete('/:id', deserializeUser, requireAdmin, projectController.delete);
