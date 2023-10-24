@@ -53,11 +53,17 @@ export const adminStaffRoutes = () => {
    *       500:
    *         description: Some server error
    *
+   * /admin/staffs/{staffId}:
    *   put:
    *     summary: Update staff
    *     tags: [AdminStaff]
    *     security:
    *      - BearerAuth: []
+   *     parameters:
+   *       - name: staffId
+   *         in: path
+   *         description: The id of staff
+   *         required: true
    *     requestBody:
    *       required: true
    *       content:
@@ -82,7 +88,7 @@ export const adminStaffRoutes = () => {
    *     security:
    *      - BearerAuth: []
    *     parameters:
-   *      - name: id
+   *      - name: staffId
    *        in: path
    *        description: The id of staff
    *        required: true

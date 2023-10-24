@@ -147,7 +147,7 @@ export const adminProjectRoutes = () => {
    *      parameters:
    *        - name: projectId
    *          in: path
-   *          description: List Project Users
+   *          description: The id of project
    *          required: true
    *      responses:
    *        200:
