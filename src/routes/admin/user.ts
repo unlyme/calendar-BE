@@ -30,6 +30,80 @@ export const adminUserRoutes = () => {
    *       500:
    *         description: Some server error
    *
+   *   post:
+   *     summary: Update user
+   *     tags: [AdminUser]
+   *     security:
+   *      - BearerAuth: []
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *              $ref: '#/components/schemas/CreateUserInput'
+   *     responses:
+   *       200:
+   *         description: The created User.
+   *         content:
+   *           application/json:
+   *             schema:
+   *              $ref: '#/components/schemas/User'
+   *       400:
+   *         description: Bad request
+   *       500:
+   *         description: Some server error
+   *
+   * /admin/users/{userId}:
+   *   put:
+   *     summary: Update User
+   *     tags: [AdminUser]
+   *     security:
+   *      - BearerAuth: []
+   *     parameters:
+   *       - name: userId
+   *         in: path
+   *         description: The id of user
+   *         required: true
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *              $ref: '#/components/schemas/UpdateUserInput'
+   *     responses:
+   *       200:
+   *         description: The updated user.
+   *         content:
+   *           application/json:
+   *             schema:
+   *              $ref: '#/components/schemas/User'
+   *       400:
+   *         description: Bad request
+   *       500:
+   *         description: Some server error
+   *
+   *   delete:
+   *     summary: Delete User
+   *     tags: [AdminUser]
+   *     security:
+   *      - BearerAuth: []
+   *     parameters:
+   *      - name: userId
+   *        in: path
+   *        description: The id of user
+   *        required: true
+   *     responses:
+   *       200:
+   *         description: Deleting staff user.
+   *         content:
+   *           application/json:
+   *             schema:
+   *              $ref: '#/components/schemas/DeleteStaffResponse'
+   *       400:
+   *         description: Bad request
+   *       500:
+   *         description: Some server error
+   *
    * /admin/users/{userId}/projects:
    *   get:
    *     summary: Fetch User Projects list

@@ -16,6 +16,37 @@ export class AdminUserController {
       return res.status(400).json({ error: error.message });
     }
   }
+  public create = async (req: Request, res: Response) => {
+    try {
+      const payload = req.body;
+      const project = await this.userService.create(payload);
+      return res.status(200).json({ project })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
+    }
+  }
+
+  public update = async (req: Request, res: Response) => {
+    try {
+      const payload = req.body
+      const { id } = req.params;
+      const user = await this.userService.update(Number(id), payload);
+      return res.status(200).json({ user });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
+    }
+  }
+
+  public delete = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const deleted = await this.userService.delete(Number(id));
+
+      return res.status(200).json({ deleted });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
+    }
+  }
 
   public getProjects = async (req: Request, res: Response) => {
     try {

@@ -36,6 +36,19 @@ export class UserService {
     return await this.userRepository.save(this.userRepository.create(user));
   };
 
+  public update =  async(id: number, user: Partial<User>) => {
+    const updateResult = await this.userRepository.update(id, user);
+    if (updateResult) {
+      const updatedUser = await this.findUserById(id);
+      return updatedUser;
+    }
+    return undefined;
+  }
+
+  public delete = async (id: number) => {
+    return await this.userRepository.delete(id);
+  }
+
   public signTokens = async (user: User) => {
     const access_token = signJwt(
       { sub: user.id },
