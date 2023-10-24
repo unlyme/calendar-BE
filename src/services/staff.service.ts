@@ -46,11 +46,11 @@ export class StaffService {
 
   public signTokens = async (user: Staff) => {
     const access_token = signJwt({ sub: user.id, role: 'admin' }, 'JWT_ACCESS_TOKEN_PRIVATE_KEY', {
-      expiresIn: `${parseInt(process.env.ACCESS_TOKEN_EXPIRES_IN ?? '15')}m`,
+      expiresIn: `${parseInt(process.env.ACCESS_TOKEN_EXPIRES_IN ?? '1')}d`,
     });
 
     const refresh_token = signJwt({ sub: user.id, role: 'admin' }, 'JWT_REFRESH_TOKEN_PRIVATE_KEY', {
-      expiresIn: `${parseInt(process.env.REFRESH_TOKEN_EXPIRES_IN ?? '60')}m`,
+      expiresIn: `${parseInt(process.env.REFRESH_TOKEN_EXPIRES_IN ?? '30')}d`,
     });
 
     return { access_token, refresh_token, login: user.login };
