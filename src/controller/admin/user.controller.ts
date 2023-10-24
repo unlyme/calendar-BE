@@ -42,7 +42,7 @@ export class AdminUserController {
       const { id } = req.params;
       const deleted = await this.userService.delete(Number(id));
 
-      return res.status(200).json({ deleted });
+      return res.status(200).json({ id: Number(id), deleted });
     } catch (error: any) {
       return res.status(400).json({ error: error.message })
     }
