@@ -12,13 +12,13 @@ export class StaffService {
     this.staffRepository = getConnection(process.env.DB_NAME).getCustomRepository(StaffRepository);
   }
 
-  public index = async (page: number = 1, condition: { status?: string }) => {
+  public index = async (page: number = 1, condition?: { status?: string }) => {
     const take = 10;
     const skip = (page - 1) * take;
 
     let where: { status?: string } = {};
 
-    if (condition.status) {
+    if (condition?.status) {
       where.status = condition.status;
     }
 

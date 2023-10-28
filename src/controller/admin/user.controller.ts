@@ -8,34 +8,37 @@ export class AdminUserController {
     this.userService = new UserService();
   }
 
-  public index = async (_req: Request, res: Response) => {
+  public index = async (req: Request, res: Response) => {
     try {
-      const users = await this.userService.index();
+      const { page, status } = req.query;
+      const users = await this.userService.index(Number(page), {
+        status: status?.toString(),
+      });
       return res.status(200).json({ users });
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
-  }
+  };
   public create = async (req: Request, res: Response) => {
     try {
       const payload = req.body;
       const project = await this.userService.create(payload);
-      return res.status(200).json({ project })
+      return res.status(200).json({ project });
     } catch (error: any) {
-      return res.status(400).json({ error: error.message })
+      return res.status(400).json({ error: error.message });
     }
-  }
+  };
 
   public update = async (req: Request, res: Response) => {
     try {
-      const payload = req.body
+      const payload = req.body;
       const { id } = req.params;
       const user = await this.userService.update(Number(id), payload);
       return res.status(200).json({ user });
     } catch (error: any) {
-      return res.status(400).json({ error: error.message })
+      return res.status(400).json({ error: error.message });
     }
-  }
+  };
 
   public delete = async (req: Request, res: Response) => {
     try {
@@ -44,9 +47,9 @@ export class AdminUserController {
 
       return res.status(200).json({ id: Number(id), deleted });
     } catch (error: any) {
-      return res.status(400).json({ error: error.message })
+      return res.status(400).json({ error: error.message });
     }
-  }
+  };
 
   public getProjects = async (req: Request, res: Response) => {
     try {
@@ -56,5 +59,5 @@ export class AdminUserController {
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
-  }
+  };
 }
