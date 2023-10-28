@@ -12,7 +12,10 @@ export class StaffService {
     this.staffRepository = getConnection(process.env.DB_NAME).getCustomRepository(StaffRepository);
   }
 
-  public index = async (condition: { status?: string }) => {
+  public index = async (page: number = 1, condition: { status?: string }) => {
+    const take = 3;
+    const skip = (page - 1) * take;
+
     let where: { status?: string } = {};
 
     if (condition.status) {
@@ -20,9 +23,12 @@ export class StaffService {
     }
 
     return await this.staffRepository.find({
+      where,
       order: {
         id: 'ASC'
-      }
+      },
+      skip: skip,
+      take: take
     })
   }
 

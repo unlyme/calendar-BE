@@ -11,8 +11,8 @@ export class StaffController {
 
   public index = async (req: Request, res: Response) => {
     try {
-      const { status } = req.query;
-      const staffs = await this.staffService.index({ status: status?.toString() ?? undefined });
+      const { page, status } = req.query;
+      const staffs = await this.staffService.index(Number(page), { status: status?.toString() ?? undefined });
 
       return res.status(200).json({ staffs });
     } catch (error: any) {
