@@ -47,12 +47,12 @@ class Server {
     this.app.use(swagger);
     this.userController = new UserController();
 
-    this.app.use(`/calendars/`, calendarRoutes());
-    this.app.use(`/events/`, eventRoutes());
-    this.app.use(`/sections/`, sectionRoutes());
-    this.app.use(`/units/`, unitRoutes());
-    this.app.use(`/auth/`, authRoutes());
-    this.app.use('/admin', adminRoutes());
+    this.app.use(`api/calendars/`, calendarRoutes());
+    this.app.use(`api/events/`, eventRoutes());
+    this.app.use(`api/sections/`, sectionRoutes());
+    this.app.use(`api/units/`, unitRoutes());
+    this.app.use(`api/auth/`, authRoutes());
+    this.app.use('api/admin', adminRoutes());
   }
 
   /**

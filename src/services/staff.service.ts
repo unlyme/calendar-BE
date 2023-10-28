@@ -9,7 +9,7 @@ export class StaffService {
   private staffRepository: StaffRepository;
 
   constructor() {
-    this.staffRepository = getConnection(process.env.DB_NAME).getCustomRepository(StaffRepository);
+    this.staffRepository = getConnection("schedule").getCustomRepository(StaffRepository);
   }
 
   public index = async (page: number = 1, condition?: { status?: string }) => {
