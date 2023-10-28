@@ -2,6 +2,7 @@ import { getConnection } from "typeorm";
 import { StaffRepository } from "../repository/staff.repository";
 import { Staff } from "../database/entities/staff.entity";
 import { signJwt } from "../utils/jwt";
+import { STAFF_STATUS } from "../database/enums/staff.enum";
 require('dotenv').config();
 
 export class StaffService {
@@ -11,7 +12,13 @@ export class StaffService {
     this.staffRepository = getConnection(process.env.DB_NAME).getCustomRepository(StaffRepository);
   }
 
-  public index = async () => {
+  public index = async (condition: { status?: string }) => {
+    let where: { status?: string } = {};
+
+    if (condition.status) {
+      where.status = condition.status;
+    }
+
     return await this.staffRepository.find({
       order: {
         id: 'ASC'

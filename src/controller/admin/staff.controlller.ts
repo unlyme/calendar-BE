@@ -9,9 +9,10 @@ export class StaffController {
     this.staffService = new StaffService();
   }
 
-  public index = async (_req: Request, res: Response) => {
+  public index = async (req: Request, res: Response) => {
     try {
-      const staffs = await this.staffService.index();
+      const { status } = req.query;
+      const staffs = await this.staffService.index({ status: status?.toString() ?? undefined });
 
       return res.status(200).json({ staffs });
     } catch (error: any) {

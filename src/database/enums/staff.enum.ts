@@ -1,0 +1,4 @@
+export enum STAFF_STATUS {
+  ACTIVE = 'ACTIVE',
+  SUSPENDED = 'SUSPENDED',
+}

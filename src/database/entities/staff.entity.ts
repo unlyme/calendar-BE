@@ -5,7 +5,8 @@ import {
 } from 'typeorm';
 import bcrypt from 'bcryptjs';
 import BaseEntity from './base.entity';
-import { Exclude, classToPlain, instanceToPlain } from 'class-transformer';
+import { Exclude, instanceToPlain } from 'class-transformer';
+import { STAFF_STATUS } from '../enums/staff.enum';
 
 @Entity({
   name: 'staffs'
@@ -26,6 +27,9 @@ export class Staff extends BaseEntity {
   @Column()
   @Exclude()
   password!: string;
+
+  @Column({ enum: STAFF_STATUS, default: STAFF_STATUS.ACTIVE })
+  status: STAFF_STATUS;
 
   @Column({ name: 'is_admin_privileges', type: 'boolean', default: false })
   isAdminPrivileges: boolean = false;
