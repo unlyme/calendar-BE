@@ -15,7 +15,13 @@ const config: ConnectionOptions & { seeds?: string[], factories?: string[] } = {
   factories: ["src/database/seeding/factories/**/*{.ts,.js}"],
   cli: {
     migrationsDir: 'src/migrations',
-  }
+  },
+  ssl: true,
+  extra: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  },
 };
 
 export = config;
