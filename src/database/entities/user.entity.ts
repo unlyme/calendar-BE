@@ -7,6 +7,7 @@ import Note from "./note.entity";
 import Task from "./task.entity";
 import { Project } from "./project.entity";
 import { instanceToPlain, Exclude } from "class-transformer";
+import { USER_STATUS } from "../enums/user.enum";
 
 @Entity({
   name: "users",
@@ -15,8 +16,19 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   email!: string;
 
-  @Column()
-  name!: string;
+  @Column({ name: 'first_name' })
+  firstName!: string;
+
+  @Column({ name: 'last_name' })
+  lastName!: string;
+
+  @Column({ enum: USER_STATUS, default: USER_STATUS.ACTIVE })
+  status: USER_STATUS;
+
+  @Column({
+    type: 'jsonb',
+  })
+  public contacts: string[];
 
   @Column()
   @Exclude()
