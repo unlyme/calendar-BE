@@ -13,7 +13,7 @@ export class StaffService {
   }
 
   public index = async (page: number = 1, condition: { status?: string }) => {
-    const take = 3;
+    const take = 10;
     const skip = (page - 1) * take;
 
     let where: { status?: string } = {};
