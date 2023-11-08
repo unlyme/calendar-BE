@@ -34,9 +34,9 @@ export class AuthController {
   };
 
   public register = async (req: Request, res: Response) => {
-    const { firstName, lastName, password, email } = req['body'];
+    const { firstName, lastName, password, email, contacts } = req['body'];
 
-    const newUser = await this.userService.create({ email: email.toLowerCase(), firstName, lastName, password });
+    const newUser = await this.userService.create({ email: email.toLowerCase(), firstName, lastName, contacts, password });
     if (newUser) {
       const { password, ...userWithoutPassword } = newUser;
       res.json(userWithoutPassword)
