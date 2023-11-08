@@ -143,4 +143,14 @@ export class ProjectService {
       throw Error('Failed to update')
     }
   }
+
+  public getProjectServices = async (projectId: number) => {
+    const project = await this.projectRepository.findOne(projectId, { relations: ['projectServices'] });
+
+    if (!project) {
+      throw Error("Project not found");
+    }
+
+    return project.projectServices;
+  }
 }

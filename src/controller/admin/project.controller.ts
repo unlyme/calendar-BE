@@ -86,4 +86,15 @@ export class AdminProjectController {
       return res.status(400).json({ error: error.message });
     }
   }
+
+  public getProjectServices = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const services = await this.projectService.getProjectServices(Number(id))
+
+      return res.status(200).json({ services })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
 }

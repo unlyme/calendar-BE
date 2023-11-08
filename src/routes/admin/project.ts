@@ -210,6 +210,7 @@ export const adminProjectRoutes = () => {
   router.get('/', deserializeUser, requireAdmin, projectController.index);
   router.post('/:id/assignUser', deserializeUser, requireAdmin, projectController.assignUser);
   router.get('/:id/users', deserializeUser, requireAdmin, projectController.getUsers);
+  router.get('/:id/services', deserializeUser, requireAdmin, projectController.getProjectServices);
   router.post('/:id/assignServiceToUser', deserializeUser, requireAdmin, projectController.assignServicesToUser)
   router.post('/', deserializeUser, requireAdmin, projectController.create);
   router.put('/:id', deserializeUser, requireAdmin, projectController.update);

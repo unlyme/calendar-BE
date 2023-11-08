@@ -7,6 +7,7 @@ import {
 import { Service } from './service.entity';
 import BaseEntity from './base.entity';
 import { User } from './user.entity';
+import { PROJECT_STATUS } from '../enums/project.enum';
 
 @Entity({
   name: 'projects'
@@ -21,8 +22,8 @@ export class Project extends BaseEntity {
   @Column()
   geography!: string;
 
-  @Column({ type: 'boolean', default: true })
-  active: boolean = true;
+  @Column({ enum: PROJECT_STATUS, default: PROJECT_STATUS.ACTIVE })
+  status: PROJECT_STATUS;
 
   @ManyToMany(() => Service)
   @JoinTable({ name: 'projects_services' })
