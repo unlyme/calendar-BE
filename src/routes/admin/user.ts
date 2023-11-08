@@ -128,6 +128,9 @@ export const adminUserRoutes = () => {
    *         description: Some server error
    */
   router.get('/', deserializeUser, requireAdmin, adminUserController.index);
+  router.post('/', deserializeUser, requireAdmin, adminUserController.create);
+  router.put('/:id', deserializeUser, requireAdmin, adminUserController.update);
+  router.delete('/:id', deserializeUser, requireAdmin, adminUserController.delete);
   router.get('/:id/projects', deserializeUser, requireAdmin, adminUserController.getProjects);
 
   return router;

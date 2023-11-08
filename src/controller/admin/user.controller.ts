@@ -22,8 +22,8 @@ export class AdminUserController {
   public create = async (req: Request, res: Response) => {
     try {
       const payload = req.body;
-      const project = await this.userService.create(payload);
-      return res.status(200).json({ project });
+      const user = await this.userService.create(payload);
+      return res.status(200).json({ user });
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
