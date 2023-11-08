@@ -3,6 +3,7 @@ import { User } from "../database/entities/user.entity";
 import { UserRepository } from "../repository/user.repository";
 import { signJwt } from "../utils/jwt";
 import dayjs from "dayjs";
+import bcrypt from "bcryptjs";
 import { ProjectUserService } from "./projectUser.service";
 require("dotenv").config();
 
@@ -104,5 +105,25 @@ export class UserService {
     }));
 
     return projects;
+  }
+
+  public changePassword = async (staffId: number, password: string, newPassword: string) => {
+    const staff = await this.findUserById(staffId);
+
+    if (!staff) {
+      throw Error('User not found');
+    }
+
+    if (!(await User.comparePasswords(password, staff.password))) {
+      throw Error('Invalid credentials');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+    const updateResult = await this.userRepository.update(staffId, { password: hashedPassword });
+
+    if (updateResult) {
+      return staff;
+    }
+    return undefined;
   }
 }

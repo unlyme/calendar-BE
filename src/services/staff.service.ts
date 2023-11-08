@@ -2,7 +2,7 @@ import { getConnection } from "typeorm";
 import { StaffRepository } from "../repository/staff.repository";
 import { Staff } from "../database/entities/staff.entity";
 import { signJwt } from "../utils/jwt";
-import { STAFF_STATUS } from "../database/enums/staff.enum";
+import bcrypt from 'bcryptjs';
 require('dotenv').config();
 
 export class StaffService {
@@ -67,5 +67,26 @@ export class StaffService {
     });
 
     return { access_token, refresh_token, login: user.login };
+  }
+
+  public changePassword = async (staffId: number, password: string, newPassword: string) => {
+    const staff = await this.findStaffById(staffId);
+
+    if (!staff) {
+      throw Error('Staff not found');
+    }
+
+    if (!(await Staff.comparePasswords(password, staff.password))) {
+      throw Error('Invalid credentials');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+    const updateResult = await this.staffRepository.update(staffId, { password: hashedPassword });
+
+    if (updateResult) {
+      return staff;
+    }
+    return undefined;
   }
 }

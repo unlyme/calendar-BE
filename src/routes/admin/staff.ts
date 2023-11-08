@@ -108,6 +108,7 @@ export const adminStaffRoutes = () => {
   router.post('/', deserializeUser, requireAdmin, staffController.create);
   router.put('/:id', deserializeUser, requireAdmin, staffController.update);
   router.delete('/:id', deserializeUser, requireAdmin, staffController.delete);
+  router.put('/:id/changePassword', deserializeUser, requireAdmin, staffController.changePassword);
 
   return router;
 }

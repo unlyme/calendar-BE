@@ -60,4 +60,16 @@ export class AdminUserController {
       return res.status(400).json({ error: error.message });
     }
   };
+
+  public changePassword = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { currentPassword, newPassword } = req.body;
+      const staff = await this.userService.changePassword(Number(id), currentPassword, newPassword);
+
+      return res.status(200).json({ id: Number(id), staff });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  };
 }
