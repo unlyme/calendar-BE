@@ -12,13 +12,15 @@ export class StaffController {
   public index = async (req: Request, res: Response) => {
     try {
       const { page, status } = req.query;
-      const staffs = await this.staffService.index(Number(page), { status: status?.toString() ?? undefined });
+      const staffs = await this.staffService.index(Number(page), {
+        status: status?.toString() ?? undefined,
+      });
 
       return res.status(200).json({ staffs });
     } catch (error: any) {
-      return res.status(400).json({ error: error.message })
+      return res.status(400).json({ error: error.message });
     }
-  }
+  };
 
   public create = async (req: Request, res: Response) => {
     try {
@@ -26,20 +28,20 @@ export class StaffController {
       const staff = await this.staffService.create(payload as Staff);
       return res.status(200).json({ staff });
     } catch (error: any) {
-      return res.status(400).json({ error: error.message })
+      return res.status(400).json({ error: error.message });
     }
-  }
+  };
 
   public update = async (req: Request, res: Response) => {
     try {
-      const payload: Staff = req.body
+      const payload: Staff = req.body;
       const { id } = req.params;
       const staff = await this.staffService.update(Number(id), payload);
       return res.status(200).json({ staff });
     } catch (error: any) {
-      return res.status(400).json({ error: error.message })
+      return res.status(400).json({ error: error.message });
     }
-  }
+  };
 
   public delete = async (req: Request, res: Response) => {
     try {
@@ -48,7 +50,7 @@ export class StaffController {
 
       return res.status(200).json({ id: Number(id), deleted });
     } catch (error: any) {
-      return res.status(400).json({ error: error.message })
+      return res.status(400).json({ error: error.message });
     }
-  }
+  };
 }

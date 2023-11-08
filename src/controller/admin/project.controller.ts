@@ -8,9 +8,12 @@ export class AdminProjectController {
     this.projectService = new ProjectService();
   }
 
-  public index = async (_req: Request, res: Response) => {
+  public index = async (req: Request, res: Response) => {
     try {
-      const projects = await this.projectService.index();
+      const { page, status } = req.query;
+      const projects = await this.projectService.index(Number(page), {
+        status: status?.toString(),
+      });
 
       return res.status(200).json({ projects })
     } catch (error: any) {

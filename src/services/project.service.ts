@@ -21,12 +21,24 @@ export class ProjectService {
     this.userService = new UserService();
   }
 
-  public index = async () => {
+  public index = async (page: number = 1, condition?: { status?: string }) => {
+    const take = 10;
+    const skip = (page - 1) * take;
+
+    let where: { status?: string } = {};
+
+    if (condition?.status) {
+      where.status = condition.status;
+    }
+
     return await this.projectRepository.find({
+      where,
       order: {
-        id: "ASC",
+        id: 'ASC'
       },
-    });
+      skip: skip,
+      take: take
+    })
   };
 
   public findProjectById = async (id: number) => {
