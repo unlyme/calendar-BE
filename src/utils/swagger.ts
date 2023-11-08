@@ -1,5 +1,6 @@
 import express from "express";
 
+require('dotenv').config();
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
 
@@ -15,7 +16,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3000", // Replace with your server URL
+        url: process.env.API_ENDPOINT ?? "http://localhost:3000",
       },
     ],
     securityDefinitions: {
