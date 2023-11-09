@@ -9,7 +9,7 @@ import { Service } from "./service.entity";
 export class ProjectServiceUnit extends BaseEntity {
   @ManyToOne(
     () => Service,
-    service => service.projects
+    service => service.id
   )
   @JoinColumn({ name: 'service_id' })
   public service: Service
@@ -19,10 +19,10 @@ export class ProjectServiceUnit extends BaseEntity {
 
   @ManyToOne(
     () => Project,
-    project => project.services
+    project => project.id
   )
   @JoinColumn({ name: 'project_id' })
-  public projects: Project[]
+  public project: Project
 
   @Column({ name: 'project_id' })
   projectId: number;

@@ -6,12 +6,14 @@ import { Service } from "../database/entities/service.entity";
 import { ProjectUserService } from "./projectUser.service";
 import { UserService } from "./user.service";
 import dayjs from "dayjs";
+import { ProjectServiceUnitService } from "./projectServiceUnit.service";
 
 export class ProjectService {
   private projectRepository: ProjectRepository;
   private serviceService: ServiceService;
   private projectUserService: ProjectUserService;
   private userService: UserService;
+  private projectServiceUnitService: ProjectServiceUnitService
 
   constructor() {
     this.projectRepository =
@@ -19,6 +21,7 @@ export class ProjectService {
     this.serviceService = new ServiceService();
     this.projectUserService = new ProjectUserService();
     this.userService = new UserService();
+    this.projectServiceUnitService = new ProjectServiceUnitService();
   }
 
   public index = async (page: number = 1, condition?: { status?: string }) => {
@@ -46,15 +49,19 @@ export class ProjectService {
   };
 
   public create = async (project: Project, serviceIds: number[]) => {
-    const services = [];
+    const newProject = await this.projectRepository.save(project);
+
     for (const serviceId of serviceIds) {
       const service = await this.serviceService.findServiceById(serviceId);
-      services.push(service);
+      if (service) {
+        await this.projectServiceUnitService.create({
+          projectId: newProject.id,
+          serviceId: service.id
+        })
+      }
     }
 
-    project.services = services as Service[];
-
-    return await this.projectRepository.save(project);
+    return newProject;
   };
 
   public update = async (
