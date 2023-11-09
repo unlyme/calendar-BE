@@ -29,8 +29,27 @@ export const adminServiceRoutes = () => {
    *         description: Bad request
    *       500:
    *         description: Some server error
+   * /admin/services/{serviceId}/units:
+   *   get:
+   *     summary: Service units
+   *     tags: [Calendar]
+   *     security:
+   *      - BearerAuth: []
+   *     parameters:
+   *      - name: serviceId
+   *        in: path
+   *        description: The id of service
+   *        required: true
+   *     responses:
+   *       200:
+   *         description: List service units.
+   *       400:
+   *         description: Bad request
+   *       500:
+   *         description: Some server error
    */
   router.get('/', deserializeUser, requireAdmin, adminServiceController.index);
+  router.get('/:id/units', deserializeUser, requireAdmin, adminServiceController.getUnitServices);
 
   return router;
 }

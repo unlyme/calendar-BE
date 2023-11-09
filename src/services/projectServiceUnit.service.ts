@@ -12,4 +12,13 @@ export class ProjectServiceUnitService {
   public create = async (payload: Partial<ProjectServiceUnit>) => {
     return await this.projectServiceUnitRepository.save(payload);
   }
+
+  public getByServiceId = async (serviceId: number) => {
+    return await this.projectServiceUnitRepository.find({
+      where: {
+        serviceId: serviceId
+      },
+      relations: ['project']
+    })
+  }
 }
