@@ -52,7 +52,7 @@ export class ProjectService {
       services.push(service);
     }
 
-    project.projectServices = services as Service[];
+    project.services = services as Service[];
 
     return await this.projectRepository.save(project);
   };
@@ -68,7 +68,7 @@ export class ProjectService {
     if (updateResult) {
       const updatedProject = await this.findProjectById(id);
 
-      updatedProject!.projectServices = services;
+      updatedProject!.services = services;
 
       await this.projectRepository.save(updatedProject!);
 
@@ -157,12 +157,12 @@ export class ProjectService {
   }
 
   public getProjectServices = async (projectId: number) => {
-    const project = await this.projectRepository.findOne(projectId, { relations: ['projectServices'] });
+    const project = await this.projectRepository.findOne(projectId, { relations: ['services'] });
 
     if (!project) {
       throw Error("Project not found");
     }
 
-    return project.projectServices;
+    return project.services;
   }
 }

@@ -4,10 +4,10 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { Service } from './service.entity';
 import BaseEntity from './base.entity';
 import { User } from './user.entity';
 import { PROJECT_STATUS } from '../enums/project.enum';
+import { Service } from './service.entity';
 
 @Entity({
   name: 'projects'
@@ -25,9 +25,19 @@ export class Project extends BaseEntity {
   @Column({ enum: PROJECT_STATUS, default: PROJECT_STATUS.ACTIVE })
   status: PROJECT_STATUS;
 
-  @ManyToMany(() => Service)
-  @JoinTable({ name: 'projects_services' })
-  projectServices: Service[]
+  @ManyToMany(() => Service, service => service.projects)
+  @JoinTable({
+    name: 'projects_services',
+    joinColumn: {
+      name: 'project_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'service_id',
+      referencedColumnName: 'id'
+    }
+  })
+  services: Service[]
 
   @ManyToMany(() => User, (user) => user.projects)
   @JoinTable({ name: 'project_users' })

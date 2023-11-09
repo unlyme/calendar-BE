@@ -16,4 +16,13 @@ export class AdminServiceController {
       return res.status(400).json({ error: error.message })
     }
   }
+
+  public getUnitServices = async (_req: Request, res: Response) => {
+    try {
+      const services = await this.serviceService.index();
+      return res.status(200).json({ services })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
+    }
+  }
 }
