@@ -29,6 +29,7 @@ export class UserService {
 
     return await this.userRepository.find({
       where,
+      relations: ['projects'],
       order: {
         id: 'ASC'
       },
