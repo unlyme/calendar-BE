@@ -40,6 +40,16 @@ export class Project extends BaseEntity {
   services: Service[]
 
   @ManyToMany(() => User, (user) => user.projects)
-  @JoinTable({ name: 'project_users' })
+  @JoinTable({
+    name: 'project_users',
+    joinColumn: {
+      name: 'project_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'user_id',
+      referencedColumnName: 'id',
+    },
+  })
   users: User[]
 }

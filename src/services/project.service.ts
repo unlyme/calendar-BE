@@ -36,6 +36,7 @@ export class ProjectService {
 
     return await this.projectRepository.find({
       where,
+      relations: ['users'],
       order: {
         id: 'ASC'
       },
