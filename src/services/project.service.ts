@@ -89,7 +89,7 @@ export class ProjectService {
     return await this.projectRepository.delete(id);
   };
 
-  public assginUser = async (projectId: number, userId: number) => {
+  public assginUser = async (projectId: number, userId: number, serviceIds: number[] = []) => {
     const user = await this.userService.findUserById(userId);
 
     if (!user) {
@@ -102,9 +102,20 @@ export class ProjectService {
       throw Error("Project not found");
     }
 
+    let services: Service[] = []
+
+    if (serviceIds.length) {
+      services = await this.serviceService.findByIds(serviceIds);
+
+      if (!services.length) {
+        throw Error("Services not found");
+      }
+    }
+
     return await this.projectUserService.create({
       projectId: projectId,
       userId: userId,
+      services: services
     });
   };
 
