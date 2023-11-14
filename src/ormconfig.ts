@@ -1,6 +1,6 @@
-import { ConnectionOptions } from 'typeorm';
+import { ConnectionOptions } from "typeorm";
 
-const config: ConnectionOptions & { seeds?: string[], factories?: string[] } = {
+const config: ConnectionOptions & { seeds?: string[]; factories?: string[] } = {
   type: "postgres",
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
@@ -14,14 +14,17 @@ const config: ConnectionOptions & { seeds?: string[], factories?: string[] } = {
   seeds: ["src/database/seeding/seeds/**/*{.ts,.js}"],
   factories: ["src/database/seeding/factories/**/*{.ts,.js}"],
   cli: {
-    migrationsDir: 'src/migrations',
+    migrationsDir: "src/migrations",
   },
-  ssl: process.env.NODE_ENV === 'production',
-  extra: {
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  },
+  ssl: process.env.NODE_ENV === "production",
+  extra:
+    process.env.NODE_ENV === "production"
+      ? {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        }
+      : undefined,
 };
 
 export = config;
