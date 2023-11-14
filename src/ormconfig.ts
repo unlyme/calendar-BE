@@ -16,12 +16,12 @@ const config: ConnectionOptions & { seeds?: string[], factories?: string[] } = {
   cli: {
     migrationsDir: 'src/migrations',
   },
-  // ssl: true,
-  // extra: {
-  //   ssl: {
-  //     rejectUnauthorized: false,
-  //   },
-  // },
+  ssl: process.env.NODE_ENV === 'production',
+  extra: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  },
 };
 
 export = config;
