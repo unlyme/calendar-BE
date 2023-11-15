@@ -1,7 +1,7 @@
 export const EVENT_ALLOW_FIELDS = [
   "startDate",
   "endDate",
-  "allAay",
+  "allDay",
   "text",
   "details",
   "color",
