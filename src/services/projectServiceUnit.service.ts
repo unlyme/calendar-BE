@@ -1,7 +1,6 @@
 import {getConnection} from 'typeorm';
 import { ProjectServiceUnitRepository } from '../repository/projectServiceUnit.repository';
 import { ProjectServiceUnit } from '../database/entities/projectServiceUnit.entity';
-import { PROJECT_SERVICE_UINIT_STATUS } from '../database/enums/projectServiceUnit.enum';
 
 export class ProjectServiceUnitService {
   private projectServiceUnitRepository: ProjectServiceUnitRepository;
@@ -32,10 +31,28 @@ export class ProjectServiceUnitService {
       throw Error('Unit not found');
     }
 
-    return await this.projectServiceUnitRepository.update(unitId, payload);
+    await this.projectServiceUnitRepository.update(unitId, payload)
+
+    const updated = await this.projectServiceUnitRepository.findOne({
+      id: unitId,
+    }, {
+      relations: ['project']
+    });
+
+    return updated;
   }
 
   public delete = async (unitId: number) => {
-    return await this.projectServiceUnitRepository.delete(unitId);
+    const unit = await this.projectServiceUnitRepository.findOne({
+      id: unitId,
+    });
+
+    if (!unit) {
+      throw Error('Unit not found');
+    }
+
+    await this.projectServiceUnitRepository.delete(unitId);
+
+    return unit;
   }
 }

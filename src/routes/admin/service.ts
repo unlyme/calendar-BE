@@ -50,8 +50,8 @@ export const adminServiceRoutes = () => {
    */
   router.get('/', deserializeUser, requireAdmin, adminServiceController.index);
   router.get('/:id/units', deserializeUser, requireAdmin, adminServiceController.getUnitServices);
-  router.put('/:id', deserializeUser, requireAdmin, adminServiceController.update);
-  router.delete('/:id', deserializeUser, requireAdmin, adminServiceController.update);
+  router.put('/units/:id', deserializeUser, requireAdmin, adminServiceController.update);
+  router.delete('/units/:id', deserializeUser, requireAdmin, adminServiceController.delete);
 
   return router;
 }

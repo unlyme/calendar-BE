@@ -47,7 +47,6 @@ export class AdminServiceController {
   public delete = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-
       const deleted = await this.projectServiceUnitService.delete(Number(id))
 
       return res.status(200).json({ deleted })
