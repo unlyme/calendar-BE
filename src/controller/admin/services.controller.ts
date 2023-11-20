@@ -29,4 +29,30 @@ export class AdminServiceController {
       return res.status(400).json({ error: error.message })
     }
   }
+
+  public update = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const unit = await this.projectServiceUnitService.update(
+        Number(id),
+        req.body
+      )
+
+      return res.status(200).json({ unit })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
+    }
+  }
+
+  public delete = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+
+      const deleted = await this.projectServiceUnitService.delete(Number(id))
+
+      return res.status(200).json({ deleted })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
+    }
+  }
 }

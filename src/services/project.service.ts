@@ -70,15 +70,20 @@ export class ProjectService {
     project: Partial<Project>,
     serviceIds: number[] = []
   ) => {
-    const services = await this.serviceService.findByIds(serviceIds);
     const updateResult = await this.projectRepository.update(id, project);
 
     if (updateResult) {
       const updatedProject = await this.findProjectById(id);
 
-      updatedProject!.services = services;
-
-      await this.projectRepository.save(updatedProject!);
+      for (const serviceId of serviceIds) {
+        const service = await this.serviceService.findServiceById(serviceId);
+        if (service) {
+          await this.projectServiceUnitService.create({
+            projectId: updatedProject!.id,
+            serviceId: service.id
+          })
+        }
+      }
 
       return updatedProject;
     }
