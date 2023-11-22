@@ -57,10 +57,8 @@ export class AdminProjectController {
   public assignUser = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const { userId, serviceIds } = req.body;
-
-      const serviceIdNumbers = serviceIds?.length ? serviceIds.map((serviceId: any) => Number(serviceId)) : [];
-      await this.projectService.assginUser(Number(id), Number(userId), serviceIdNumbers);
+      const { userId } = req.body;
+      await this.projectService.assginUser(Number(id), Number(userId));
 
       return res.status(200).json({ success: true })
     } catch (error: any) {

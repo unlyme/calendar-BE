@@ -9,6 +9,7 @@ import { eventRoutes } from "./routes/event";
 import { sectionRoutes } from "./routes/section";
 import { unitRoutes } from "./routes/unit";
 import { adminRoutes } from './routes/admin';
+import { projectRoutes } from './routes/project';
 const swagger = require("./utils/swagger");
 require('dotenv').config();
 
@@ -51,6 +52,7 @@ class Server {
     this.app.use(`/events`, eventRoutes());
     this.app.use(`/sections`, sectionRoutes());
     this.app.use(`/units`, unitRoutes());
+    this.app.use(`/projects`, projectRoutes());
     this.app.use(`/auth`, authRoutes());
     this.app.use('/admin', adminRoutes());
   }

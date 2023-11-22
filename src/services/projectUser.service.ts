@@ -38,7 +38,7 @@ export class ProjectUserService {
       where: {
         projectId: projectId,
       },
-      relations: ['users']
+      relations: ['users', 'services']
     })
   }
 

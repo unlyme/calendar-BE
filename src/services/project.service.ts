@@ -82,6 +82,13 @@ export class ProjectService {
             projectId: updatedProject!.id,
             serviceId: service.id
           })
+
+          const projectUsers = await this.projectUserService.getByProject(id);
+
+          for (const projectUser of projectUsers) {
+            const services = [...projectUser.services, service];
+            await this.projectUserService.updateServices(projectUser.id, services);
+          }
         }
       }
 
@@ -106,7 +113,7 @@ export class ProjectService {
     return await this.projectRepository.delete(id);
   };
 
-  public assginUser = async (projectId: number, userId: number, serviceIds: number[] = []) => {
+  public assginUser = async (projectId: number, userId: number) => {
     const user = await this.userService.findUserById(userId);
 
     if (!user) {
@@ -119,15 +126,10 @@ export class ProjectService {
       throw Error("Project not found");
     }
 
-    let services: Service[] = []
+    // Currently, assign all project services to user
+    const projectServices = await this.projectServiceUnitService.getByProjectId(project.id);
 
-    if (serviceIds.length) {
-      services = await this.serviceService.findByIds(serviceIds);
-
-      if (!services.length) {
-        throw Error("Services not found");
-      }
-    }
+    let services: Service[] = projectServices.map(ps => ps.service)
 
     return await this.projectUserService.create({
       projectId: projectId,
