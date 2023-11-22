@@ -1,8 +1,9 @@
-import { Entity, ManyToOne, JoinColumn, Column, OneToMany, ManyToMany, JoinTable } from "typeorm";
+import { Entity, ManyToOne, JoinColumn, Column, ManyToMany, JoinTable } from "typeorm";
 import { User } from "./user.entity";
 import { Project } from "./project.entity";
 import BaseEntity from "./base.entity";
 import { Service } from "./service.entity";
+import { PROJECT_USER_STATUS } from "../enums/projectUser.enum";
 
 @Entity({
   name: 'project_users'
@@ -33,4 +34,7 @@ export class ProjectUser extends BaseEntity {
   @ManyToMany(() => Service)
   @JoinTable({ name: 'project_user_services' })
   services: Service[]
+
+  @Column({ enum: PROJECT_USER_STATUS, default: PROJECT_USER_STATUS.ACTIVE })
+  status: PROJECT_USER_STATUS;
 }

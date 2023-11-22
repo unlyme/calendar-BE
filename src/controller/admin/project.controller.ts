@@ -71,9 +71,9 @@ export class AdminProjectController {
   public getUsers = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const users = await this.projectService.getUsersByProject(Number(id));
+      const projectUsers = await this.projectService.getUsersByProject(Number(id));
 
-      return res.status(200).json({ users })
+      return res.status(200).json({ projectUsers })
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }

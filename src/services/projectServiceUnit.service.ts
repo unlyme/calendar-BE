@@ -22,6 +22,15 @@ export class ProjectServiceUnitService {
     })
   }
 
+  public getByProjectId = async (projectId: number) => {
+    return await this.projectServiceUnitRepository.find({
+      where: {
+        projectId: projectId
+      },
+      relations: ['service']
+    })
+  }
+
   public update = async (unitId: number, payload: Partial<ProjectServiceUnit>) => {
     const unit = await this.projectServiceUnitRepository.findOne({
       id: unitId,

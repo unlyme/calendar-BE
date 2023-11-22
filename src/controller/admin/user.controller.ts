@@ -19,6 +19,17 @@ export class AdminUserController {
       return res.status(400).json({ error: error.message });
     }
   };
+
+  public search = async (req: Request, res: Response) => {
+    try {
+      const { searchKey } = req.query;
+      const users = await this.userService.search(searchKey!.toString());
+      return res.status(200).json({ users });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  };
+
   public create = async (req: Request, res: Response) => {
     try {
       const payload = req.body;

@@ -1,4 +1,4 @@
-import { Between, getConnection } from "typeorm";
+import { Between, ILike, Like, getConnection } from "typeorm";
 import { User } from "../database/entities/user.entity";
 import { UserRepository } from "../repository/user.repository";
 import { signJwt } from "../utils/jwt";
@@ -37,6 +37,16 @@ export class UserService {
       take: take
     })
   };
+
+  public search = async (searchKey: string) => {
+    let where = {
+      email: ILike(`%${searchKey}%`)
+    }
+
+    return await this.userRepository.find({
+      where
+    })
+  }
 
   public findUserById = async (id: number) => {
     return await this.userRepository.findOne({ id });

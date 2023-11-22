@@ -14,6 +14,21 @@ export class ProjectUserService {
     return await this.projectUserRepository.save(payload);
   }
 
+  public update = async (projectUserId: number, payload: Partial<ProjectUser>) => {
+    const updateResult = await this.projectUserRepository.update(projectUserId, payload);
+
+    if (updateResult) {
+      const updatedProject = await this.projectUserRepository.findOne({ id: projectUserId }, { relations: ['users'] });
+      return updatedProject;
+    }
+
+    return undefined;
+  }
+
+  public delete = async (projectUserId: number) => {
+    return await this.projectUserRepository.delete(projectUserId);
+  }
+
   public getById = async (projectUserId: number) => {
     return await this.projectUserRepository.findOne(projectUserId);
   }

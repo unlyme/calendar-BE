@@ -133,6 +133,7 @@ export const adminUserRoutes = () => {
   router.delete('/:id', deserializeUser, requireAdmin, adminUserController.delete);
   router.get('/:id/projects', deserializeUser, requireAdmin, adminUserController.getProjects);
   router.put('/:id/changePassword', deserializeUser, requireAdmin, adminUserController.changePassword);
+  router.get('/search', deserializeUser, requireAdmin, adminUserController.search);
 
   return router;
 }
