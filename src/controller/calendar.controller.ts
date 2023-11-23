@@ -10,10 +10,10 @@ export class CalendarController {
     this.calendarService = new CalendarService(); // Create a new instance of CalendarController
   }
 
-  public index = async (_req: Request, res: Response) => {
+  public index = async (req: Request, res: Response) => {
     try {
-      const user = res['locals']['user'] as User;
-      const calendars = await this.calendarService.index(user.id);
+      const projectId = req.query.projectId;
+      const calendars = await this.calendarService.index(Number(projectId));
       return res.status(200).json({ status: 200, data: { calendars } });
     } catch (error: any) {
       return res.status(400).json({ error: error });

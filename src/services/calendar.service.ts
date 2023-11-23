@@ -9,26 +9,26 @@ export class CalendarService {
     this.calendarRepository = getConnection("schedule").getCustomRepository(CalendarRepository);
   }
 
-  public index = async (userId: number) => {
+  public index = async (projectId: number) => {
     const sharedCalendars = await this.calendarRepository.find({
       where: {
-        userId: null
+        projectId: null
       },
       order: {
         id: 'ASC'
       }
     });
 
-    const userCalendars = await this.calendarRepository.find({
+    const projectCalendars = await this.calendarRepository.find({
       where: {
-        userId: userId,
+        projectId: projectId,
       },
       order: {
         id: 'ASC'
       }
     });
 
-    return [...sharedCalendars, ...userCalendars];
+    return [...sharedCalendars, ...projectCalendars];
   }
 
   public create = async (calendar: Calendar) => {
