@@ -10,5 +10,6 @@ export const EVENT_ALLOW_FIELDS = [
   "originId",
   "seriesEndDate",
   "unit",
-  "section"
+  "section",
+  "projectId"
 ];

@@ -3,12 +3,15 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
+  OneToOne,
 } from "typeorm";
 import Calendar from "./calendar.entity";
 import Unit from "./unit.entity";
 import Section from "./section.entity";
 import { User } from "./user.entity";
 import BaseEntity from "./base.entity";
+import { Project } from "./project.entity";
 
 @Entity({
   name: 'events'
@@ -74,6 +77,13 @@ export class Event extends BaseEntity {
 
   @Column()
   public userId: number;
+
+  @ManyToOne(() => Project, (project) => project.events)
+  @JoinColumn()
+  public project: Project;
+
+  @Column()
+  public projectId: number;
 }
 
 export default Event;
