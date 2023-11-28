@@ -43,12 +43,14 @@ export class ProjectUserService {
   }
 
   public getByUser = async (userId: number) => {
-    return await this.projectUserRepository.find({
+    const projectUsers =  await this.projectUserRepository.find({
       where: {
         userId: userId,
       },
       relations: ['projects', 'services']
     })
+
+    return projectUsers
   }
 
   public getByProjectAndUser = async (projectId: number, userId: number) => {

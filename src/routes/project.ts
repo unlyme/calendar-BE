@@ -7,6 +7,7 @@ export const projectRoutes = () => {
   const projectController = new ProjectController();
 
   router.get('/', deserializeUser, projectController.index);
+  router.get('/:id/services', deserializeUser, projectController.getServiceUnits);
 
   return router;
 }

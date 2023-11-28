@@ -26,7 +26,7 @@ export class ProjectUser extends BaseEntity {
     {onDelete: 'NO ACTION', onUpdate: 'NO ACTION'}
   )
   @JoinColumn([{ name: 'project_id', referencedColumnName: 'id' }])
-  projects: Project[];
+  projects: Project;
 
   @Column({ name: 'project_id' })
   projectId: number;

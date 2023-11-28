@@ -4,6 +4,8 @@ import AppError from "../utils/appError";
 import { User } from "../database/entities/user.entity";
 import { signJwt, verifyJwt } from "../utils/jwt"; // import service
 import { ProjectUserService } from "../services/projectUser.service";
+import { PROJECT_USER_STATUS } from "../database/enums/projectUser.enum";
+import { PROJECT_STATUS } from "../database/enums/project.enum";
 require('dotenv').config();
 
 export class AuthController {
@@ -65,13 +67,22 @@ export class AuthController {
     const projects = await this.projectUserService.getByUser(user.id);
 
     if (!projects.length) {
-      return res.status(401).json({ message: 'This user has not been added to any of the projects.' });
+      return res.status(403).json({ message: 'This user has not been added to any of the projects.' });
     }
 
-    const activeProjects = projects.filter(project => project.status === 'ACTIVE');
+    const activeProjectUsers = projects.filter(project => project.status === PROJECT_USER_STATUS.ACTIVE);
+
+    if (!activeProjectUsers.length) {
+      return res.status(403).json({ message: 'This user has not been activated to any of the projects.' });
+    }
+
+    const activeProjects = projects.filter(
+      (projectUser) =>
+        projectUser.projects.status === PROJECT_STATUS.ACTIVE
+    );
 
     if (!activeProjects.length) {
-      return res.status(401).json({ message: 'This user has not been activated to any of the projects.' });
+      return res.status(403).json({ message: 'Projects are blocked.' });
     }
 
     res.cookie('access_token', access_token, this.accessTokenCookieOptions);
