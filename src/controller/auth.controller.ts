@@ -68,6 +68,12 @@ export class AuthController {
       return res.status(401).json({ message: 'This user has not been added to any of the projects.' });
     }
 
+    const activeProjects = projects.filter(project => project.status === 'ACTIVE');
+
+    if (!activeProjects.length) {
+      return res.status(401).json({ message: 'This user has not been activated to any of the projects.' });
+    }
+
     res.cookie('access_token', access_token, this.accessTokenCookieOptions);
     res.cookie('refresh_token', refresh_token, this.refreshTokenCookieOptions);
     res.cookie('logged_in', true, {
