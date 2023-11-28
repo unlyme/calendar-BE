@@ -29,24 +29,39 @@ export class UserService {
 
     return await this.userRepository.find({
       where,
-      relations: ['projects'],
+      relations: ["projects"],
       order: {
-        id: 'ASC'
+        id: "ASC",
       },
       skip: skip,
-      take: take
-    })
+      take: take,
+    });
   };
 
   public search = async (searchKey: string) => {
-    let where = {
-      email: ILike(`%${searchKey}%`)
+    const splitKeys = searchKey.split(" ");
+
+    let where: any = [
+      {
+        email: ILike(`%${searchKey}%`),
+      },
+    ];
+
+    if (Number.isInteger(parseInt(searchKey))) {
+      where.push({
+        id: parseInt(searchKey),
+      });
+    }
+
+    for (const searchK of splitKeys) {
+      where.push({ firstName: ILike(`%${searchK}%`) });
+      where.push({ lastName: ILike(`%${searchK}%`) });
     }
 
     return await this.userRepository.find({
-      where
-    })
-  }
+      where,
+    });
+  };
 
   public findUserById = async (id: number) => {
     return await this.userRepository.findOne({ id });
@@ -60,18 +75,18 @@ export class UserService {
     return await this.userRepository.save(this.userRepository.create(user));
   };
 
-  public update =  async(id: number, user: Partial<User>) => {
+  public update = async (id: number, user: Partial<User>) => {
     const updateResult = await this.userRepository.update(id, user);
     if (updateResult) {
       const updatedUser = await this.findUserById(id);
       return updatedUser;
     }
     return undefined;
-  }
+  };
 
   public delete = async (id: number) => {
     return await this.userRepository.delete(id);
-  }
+  };
 
   public signTokens = async (user: User) => {
     const access_token = signJwt(
@@ -99,7 +114,7 @@ export class UserService {
 
   public getNewUsersCountLastDays = async (days: number) => {
     const today = dayjs();
-    const dayInPast = dayjs().subtract(days, 'days');
+    const dayInPast = dayjs().subtract(days, "days");
 
     return await this.userRepository.count({
       where: {
@@ -110,31 +125,37 @@ export class UserService {
 
   public getProjectsByUser = async (userId: number) => {
     const projectUsers = await this.projectUserService.getByUser(userId);
-    const projects = projectUsers.map(pu => ({
+    const projects = projectUsers.map((pu) => ({
       project: pu.projects,
-      services: pu.services
+      services: pu.services,
     }));
 
     return projects;
-  }
+  };
 
-  public changePassword = async (staffId: number, password: string, newPassword: string) => {
+  public changePassword = async (
+    staffId: number,
+    password: string,
+    newPassword: string
+  ) => {
     const staff = await this.findUserById(staffId);
 
     if (!staff) {
-      throw Error('User not found');
+      throw Error("User not found");
     }
 
     if (!(await User.comparePasswords(password, staff.password))) {
-      throw Error('Invalid credentials');
+      throw Error("Invalid credentials");
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 12);
-    const updateResult = await this.userRepository.update(staffId, { password: hashedPassword });
+    const updateResult = await this.userRepository.update(staffId, {
+      password: hashedPassword,
+    });
 
     if (updateResult) {
       return staff;
     }
     return undefined;
-  }
+  };
 }
