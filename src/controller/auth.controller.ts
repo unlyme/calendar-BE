@@ -3,13 +3,16 @@ import { UserService } from "../services/user.service";
 import AppError from "../utils/appError";
 import { User } from "../database/entities/user.entity";
 import { signJwt, verifyJwt } from "../utils/jwt"; // import service
+import { ProjectUserService } from "../services/projectUser.service";
 require('dotenv').config();
 
 export class AuthController {
   private userService: UserService;
+  private projectUserService: ProjectUserService;
 
   constructor() {
     this.userService = new UserService(); // Create a new instance of UserController
+    this.projectUserService = new ProjectUserService();
   }
 
   private cookiesOptions: CookieOptions = {
@@ -50,14 +53,20 @@ export class AuthController {
     const user = await this.userService.findUserByEmail(email);
 
     if (!user) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
 
     if (!(await User.comparePasswords(password, user.password))) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
 
     const { access_token, refresh_token } = await this.userService.signTokens(user);
+
+    const projects = await this.projectUserService.getByUser(user.id);
+
+    if (!projects.length) {
+      return res.status(401).json({ message: 'This user has not been added to any of the projects.' });
+    }
 
     res.cookie('access_token', access_token, this.accessTokenCookieOptions);
     res.cookie('refresh_token', refresh_token, this.refreshTokenCookieOptions);
