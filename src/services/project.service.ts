@@ -7,13 +7,17 @@ import { ProjectUserService } from "./projectUser.service";
 import { UserService } from "./user.service";
 import dayjs from "dayjs";
 import { ProjectServiceUnitService } from "./projectServiceUnit.service";
+import { EventService } from "./event.service";
+import { CalendarService } from "./calendar.service";
 
 export class ProjectService {
   private projectRepository: ProjectRepository;
   private serviceService: ServiceService;
   private projectUserService: ProjectUserService;
   private userService: UserService;
-  private projectServiceUnitService: ProjectServiceUnitService
+  private projectServiceUnitService: ProjectServiceUnitService;
+  private eventService: EventService;
+  private calendarService: CalendarService;
 
   constructor() {
     this.projectRepository =
@@ -22,6 +26,8 @@ export class ProjectService {
     this.projectUserService = new ProjectUserService();
     this.userService = new UserService();
     this.projectServiceUnitService = new ProjectServiceUnitService();
+    this.eventService = new EventService();
+    this.calendarService = new CalendarService();
   }
 
   public index = async (page: number = 1, condition?: { status?: string }) => {
@@ -108,6 +114,18 @@ export class ProjectService {
 
     for (const ps of projectServices) {
       await this.projectServiceUnitService.delete(ps.id);
+    }
+
+    const projectEvents = await this.eventService.index(id, {});
+
+    for (const pe of projectEvents) {
+      await this.eventService.delete(pe.id);
+    }
+
+    const projectCalendars = await this.calendarService.index(id);
+
+    for (const pc of projectCalendars) {
+      await this.calendarService.delete(pc.id);
     }
 
     return await this.projectRepository.delete(id);
