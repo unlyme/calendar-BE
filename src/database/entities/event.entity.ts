@@ -19,19 +19,19 @@ import { Project } from "./project.entity";
 export class Event extends BaseEntity {
   @Column({
     name: 'start_date',
-    type: "timestamp"
+    type: "timestamp with time zone"
   })
   public startDate: string;
 
   @Column({
     name: 'end_date',
-    type: "timestamp"
+    type: "timestamp with time zone"
   })
   public endDate: string;
 
   @Column({
     name: "series_end_date",
-    type: "timestamp",
+    type: "timestamp with time zone",
     nullable: true
   })
   public seriesEndDate: string;
