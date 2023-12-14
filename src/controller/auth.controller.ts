@@ -6,15 +6,18 @@ import { signJwt, verifyJwt } from "../utils/jwt"; // import service
 import { ProjectUserService } from "../services/projectUser.service";
 import { PROJECT_USER_STATUS } from "../database/enums/projectUser.enum";
 import { PROJECT_STATUS } from "../database/enums/project.enum";
+import { AccessCodeService } from "../services/accessCode.service";
 require('dotenv').config();
 
 export class AuthController {
   private userService: UserService;
   private projectUserService: ProjectUserService;
+  private accessCodeService: AccessCodeService;
 
   constructor() {
     this.userService = new UserService(); // Create a new instance of UserController
     this.projectUserService = new ProjectUserService();
+    this.accessCodeService = new AccessCodeService();
   }
 
   private cookiesOptions: CookieOptions = {
@@ -152,6 +155,26 @@ export class AuthController {
       });
     } catch (err: any) {
       next(err);
+    }
+  }
+
+  public verifyAccessCode = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { code } = req.body;
+
+      const accessCode = await this.accessCodeService.getByCode(code);
+
+      if (!accessCode) {
+        return res.status(403).json({ status: 'error', valid: false, message: 'Access code is invalid' });
+      }
+
+      if (accessCode.userId) {
+        return res.status(403).json({ status: 'error', valid: false, message: 'Access code is used' });
+      }
+
+      return res.status(200).json({ status: 'error', valid: true })
+    } catch (error) {
+      next(error);
     }
   }
 }
