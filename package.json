@@ -8,6 +8,7 @@
     "start:dev": "tsc && nodemon ./build/server.js",
     "typeorm:cli": "ts-node ./node_modules/typeorm/cli -f ./src/ormconfig.ts",
     "migration:run": "npm run typeorm:cli -- migration:run",
+    "migration:revert": "npm run typeorm:cli -- migration:revert",
     "migration:generate": "npm run typeorm:cli -- migration:generate -d ./src/migrations/ -n",
     "db:seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed --n ./src/ormconfig.ts"
   },
