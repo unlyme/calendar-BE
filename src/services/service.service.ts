@@ -37,4 +37,8 @@ export class ServiceService {
   public findByIds = async (ids: number[]) => {
     return await this.serviceSerivce.findByIds(ids);
   }
+
+  public getByName = async (name: string) => {
+    return await this.serviceSerivce.findOne({ name });
+  }
 }

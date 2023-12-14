@@ -11,12 +11,13 @@ import { EventService } from "./event.service";
 import { CalendarService } from "./calendar.service";
 import { CALENDAR_TEXT } from "../database/enums/calendar.enum";
 import Calendar from "../database/entities/calendar.entity";
+import { UserRepository } from "../repository/user.repository";
 
 export class ProjectService {
   private projectRepository: ProjectRepository;
   private serviceService: ServiceService;
   private projectUserService: ProjectUserService;
-  private userService: UserService;
+  private userRepository: UserRepository;
   private projectServiceUnitService: ProjectServiceUnitService;
   private eventService: EventService;
   private calendarService: CalendarService;
@@ -24,9 +25,10 @@ export class ProjectService {
   constructor() {
     this.projectRepository =
       getConnection("schedule").getCustomRepository(ProjectRepository);
+    this.userRepository =
+      getConnection("schedule").getCustomRepository(UserRepository);
     this.serviceService = new ServiceService();
     this.projectUserService = new ProjectUserService();
-    this.userService = new UserService();
     this.projectServiceUnitService = new ProjectServiceUnitService();
     this.eventService = new EventService();
     this.calendarService = new CalendarService();
@@ -57,7 +59,7 @@ export class ProjectService {
     return await this.projectRepository.findOne({ id });
   };
 
-  public create = async (project: Project, serviceIds: number[]) => {
+  public create = async (project: Partial<Project>, serviceIds: number[]) => {
     const newProject = await this.projectRepository.save(project);
 
     for (const serviceId of serviceIds) {
@@ -165,7 +167,7 @@ export class ProjectService {
   };
 
   public assginUser = async (projectId: number, userId: number) => {
-    const user = await this.userService.findUserById(userId);
+    const user = await this.userRepository.findOne(userId);
 
     if (!user) {
       throw Error("User not found");
@@ -222,7 +224,7 @@ export class ProjectService {
       throw Error("Project not found");
     }
 
-    const user = await this.userService.findUserById(userId);
+    const user = await this.userRepository.findOne(userId);
 
     if (!user) {
       throw Error("User not found");

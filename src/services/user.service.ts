@@ -5,16 +5,23 @@ import { signJwt } from "../utils/jwt";
 import dayjs from "dayjs";
 import bcrypt from "bcryptjs";
 import { ProjectUserService } from "./projectUser.service";
+import { ProjectService } from "./project.service";
+import { ServiceService } from "./service.service";
+import { PROJECT_STATUS } from "../database/enums/project.enum";
 require("dotenv").config();
 
 export class UserService {
   private userRepository: UserRepository;
   private projectUserService: ProjectUserService;
+  private projectService: ProjectService;
+  private serviceService: ServiceService;
 
   constructor() {
     this.userRepository =
       getConnection("schedule").getCustomRepository(UserRepository);
     this.projectUserService = new ProjectUserService();
+    this.projectService = new ProjectService();
+    this.serviceService = new ServiceService();
   }
 
   public index = async (page: number = 1, condition?: { status?: string }) => {
@@ -158,4 +165,36 @@ export class UserService {
     }
     return undefined;
   };
+
+  public register = async (
+    firstName: string,
+    lastName: string,
+    email: string,
+    projectName: string
+  ) => {
+    const password = Math.random().toString(36).slice(2, 12);
+
+    const newUser = await this.userRepository.save({
+      firstName,
+      lastName,
+      email,
+      password
+    });
+
+    // default service which activated for all projects
+    const calendarService = await this.serviceService.getByName('Calendar');
+
+    const newProject = await this.projectService.create({
+      name: projectName,
+      status: PROJECT_STATUS.ACTIVE,
+      balance: 0,
+      geography: 'N/A',
+      users: [newUser],
+    }, [calendarService!.id]);
+
+    // TODO: send mail
+    console.log(newUser, newProject, password);
+
+    return { newUser };
+  }
 }
