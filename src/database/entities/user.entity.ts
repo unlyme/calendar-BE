@@ -1,4 +1,12 @@
-import { Entity, Column, OneToMany, BeforeInsert, ManyToMany, JoinTable } from "typeorm";
+import {
+  Entity,
+  Column,
+  OneToMany,
+  BeforeInsert,
+  ManyToMany,
+  JoinTable,
+  OneToOne,
+} from "typeorm";
 import bcrypt from "bcryptjs";
 import Event from "./event.entity";
 import BaseEntity from "./base.entity";
@@ -8,6 +16,7 @@ import Task from "./task.entity";
 import { Project } from "./project.entity";
 import { instanceToPlain, Exclude } from "class-transformer";
 import { USER_STATUS } from "../enums/user.enum";
+import AccessCode from "./accessCode.entity";
 
 @Entity({
   name: "users",
@@ -16,17 +25,17 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   email!: string;
 
-  @Column({ name: 'first_name' })
+  @Column({ name: "first_name" })
   firstName!: string;
 
-  @Column({ name: 'last_name' })
+  @Column({ name: "last_name" })
   lastName!: string;
 
   @Column({ enum: USER_STATUS, default: USER_STATUS.ACTIVE })
   status: USER_STATUS;
 
   @Column({
-    type: 'jsonb',
+    type: "jsonb",
   })
   public contacts: string[];
 
@@ -48,17 +57,20 @@ export class User extends BaseEntity {
 
   @ManyToMany(() => Project, (project) => project.users)
   @JoinTable({
-    name: 'project_users',
+    name: "project_users",
     joinColumn: {
-      name: 'user_id',
-      referencedColumnName: 'id',
+      name: "user_id",
+      referencedColumnName: "id",
     },
     inverseJoinColumn: {
-      name: 'project_id',
-      referencedColumnName: 'id',
+      name: "project_id",
+      referencedColumnName: "id",
     },
   })
-  projects: Project[]
+  projects: Project[];
+
+  @OneToOne(() => AccessCode, { nullable: true })
+  public accessCode: AccessCode;
 
   @BeforeInsert()
   async hashPassword() {
