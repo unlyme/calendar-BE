@@ -42,12 +42,11 @@ export class AuthController {
   };
 
   public register = async (req: Request, res: Response) => {
-    const { firstName, lastName, password, email, contacts } = req['body'];
+    const { firstName, lastName, projectName, email, accessCode } = req['body'];
 
-    const newUser = await this.userService.create({ email: email.toLowerCase(), firstName, lastName, contacts, password });
+    const { newUser } = await this.userService.register(firstName, lastName, email.toLowerCase().trim(), projectName, accessCode);
     if (newUser) {
-      const { password, ...userWithoutPassword } = newUser;
-      res.json(userWithoutPassword)
+      return res.status(200).json({ status: 'success', newUser })
     } else {
       res.status(500).json({message: 'failed'})
     }
@@ -173,6 +172,23 @@ export class AuthController {
       }
 
       return res.status(200).json({ status: 'success', valid: true, used: false })
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  public verifyEmail = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email } = req.body;
+
+      const user = await this.userService.findUserByEmail(email.toLowerCase().trim());
+
+      if (user) {
+        return res.status(200).json({ status: 'error', valid: false, message: 'Email is already used' });
+      }
+
+      return res.status(200).json({ status: 'success', valid: true });
+
     } catch (error) {
       next(error);
     }

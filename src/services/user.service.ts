@@ -8,6 +8,7 @@ import { ProjectUserService } from "./projectUser.service";
 import { ProjectService } from "./project.service";
 import { ServiceService } from "./service.service";
 import { PROJECT_STATUS } from "../database/enums/project.enum";
+import { AccessCodeService } from "./accessCode.service";
 require("dotenv").config();
 
 export class UserService {
@@ -15,6 +16,7 @@ export class UserService {
   private projectUserService: ProjectUserService;
   private projectService: ProjectService;
   private serviceService: ServiceService;
+  private accessCodeService: AccessCodeService;
 
   constructor() {
     this.userRepository =
@@ -22,6 +24,7 @@ export class UserService {
     this.projectUserService = new ProjectUserService();
     this.projectService = new ProjectService();
     this.serviceService = new ServiceService();
+    this.accessCodeService = new AccessCodeService();
   }
 
   public index = async (page: number = 1, condition?: { status?: string }) => {
@@ -170,31 +173,47 @@ export class UserService {
     firstName: string,
     lastName: string,
     email: string,
-    projectName: string
+    projectName: string,
+    accessCode: string,
   ) => {
     const password = Math.random().toString(36).slice(2, 12);
 
-    const newUser = await this.userRepository.save({
-      firstName,
-      lastName,
-      email,
-      password
-    });
+    const newUser = await this.userRepository.save(
+      this.userRepository.create({
+        firstName,
+        lastName,
+        email,
+        password,
+        contacts: [],
+      })
+    );
 
     // default service which activated for all projects
-    const calendarService = await this.serviceService.getByName('Calendar');
+    const calendarService = await this.serviceService.getByName("Calendar");
 
-    const newProject = await this.projectService.create({
-      name: projectName,
-      status: PROJECT_STATUS.ACTIVE,
-      balance: 0,
-      geography: 'N/A',
-      users: [newUser],
-    }, [calendarService!.id]);
+    const newProject = await this.projectService.create(
+      {
+        name: projectName,
+        status: PROJECT_STATUS.ACTIVE,
+        balance: 0,
+        geography: "N/A",
+      },
+      [calendarService!.id]
+    );
+
+    await this.projectService.assginUser(Number(newProject.id), Number(newUser.id));
+
+    const accessCodeRecord = await this.accessCodeService.getByCode(accessCode);
+
+    if (!accessCodeRecord || accessCodeRecord.userId) {
+      throw Error('Invalid code');
+    }
+
+    await this.accessCodeService.updateUsedByEmail(accessCodeRecord.id, newUser.id);
 
     // TODO: send mail
     console.log(newUser, newProject, password);
 
     return { newUser };
-  }
+  };
 }

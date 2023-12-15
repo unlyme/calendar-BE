@@ -16,4 +16,8 @@ export class AccessCodeService {
 
     return accessCode;
   };
+
+  public updateUsedByEmail = async (id: number, userId: number) => {
+    return await this.accessCodeRepository.update(id, { userId });
+  }
 }
