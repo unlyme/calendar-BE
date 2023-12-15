@@ -9,6 +9,7 @@ import { ProjectService } from "./project.service";
 import { ServiceService } from "./service.service";
 import { PROJECT_STATUS } from "../database/enums/project.enum";
 import { AccessCodeService } from "./accessCode.service";
+import { RegistrationMailer } from "../mailers/registration.mailer";
 require("dotenv").config();
 
 export class UserService {
@@ -210,9 +211,15 @@ export class UserService {
     }
 
     await this.accessCodeService.updateUsedByEmail(accessCodeRecord.id, newUser.id);
+    const mailer = new RegistrationMailer();
 
-    // TODO: send mail
-    console.log(newUser, newProject, password);
+    await mailer.send(
+      firstName,
+      lastName,
+      projectName,
+      email,
+      password
+    );
 
     return { newUser };
   };
