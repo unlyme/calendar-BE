@@ -169,10 +169,10 @@ export class AuthController {
       }
 
       if (accessCode.userId) {
-        return res.status(403).json({ status: 'error', valid: false, message: 'Access code is used' });
+        return res.status(200).json({ status: 'error', valid: true, used: true, message: 'Access code is used' });
       }
 
-      return res.status(200).json({ status: 'error', valid: true })
+      return res.status(200).json({ status: 'success', valid: true, used: false })
     } catch (error) {
       next(error);
     }
