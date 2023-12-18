@@ -6,7 +6,6 @@ export class RegistrationMailer {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      port: Number(process.env.MAILER_PORT),
       host: process.env.MAILER_HOST || 'localhost',
       auth: {
         user: process.env.MAILER_USER || 'user',
@@ -43,6 +42,7 @@ export class RegistrationMailer {
       };
 
       await this.transporter.sendMail(message);
+
       return true;
     } catch (error) {
       console.log('Mailer error:', error);
