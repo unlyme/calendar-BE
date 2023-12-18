@@ -7,17 +7,20 @@ import { ProjectUserService } from "../services/projectUser.service";
 import { PROJECT_USER_STATUS } from "../database/enums/projectUser.enum";
 import { PROJECT_STATUS } from "../database/enums/project.enum";
 import { AccessCodeService } from "../services/accessCode.service";
+import { RequestAccessService } from "../services/requestAccess.service";
 require('dotenv').config();
 
 export class AuthController {
   private userService: UserService;
   private projectUserService: ProjectUserService;
   private accessCodeService: AccessCodeService;
+  private requestAccessService: RequestAccessService;
 
   constructor() {
     this.userService = new UserService(); // Create a new instance of UserController
     this.projectUserService = new ProjectUserService();
     this.accessCodeService = new AccessCodeService();
+    this.requestAccessService = new RequestAccessService();
   }
 
   private cookiesOptions: CookieOptions = {
@@ -189,6 +192,18 @@ export class AuthController {
 
       return res.status(200).json({ status: 'success', valid: true });
 
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  public requestAccess = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email } = req.body;
+
+      const requestAccess = await this.requestAccessService.create(email);
+
+      return res.status(200).json({ status: 'success', requestAccess });
     } catch (error) {
       next(error);
     }

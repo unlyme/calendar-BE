@@ -115,5 +115,6 @@ export const authRoutes = () => {
   router.get('/me', deserializeUser, userController.me);
   router.post('/verifyCode', authController.verifyAccessCode);
   router.post('/verifyEmail', authController.verifyEmail);
+  router.post('/requestAccess', authController.requestAccess);
   return router;
 }
