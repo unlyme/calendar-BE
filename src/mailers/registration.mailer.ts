@@ -25,14 +25,14 @@ export class RegistrationMailer {
     password: string
   ) => {
     try {
-      let html = registrationTemplate;
-      html = html.replace('{{FIRST_NAME}}', firstName);
-      html = html.replace('{{LASTNAME}}', lastName);
-      html = html.replace('{{PROJECT_NAME}}', projectName);
-      html = html.replace('{{FE_URL}}', process.env.FE_URL as string);
-      html = html.replace('{{FE_HOST}}', process.env.FE_URL as string);
-      html = html.replace('{{EMAIL}}', email);
-      html = html.replace('{{PASSWORD}}', password);
+      let html = registrationTemplate({
+        firstName,
+        lastName,
+        projectName,
+        feHost: process.env.FE_URL as string,
+        email,
+        password
+      });
 
       const message = {
         from: process.env.EMAIl_FROM || 'ai@unlyme.com',

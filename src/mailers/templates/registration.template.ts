@@ -1,14 +1,30 @@
-export const registrationTemplate = `
+export const registrationTemplate = (
+  {
+    firstName,
+    lastName,
+    projectName,
+    feHost,
+    email,
+    password
+  }: {
+    firstName: string,
+    lastName?: string,
+    projectName: string,
+    feHost: string,
+    email: string,
+    password: string
+  }
+) => `
 <html>
   <body>
-    <p>Hello {{FIRST_NAME}} {{LASTNAME}},</p>
+    <p>Hello ${firstName}${lastName ? ` ${lastName},` : ','}</p>
     <p>Thank you for registering with Unlyme AI OS.</p>
-    <p>We have created your personalized workspace: {{PROJECT_NAME}}</p>
+    <p>We have created your personalized workspace: ${projectName}</p>
 
-    <p>You can access it at: <a href='{{FE_URL}}/signin'>{{FE_HOST}}/signin</a></p>
+    <p>You can access it at: <a href='${feHost}/signin'>${feHost}/signin</a></p>
     <p>For access please use:</p>
-    <p>E-mail: {{EMAIL}}</p>
-    <p>Password: {{PASSWORD}}</p>
+    <p>E-mail: ${email}</p>
+    <p>Password: ${password}</p>
 
     <br/>
 
