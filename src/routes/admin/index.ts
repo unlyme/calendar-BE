@@ -6,6 +6,7 @@ import { adminProjectRoutes } from "./project";
 import { adminStatisticsRoutes } from "./statistics";
 import { adminServiceRoutes } from "./service";
 import { adminProjectUserRoutes } from "./projectUser";
+import { adminRequestAccessRoutes } from "./requestAccess";
 
 export const adminRoutes = () => {
   const router = Router();
@@ -17,6 +18,7 @@ export const adminRoutes = () => {
   router.use('/statistics', adminStatisticsRoutes())
   router.use('/services', adminServiceRoutes())
   router.use('/projectUsers', adminProjectUserRoutes())
+  router.use('/requestAccesses', adminRequestAccessRoutes())
 
   return router;
 }

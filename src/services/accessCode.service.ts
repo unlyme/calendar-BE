@@ -20,4 +20,11 @@ export class AccessCodeService {
   public updateUsedByEmail = async (id: number, userId: number) => {
     return await this.accessCodeRepository.update(id, { userId });
   }
+
+  public generateCode = async () => {
+    const code = Math.random().toString(36).slice(2, 8).toUpperCase();
+    return await this.accessCodeRepository.save(
+      this.accessCodeRepository.create({ code })
+    )
+  }
 }
