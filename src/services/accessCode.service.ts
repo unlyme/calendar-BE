@@ -9,6 +9,10 @@ export class AccessCodeService {
       getConnection("schedule").getCustomRepository(AccessCodeRepository);
   }
 
+  public index = async () => {
+    return await this.accessCodeRepository.find({ order: { createdAt: 'DESC' } });
+  }
+
   public getByCode = async (code: string) => {
     const accessCode = await this.accessCodeRepository.findOne({
       code: code
