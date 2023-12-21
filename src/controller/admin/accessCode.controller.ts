@@ -8,10 +8,11 @@ export class AdminAccessCodeController {
     this.accessCodeService = new AccessCodeService();
   }
 
-  public index = async (_req: Request, res: Response) => {
+  public index = async (req: Request, res: Response) => {
     try {
-      const acceessCode = await this.accessCodeService.index();
-      return res.status(200).json({ acceessCode })
+      const { page } = req.query;
+      const accessCodes = await this.accessCodeService.index(Number(page));
+      return res.status(200).json({ accessCodes })
     } catch (error: any) {
       return res.status(400).json({ error: error.message })
     }
