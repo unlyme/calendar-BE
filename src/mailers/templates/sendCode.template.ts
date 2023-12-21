@@ -9,7 +9,7 @@ export const sendCodeTemplate = ({
     <body>
       <p>Hello,</p>
       <p>Thank you for requesting access to Unlyme AI OS.</p>
-      <p>You register at: <a href='${feHost}/register'>${feHost}/register</a></p>
+      <p>You can register at: <a href='${feHost}/register'>${feHost}/register</a></p>
       <p>Your code is: ${code}</p>
 
 

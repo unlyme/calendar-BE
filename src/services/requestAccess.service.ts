@@ -43,7 +43,9 @@ export class RequestAccessService {
     const mailer = new SendCodeMailer();
     await mailer.send(requestAccess.email, accessCode.code);
 
-    const updatedRequestAccess = await this.requestAccessRepository.update(requestAccess.id, { sent: true });
+    await this.requestAccessRepository.update(requestAccess.id, { sent: true });
+
+    const updatedRequestAccess = await this.requestAccessRepository.findOne(id);
 
     return updatedRequestAccess;
   }

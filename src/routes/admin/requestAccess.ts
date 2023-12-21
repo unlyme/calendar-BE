@@ -8,7 +8,7 @@ export const adminRequestAccessRoutes = () => {
   const controller = new AdminRequestAccessController();
 
   router.get("/", deserializeUser, requireAdmin, controller.index);
-  router.post("/:id/sendInvitation", deserializeUser, requireAdmin, controller.sendCodeToUser);
+  router.post("/:id/sendCode", deserializeUser, requireAdmin, controller.sendCodeToUser);
 
   return router;
 };

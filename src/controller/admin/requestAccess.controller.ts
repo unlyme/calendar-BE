@@ -20,8 +20,8 @@ export class AdminRequestAccessController {
   public sendCodeToUser = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const requestAccesses = await this.requestAccessService.sendCode(Number(id));
-      return res.status(200).json({ requestAccesses })
+      const requestAccess = await this.requestAccessService.sendCode(Number(id));
+      return res.status(200).json({ requestAccess })
     } catch (error: any) {
       return res.status(400).json({ error: error.message })
     }
