@@ -49,7 +49,19 @@ export class AuthController {
 
     const { newUser } = await this.userService.register(firstName, lastName, email.toLowerCase().trim(), projectName, accessCode);
     if (newUser) {
-      return res.status(200).json({ status: 'success', newUser })
+      const { access_token, refresh_token } = await this.userService.signTokens(newUser);
+
+      res.cookie('access_token', access_token, this.accessTokenCookieOptions);
+      res.cookie('refresh_token', refresh_token, this.refreshTokenCookieOptions);
+      res.cookie('logged_in', true, {
+        ...this.accessTokenCookieOptions,
+        httpOnly: false,
+      });
+
+      return res.status(200).json({
+        status: 'success',
+        access_token,
+      });
     } else {
       res.status(500).json({message: 'failed'})
     }
