@@ -20,7 +20,8 @@ export class EventController {
       const calendars = req.query.calendars as string;
       // const user = res['locals']['user'] as User;
       const projectId = req.query.projectId;
-      const events = await this.eventService.index(Number(projectId), { from, to, calendars });
+      const user = await this.userService.findUserById(parseInt(res.locals.user.id as string));
+      const events = await this.eventService.index(Number(projectId), { from, to, calendars }, user?.id);
 
       return res.status(200).json({ status: 200, data: { events } })
     } catch (error: any) {

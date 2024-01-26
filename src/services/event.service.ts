@@ -18,12 +18,14 @@ export class EventService {
       from?: string,
       to?: string,
       calendars?: string,
-    }
+    },
+    userId?: number | undefined,
   ) => {
     if (payload.from && payload.to) {
       return await this.eventRepository
         .createQueryBuilder("event")
         .where("event.projectId = :projectId", { projectId })
+        .where("event.userId = :userId", { userId })
         .andWhere("event.start_date < :to", { to: payload.to })
         .andWhere(
           '(event.end_date >= :from OR event.series_end_date >= :from OR (event.recurring <> "" AND event.series_end_date = ""))',
@@ -40,6 +42,7 @@ export class EventService {
       return await this.eventRepository.find({
         where: {
           projectId: projectId,
+          userId: userId,
           calendarId: In(calendarIds),
         },
         relations: ['calendar'],
@@ -50,6 +53,7 @@ export class EventService {
     return await this.eventRepository.find({
       where: {
         projectId: projectId,
+        userId: userId,
       },
       relations: ['calendar'],
       order: { startDate: 'ASC' }
