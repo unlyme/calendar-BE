@@ -82,6 +82,10 @@ export class ProjectService {
         text: "Holidays",
         color: "#F68896",
       },
+      {
+        text: "Personal",
+        color: "#61AEE6",
+      },
     ];
 
     for (const calendar of defaultCalendars) {
