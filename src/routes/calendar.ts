@@ -104,7 +104,7 @@ export const calendarRoutes = () => {
   router.post('/', deserializeUser, calendarController.create);
   router.put('/:id', deserializeUser, calendarController.update);
   router.delete('/:id', deserializeUser, calendarController.delete);
-  router.post('/:id', deserializeUser, calendarController.transfer);
+  router.post('/:id/transfer', deserializeUser, calendarController.transfer);
 
   return router;
 }

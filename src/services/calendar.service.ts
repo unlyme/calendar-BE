@@ -81,7 +81,7 @@ export class CalendarService {
     return res;
   };
 
-  public transfer = async (id: number) => {
+  public transfer = async (id: number, projectId: number) => {
     const events = await this.eventRepository.find({
       where: {
         calendarId: id,
@@ -90,7 +90,8 @@ export class CalendarService {
 
     const eventIds = events.map((e) => e.id);
     const transferCalendar = await this.calendarRepository.findOne({
-      text: CALENDAR_TEXT.PERSONAL
+      projectId: projectId,
+      text: CALENDAR_TEXT.PERSONAL,
     });
 
     await this.eventRepository.update(
@@ -98,9 +99,12 @@ export class CalendarService {
         id: In(eventIds),
       },
       {
-        calendarId: transferCalendar?.id
+        calendarId: transferCalendar?.id,
+        color: transferCalendar?.color
       }
     )
+
+    await this.calendarRepository.delete(id);
 
     return true;
   }
