@@ -75,19 +75,19 @@ export class ProjectService {
     // create default Calendar for project
     const defaultCalendars = [
       {
-        text: "Birthday",
+        text: CALENDAR_TEXT.BIRTHDAYS,
         color: "#D2FB9E",
       },
       {
-        text: "Holidays",
+        text: CALENDAR_TEXT.HOLIDAYS,
         color: "#F68896",
       },
       {
-        text: "Personal",
+        text: CALENDAR_TEXT.PERSONAL,
         color: "#61AEE6",
       },
       {
-        text: "Meeting",
+        text: CALENDAR_TEXT.MEETING,
         color: "#6D4BCE",
       },
     ];

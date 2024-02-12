@@ -99,11 +99,12 @@ export const calendarRoutes = () => {
    *       500:
    *         description: Some server error
    */
-  
+
   router.get('/', deserializeUser, calendarController.index);
   router.post('/', deserializeUser, calendarController.create);
   router.put('/:id', deserializeUser, calendarController.update);
   router.delete('/:id', deserializeUser, calendarController.delete);
-  
+  router.post('/:id', deserializeUser, calendarController.transfer);
+
   return router;
 }

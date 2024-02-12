@@ -56,4 +56,14 @@ export class CalendarController {
       return res.status(400).json({ error: error.message });
     }
   }
+
+  public transfer = async (req: Request, res: Response) => {
+    try {
+      const id = req['params']['id'];
+      const transfered = await this.calendarService.transfer(Number(id));
+      return res.status(200).json({ transfered })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message })
+    }
+  }
 }

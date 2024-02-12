@@ -2,6 +2,7 @@ import { In, getConnection } from "typeorm";
 import Calendar from "../database/entities/calendar.entity";
 import { CalendarRepository } from "../repository/calendar.repository";
 import { EventRepository } from "../repository/event.repository";
+import { CALENDAR_TEXT } from "../database/enums/calendar.enum";
 
 export class CalendarService {
   private calendarRepository: CalendarRepository;
@@ -79,4 +80,28 @@ export class CalendarService {
     const res = await this.calendarRepository.delete(id);
     return res;
   };
+
+  public transfer = async (id: number) => {
+    const events = await this.eventRepository.find({
+      where: {
+        calendarId: id,
+      },
+    });
+
+    const eventIds = events.map((e) => e.id);
+    const transferCalendar = await this.calendarRepository.findOne({
+      text: CALENDAR_TEXT.PERSONAL
+    });
+
+    await this.eventRepository.update(
+      {
+        id: In(eventIds),
+      },
+      {
+        calendarId: transferCalendar?.id
+      }
+    )
+
+    return true;
+  }
 }

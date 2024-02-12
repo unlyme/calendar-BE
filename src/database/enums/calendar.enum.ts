@@ -9,4 +9,5 @@ export enum CALENDAR_TEXT {
   PUBLIC = 'Public',
   BIRTHDAYS = 'Birthdays',
   HOLIDAYS = 'Holidays',
+  MEETING = 'Meeting'
 }
