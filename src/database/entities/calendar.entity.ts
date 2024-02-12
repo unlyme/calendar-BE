@@ -17,6 +17,9 @@ export class Calendar extends BaseEntity {
   @Column({ default: true })
   public active: boolean = true;
 
+  @Column({ name: 'is_default', default: false })
+  public isDefault: boolean = false;
+
   @ManyToOne(() => User, (user) => user.calendars, { nullable: true })
   @JoinColumn({ name: 'user_id' })
   public user: User;

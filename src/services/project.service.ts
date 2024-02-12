@@ -76,19 +76,21 @@ export class ProjectService {
     const defaultCalendars = [
       {
         text: CALENDAR_TEXT.BIRTHDAYS,
-        color: "#D2FB9E",
+        color: "#D2FB9E"
       },
       {
         text: CALENDAR_TEXT.HOLIDAYS,
-        color: "#F68896",
+        color: "#F68896"
       },
       {
         text: CALENDAR_TEXT.PERSONAL,
         color: "#61AEE6",
+        isDefault: true
       },
       {
         text: CALENDAR_TEXT.MEETING,
         color: "#6D4BCE",
+        isDefault: true
       },
     ];
 
