@@ -26,4 +26,18 @@ export class MeetingRoom extends BaseEntity {
 
   @Column({ name: 'project_id' })
   public projectId: number;
+
+  @Column({
+    name: 'start_at',
+    type: "timestamp with time zone",
+    nullable: true // null if it is an instant meeting
+  })
+  public startAt: string;
+
+  @Column({
+    name: 'end_at',
+    type: "timestamp with time zone",
+    nullable: true
+  })
+  public endAt: string;
 }
