@@ -11,6 +11,7 @@ import { PROJECT_STATUS } from '../enums/project.enum';
 import { Service } from './service.entity';
 import { Event } from './event.entity';
 import Calendar from './calendar.entity';
+import { MeetingRoom } from './meetingRoom.entity';
 
 @Entity({
   name: 'projects'
@@ -61,4 +62,7 @@ export class Project extends BaseEntity {
 
   @OneToMany(() => Calendar, (calendar) => calendar.project)
   calendars: Calendar[];
+
+  @OneToMany(() => MeetingRoom, (meetingRoom) => meetingRoom.user)
+  meetingRooms: MeetingRoom[];
 }
