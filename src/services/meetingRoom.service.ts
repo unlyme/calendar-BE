@@ -10,6 +10,8 @@ export class MeetingRoomService {
   }
 
   public create = async (payload: MeetingRoom) => {
-    return await this.meetingRoomRepository.save(payload);
+    return await this.meetingRoomRepository.save(
+      this.meetingRoomRepository.create(payload)
+    );
   }
 }
