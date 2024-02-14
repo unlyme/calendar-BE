@@ -10,6 +10,7 @@ import { sectionRoutes } from "./routes/section";
 import { unitRoutes } from "./routes/unit";
 import { adminRoutes } from './routes/admin';
 import { projectRoutes } from './routes/project';
+import { meetingRoomRoutes } from './routes/meetingRoom';
 const swagger = require("./utils/swagger");
 require('dotenv').config();
 
@@ -55,6 +56,7 @@ class Server {
     this.app.use(`/projects`, projectRoutes());
     this.app.use(`/auth`, authRoutes());
     this.app.use('/admin', adminRoutes());
+    this.app.use('/meetingRooms', meetingRoomRoutes());
   }
 
   /**
