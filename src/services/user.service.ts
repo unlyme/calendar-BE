@@ -1,4 +1,4 @@
-import { Between, ILike, Like, getConnection } from "typeorm";
+import { Between, ILike, In, Like, getConnection } from "typeorm";
 import { User } from "../database/entities/user.entity";
 import { UserRepository } from "../repository/user.repository";
 import { signJwt } from "../utils/jwt";
@@ -81,6 +81,12 @@ export class UserService {
   public findUserByEmail = async (email: string) => {
     return await this.userRepository.findOne({ email });
   };
+
+  public findUserByIds = async (ids: number[]) => {
+    return await this.userRepository.find({
+      id: In(ids)
+    })
+  }
 
   public create = async (user: Partial<User>) => {
     return await this.userRepository.save(this.userRepository.create(user));
