@@ -54,11 +54,11 @@ export class MeetingRoom extends BaseEntity {
   @JoinTable({
     name: 'meeting_room_attendees',
     joinColumn: {
-      name: "attendee_id",
+      name: "meeting_room_id",
       referencedColumnName: "id",
     },
     inverseJoinColumn: {
-      name: "meeting_room_id",
+      name: "attendee_id",
       referencedColumnName: "id",
     },
   })
