@@ -56,7 +56,18 @@ export class User extends BaseEntity {
   @OneToMany(() => Task, (task) => task.user)
   tasks: Task[];
 
-  @OneToMany(() => MeetingRoom, (meetingRoom) => meetingRoom.user)
+  @ManyToMany(() => MeetingRoom, (meetingRoom) => meetingRoom.attendees)
+  @JoinTable({
+    name: 'meeting_room_attendees',
+    joinColumn: {
+      name: "meeting_room_id",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "attendee_id",
+      referencedColumnName: "id",
+    },
+  })
   meetingRooms: MeetingRoom[];
 
   @ManyToMany(() => Project, (project) => project.users)

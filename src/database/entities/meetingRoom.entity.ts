@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { BeforeInsert, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from "typeorm";
 import BaseEntity from "./base.entity";
 import { User } from "./user.entity";
 import { Project } from "./project.entity";
@@ -49,6 +49,20 @@ export class MeetingRoom extends BaseEntity {
     nullable: true,
   })
   public endAt: string;
+
+  @ManyToMany(() => User, (attendee) => attendee.meetingRooms)
+  @JoinTable({
+    name: 'meeting_room_attendees',
+    joinColumn: {
+      name: "attendee_id",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "meeting_room_id",
+      referencedColumnName: "id",
+    },
+  })
+  attendees: User[];
 
   @BeforeInsert()
   async hashPassword() {
