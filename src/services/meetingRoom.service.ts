@@ -21,8 +21,9 @@ export class MeetingRoomService {
     payload.attendees = [];
 
     const newMeetRoom = await this.meetingRoomRepository.save(
-      payload
+      this.meetingRoomRepository.create(payload)
     );
+
     const attendees = await this.userRepository.findByIds(attendeeIds);
 
     for (const attendee of attendees) {

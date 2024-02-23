@@ -50,6 +50,9 @@ export class MeetingRoom extends BaseEntity {
   })
   public endAt: string;
 
+  @Column({ name: 'timezone', nullable: true })
+  public timezone: string;
+
   @ManyToMany(() => User, (attendee) => attendee.meetingRooms)
   @JoinTable({
     name: 'meeting_room_attendees',
