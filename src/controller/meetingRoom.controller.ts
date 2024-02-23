@@ -38,4 +38,16 @@ export class MeetingRoomController {
       return res.status(400).json({ error: error.message });
     }
   };
+
+  public verifyPassword = async (req: Request, res: Response) => {
+    try {
+      const params = req["params"];
+      const payload = req["body"];
+      const { id } = params;
+      const boolFlag = await this.meetingRoomService.verifyPassword(parseInt(id), payload.password)
+      return res.status(200).json({ isValid: boolFlag });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
 }
