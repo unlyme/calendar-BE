@@ -41,4 +41,12 @@ export class MeetingRoomService {
 
     return meetRoom;
   }
+
+  public getMeetingRoomByRoomUid = async (roomUid: string) => {
+    const room = await this.meetingRoomRepository.findOne({
+      roomUid: roomUid,
+    });
+
+    return room;
+  }
 }

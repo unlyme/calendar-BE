@@ -7,6 +7,7 @@ export const meetingRoomRoutes = () => {
   const meetingRoomController = new MeetingRoomController();
 
   router.post('/', deserializeUser, meetingRoomController.create);
+  router.get('/roomUid/:roomUid', meetingRoomController.getMeetingRoomByRoomUid);
 
   return router;
 }
