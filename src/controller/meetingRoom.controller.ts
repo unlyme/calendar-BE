@@ -10,6 +10,24 @@ export class MeetingRoomController {
     this.meetingRoomService = new MeetingRoomService();
   }
 
+  public index = async (req: Request, res: Response) => {
+    try {
+      const query = req["query"];
+      const user = res["locals"]["user"] as User;
+      const { from, to, projectId } = query;
+
+      const meetingRooms = await this.meetingRoomService.index(user.id, {
+        from: from as string,
+        to: to as string,
+        projectId: projectId ? parseInt(projectId?.toString()) : undefined,
+      });
+
+      return res.status(200).json({ meetingRooms: meetingRooms });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  };
+
   public create = async (req: Request, res: Response) => {
     try {
       const payload = req["body"] as MeetingRoom;
@@ -44,10 +62,13 @@ export class MeetingRoomController {
       const params = req["params"];
       const payload = req["body"];
       const { id } = params;
-      const boolFlag = await this.meetingRoomService.verifyPassword(parseInt(id), payload.password)
+      const boolFlag = await this.meetingRoomService.verifyPassword(
+        parseInt(id),
+        payload.password
+      );
       return res.status(200).json({ isValid: boolFlag });
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
-  }
+  };
 }
