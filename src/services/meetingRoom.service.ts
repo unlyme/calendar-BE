@@ -30,23 +30,31 @@ export class MeetingRoomService {
   ) => {
     const query = this.meetingRoomAttendeeRepository
       .createQueryBuilder("meeting_room_attendees")
-      .where("meeting_room_attendees.attendee_id = :userId", { userId });
+      .where("meeting_room_attendees.attendeeId = :userId", { userId });
 
-    const meetingRoomAttendees = await query.select(['id', 'meeting_room_id']).getMany();
-    const ids = meetingRoomAttendees.map(mra => mra.meetingRoomId);
+    const meetingRoomAttendees = await query
+      .getMany();
+    const ids = meetingRoomAttendees.map((mra) => mra.meetingRoomId);
 
-    const mQuery = this.meetingRoomRepository.createQueryBuilder("meeting_rooms").whereInIds(ids);
+    let firstQueryStr = 'meeting_rooms.userId = :userId';
 
+    if (ids.length > 0) {
+      firstQueryStr = firstQueryStr + ' OR meeting_rooms.id IN (:...ids)'
+    }
+
+    const mQuery = this.meetingRoomRepository
+      .createQueryBuilder("meeting_rooms")
+      .where(firstQueryStr, { ids: [...ids], userId: userId })
     if (filter.projectId) {
-      mQuery.where("meeting_rooms.project_id = :projectId", {
+      mQuery.andWhere("meeting_rooms.project_id = :projectId", {
         projectId: filter.projectId,
       });
     }
     if (filter.from) {
-      mQuery.where("meeting_rooms.start_at >= :from", { from: filter.from });
+      mQuery.andWhere("meeting_rooms.start_at >= :from", { from: filter.from });
     }
     if (filter.to) {
-      mQuery.where("meeting_rooms.start_at < :to", { to: filter.to });
+      mQuery.andWhere("meeting_rooms.start_at < :to", { to: filter.to });
     }
 
     const meetingRooms = await mQuery

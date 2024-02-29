@@ -22,7 +22,7 @@ export class MeetingRoom extends BaseEntity {
   @Exclude()
   password: string;
 
-  @ManyToOne(() => User, (user) => user.notes)
+  @ManyToOne(() => User, (user) => user.meetingRooms)
   @JoinColumn({ name: "user_id" })
   public user: User;
 
