@@ -85,24 +85,48 @@ export class MeetingRoomService {
 
     const mRecurringMeetings = [];
 
-    for (const recurringMeeting of recurringMeetings) {
-      mRecurringMeetings.push(recurringMeeting);
-      if (recurringMeeting.frecency === FRECENCY.WEEKLY) {
-        for (let i = 1; i <= 4; i++) {
-          mRecurringMeetings.push({
-            ...recurringMeeting,
-            startAt: dayjs(recurringMeeting.startAt).add(7 * i, 'day').format(),
-            endAt: recurringMeeting.endAt ? dayjs(recurringMeeting.endAt).add(7 * i, 'day').format() : null
-          })
+    if (!filter.to) {
+      for (const recurringMeeting of recurringMeetings) {
+        mRecurringMeetings.push(recurringMeeting);
+        if (recurringMeeting.frecency === FRECENCY.WEEKLY) {
+          for (let i = 1; i <= 4; i++) {
+            mRecurringMeetings.push({
+              ...recurringMeeting,
+              startAt: dayjs(recurringMeeting.startAt).add(7 * i, 'day').format(),
+              endAt: recurringMeeting.endAt ? dayjs(recurringMeeting.endAt).add(7 * i, 'day').format() : null
+            })
+          }
+        }
+        if (recurringMeeting.frecency === FRECENCY.DAILY) {
+          for (let i = 1; i <= 7; i++) {
+            mRecurringMeetings.push({
+              ...recurringMeeting,
+              startAt: dayjs(recurringMeeting.startAt).add(1 * i, 'day').format(),
+              endAt: recurringMeeting.endAt ? dayjs(recurringMeeting.endAt).add(1 * i, 'day').format() : null
+            })
+          }
         }
       }
-      if (recurringMeeting.frecency === FRECENCY.DAILY) {
-        for (let i = 1; i <= 7; i++) {
-          mRecurringMeetings.push({
-            ...recurringMeeting,
-            startAt: dayjs(recurringMeeting.startAt).add(1 * i, 'day').format(),
-            endAt: recurringMeeting.endAt ? dayjs(recurringMeeting.endAt).add(1 * i, 'day').format() : null
-          })
+    }
+    if (!filter.from) {
+      for (const recurringMeeting of recurringMeetings) {
+        if (recurringMeeting.frecency === FRECENCY.WEEKLY) {
+          for (let i = 1; i <= 4; i++) {
+            mRecurringMeetings.push({
+              ...recurringMeeting,
+              startAt: dayjs(recurringMeeting.startAt).subtract(7 * i, 'day').format(),
+              endAt: recurringMeeting.endAt ? dayjs(recurringMeeting.endAt).subtract(7 * i, 'day').format() : null
+            })
+          }
+        }
+        if (recurringMeeting.frecency === FRECENCY.DAILY) {
+          for (let i = 1; i <= 7; i++) {
+            mRecurringMeetings.push({
+              ...recurringMeeting,
+              startAt: dayjs(recurringMeeting.startAt).subtract(1 * i, 'day').format(),
+              endAt: recurringMeeting.endAt ? dayjs(recurringMeeting.endAt).subtract(1 * i, 'day').format() : null
+            })
+          }
         }
       }
     }
