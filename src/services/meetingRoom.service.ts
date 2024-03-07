@@ -1,8 +1,10 @@
 import { getConnection } from "typeorm";
 import { MeetingRoomRepository } from "../repository/meetingRoom.repository";
-import { MeetingRoom } from "../database/entities/meetingRoom.entity";
+import { FRECENCY, MeetingRoom } from "../database/entities/meetingRoom.entity";
 import { UserRepository } from "../repository/user.repository";
 import { MeetingRoomAttendeeRepository } from "../repository/meetingRoomAttendee.repository";
+import dayjs from "dayjs";
+import { orderBy } from 'lodash';
 
 export class MeetingRoomService {
   private meetingRoomRepository: MeetingRoomRepository;
@@ -36,7 +38,7 @@ export class MeetingRoomService {
     const ids = meetingRoomAttendees.map((mra) => mra.meetingRoomId);
 
     let firstQueryStr =
-      'meeting_rooms.userId = :userId AND meeting_rooms.frecency = "ONCE"';
+      "meeting_rooms.userId = :userId AND meeting_rooms.frecency = 'ONCE'";
 
     if (ids.length > 0) {
       firstQueryStr = firstQueryStr + " OR meeting_rooms.id IN (:...ids)";
@@ -62,7 +64,7 @@ export class MeetingRoomService {
       .getMany();
 
     let secondQueryStr =
-      'meeting_rooms.userId = :userId AND meeting_rooms.frecency != "ONCE"';
+      "meeting_rooms.userId = :userId AND meeting_rooms.frecency != 'ONCE'";
 
     if (ids.length > 0) {
       secondQueryStr = secondQueryStr + " OR meeting_rooms.id IN (:...ids)";
@@ -77,7 +79,38 @@ export class MeetingRoomService {
       });
     }
 
-    return meetingRooms;
+    const recurringMeetings = await recurringQuery
+      .orderBy("meeting_rooms.start_at", "DESC")
+      .getMany();
+
+    const mRecurringMeetings = [];
+
+    for (const recurringMeeting of recurringMeetings) {
+      mRecurringMeetings.push(recurringMeeting);
+      if (recurringMeeting.frecency === FRECENCY.WEEKLY) {
+        for (let i = 1; i <= 4; i++) {
+          mRecurringMeetings.push({
+            ...recurringMeeting,
+            startAt: dayjs(recurringMeeting.startAt).add(7 * i, 'day').format(),
+            endAt: recurringMeeting.endAt ? dayjs(recurringMeeting.endAt).add(7 * i, 'day').format() : null
+          })
+        }
+      }
+      if (recurringMeeting.frecency === FRECENCY.DAILY) {
+        for (let i = 1; i <= 7; i++) {
+          mRecurringMeetings.push({
+            ...recurringMeeting,
+            startAt: dayjs(recurringMeeting.startAt).add(1 * i, 'day').format(),
+            endAt: recurringMeeting.endAt ? dayjs(recurringMeeting.endAt).add(1 * i, 'day').format() : null
+          })
+        }
+      }
+    }
+
+    const combinned = [...meetingRooms, ...mRecurringMeetings];
+    const ordered = orderBy(combinned, 'startAt', 'desc')
+
+    return ordered;
   };
 
   public create = async (payload: MeetingRoom) => {
