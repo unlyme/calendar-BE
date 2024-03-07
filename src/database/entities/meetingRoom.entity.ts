@@ -5,6 +5,12 @@ import { Project } from "./project.entity";
 import { Exclude, instanceToPlain } from "class-transformer";
 import bcrypt from "bcryptjs";
 
+export enum FRECENCY {
+  ONCE = 'ONCE',
+  DAILY = 'DAILY',
+  WEEKLY = 'WEEKLY'
+}
+
 @Entity({
   name: "meeting_rooms",
 })
@@ -21,6 +27,12 @@ export class MeetingRoom extends BaseEntity {
   })
   @Exclude()
   password: string;
+
+  @Column({
+    name: 'frecency',
+    nullable: true
+  })
+  frecency: FRECENCY
 
   @ManyToOne(() => User, (user) => user.meetingRooms)
   @JoinColumn({ name: "user_id" })

@@ -32,19 +32,19 @@ export class MeetingRoomService {
       .createQueryBuilder("meeting_room_attendees")
       .where("meeting_room_attendees.attendeeId = :userId", { userId });
 
-    const meetingRoomAttendees = await query
-      .getMany();
+    const meetingRoomAttendees = await query.getMany();
     const ids = meetingRoomAttendees.map((mra) => mra.meetingRoomId);
 
-    let firstQueryStr = 'meeting_rooms.userId = :userId';
+    let firstQueryStr =
+      'meeting_rooms.userId = :userId AND meeting_rooms.frecency = "ONCE"';
 
     if (ids.length > 0) {
-      firstQueryStr = firstQueryStr + ' OR meeting_rooms.id IN (:...ids)'
+      firstQueryStr = firstQueryStr + " OR meeting_rooms.id IN (:...ids)";
     }
 
     const mQuery = this.meetingRoomRepository
       .createQueryBuilder("meeting_rooms")
-      .where(firstQueryStr, { ids: [...ids], userId: userId })
+      .where(firstQueryStr, { ids: [...ids], userId: userId });
     if (filter.projectId) {
       mQuery.andWhere("meeting_rooms.project_id = :projectId", {
         projectId: filter.projectId,
@@ -60,6 +60,22 @@ export class MeetingRoomService {
     const meetingRooms = await mQuery
       .orderBy("meeting_rooms.start_at", "DESC")
       .getMany();
+
+    let secondQueryStr =
+      'meeting_rooms.userId = :userId AND meeting_rooms.frecency != "ONCE"';
+
+    if (ids.length > 0) {
+      secondQueryStr = secondQueryStr + " OR meeting_rooms.id IN (:...ids)";
+    }
+
+    const recurringQuery = this.meetingRoomRepository
+      .createQueryBuilder("meeting_rooms")
+      .where(secondQueryStr, { ids: [...ids], userId: userId });
+    if (filter.projectId) {
+      recurringQuery.andWhere("meeting_rooms.project_id = :projectId", {
+        projectId: filter.projectId,
+      });
+    }
 
     return meetingRooms;
   };
