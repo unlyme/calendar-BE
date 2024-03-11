@@ -4,7 +4,7 @@ import { FRECENCY, MeetingRoom } from "../database/entities/meetingRoom.entity";
 import { UserRepository } from "../repository/user.repository";
 import { MeetingRoomAttendeeRepository } from "../repository/meetingRoomAttendee.repository";
 import dayjs from "dayjs";
-import { orderBy } from 'lodash';
+import { orderBy } from "lodash";
 
 export class MeetingRoomService {
   private meetingRoomRepository: MeetingRoomRepository;
@@ -92,47 +92,73 @@ export class MeetingRoomService {
           for (let i = 1; i <= 4; i++) {
             mRecurringMeetings.push({
               ...recurringMeeting,
-              startAt: dayjs(recurringMeeting.startAt).add(7 * i, 'day').format(),
-              endAt: recurringMeeting.endAt ? dayjs(recurringMeeting.endAt).add(7 * i, 'day').format() : null
-            })
+              startAt: dayjs(recurringMeeting.startAt)
+                .add(7 * i, "day")
+                .format(),
+              endAt: recurringMeeting.endAt
+                ? dayjs(recurringMeeting.endAt)
+                    .add(7 * i, "day")
+                    .format()
+                : null,
+            });
           }
         }
         if (recurringMeeting.frecency === FRECENCY.DAILY) {
           for (let i = 1; i <= 7; i++) {
             mRecurringMeetings.push({
               ...recurringMeeting,
-              startAt: dayjs(recurringMeeting.startAt).add(1 * i, 'day').format(),
-              endAt: recurringMeeting.endAt ? dayjs(recurringMeeting.endAt).add(1 * i, 'day').format() : null
-            })
+              startAt: dayjs(recurringMeeting.startAt)
+                .add(1 * i, "day")
+                .format(),
+              endAt: recurringMeeting.endAt
+                ? dayjs(recurringMeeting.endAt)
+                    .add(1 * i, "day")
+                    .format()
+                : null,
+            });
           }
         }
       }
     }
     if (!filter.from) {
       for (const recurringMeeting of recurringMeetings) {
-        if (recurringMeeting.frecency === FRECENCY.WEEKLY) {
-          for (let i = 1; i <= 4; i++) {
-            mRecurringMeetings.push({
-              ...recurringMeeting,
-              startAt: dayjs(recurringMeeting.startAt).subtract(7 * i, 'day').format(),
-              endAt: recurringMeeting.endAt ? dayjs(recurringMeeting.endAt).subtract(7 * i, 'day').format() : null
-            })
+        if (dayjs(recurringMeeting.startAt).isBefore(dayjs())) {
+          if (recurringMeeting.frecency === FRECENCY.WEEKLY) {
+            for (let i = 1; i <= 4; i++) {
+              mRecurringMeetings.push({
+                ...recurringMeeting,
+                startAt: dayjs(recurringMeeting.startAt)
+                  .subtract(7 * i, "day")
+                  .format(),
+                endAt: recurringMeeting.endAt
+                  ? dayjs(recurringMeeting.endAt)
+                      .subtract(7 * i, "day")
+                      .format()
+                  : null,
+              });
+            }
           }
-        }
-        if (recurringMeeting.frecency === FRECENCY.DAILY) {
-          for (let i = 1; i <= 7; i++) {
-            mRecurringMeetings.push({
-              ...recurringMeeting,
-              startAt: dayjs(recurringMeeting.startAt).subtract(1 * i, 'day').format(),
-              endAt: recurringMeeting.endAt ? dayjs(recurringMeeting.endAt).subtract(1 * i, 'day').format() : null
-            })
+          if (recurringMeeting.frecency === FRECENCY.DAILY) {
+            for (let i = 1; i <= 7; i++) {
+              mRecurringMeetings.push({
+                ...recurringMeeting,
+                startAt: dayjs(recurringMeeting.startAt)
+                  .subtract(1 * i, "day")
+                  .format(),
+                endAt: recurringMeeting.endAt
+                  ? dayjs(recurringMeeting.endAt)
+                      .subtract(1 * i, "day")
+                      .format()
+                  : null,
+              });
+            }
           }
         }
       }
     }
 
     const combinned = [...meetingRooms, ...mRecurringMeetings];
-    const ordered = orderBy(combinned, 'startAt', 'desc')
+    const ordered = orderBy(combinned, "startAt", "desc");
 
     return ordered;
   };
