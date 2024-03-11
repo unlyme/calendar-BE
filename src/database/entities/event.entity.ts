@@ -42,6 +42,12 @@ export class Event extends BaseEntity {
   })
   public allDay: boolean;
 
+  @Column({
+    name: 'room_uid',
+    nullable: true
+  })
+  public roomUid: string;
+
   @Column()
   public text: string;
 
