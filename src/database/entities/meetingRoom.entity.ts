@@ -65,6 +65,12 @@ export class MeetingRoom extends BaseEntity {
   @Column({ name: 'timezone', nullable: true })
   public timezone: string;
 
+  @Column({ name: 'is_enabled_lobby', nullable: true })
+  public isEnabledLobby: boolean;
+
+  @Column({ name: 'is_enabled_e2ee', nullable: true })
+  public isEnabledE2EE: boolean;
+
   @ManyToMany(() => User, (attendee) => attendee.meetingRooms)
   @JoinTable({
     name: 'meeting_room_attendees',
