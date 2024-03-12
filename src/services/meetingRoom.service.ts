@@ -209,10 +209,7 @@ export class MeetingRoomService {
 
   public verifyPassword = async (roomId: number, password: string) => {
     const room = await this.meetingRoomRepository.findOne(roomId);
-    const boolFlag = await MeetingRoom.comparePasswords(
-      password,
-      room?.password!
-    );
+    const boolFlag = password === room?.password;
     return boolFlag;
   };
 }

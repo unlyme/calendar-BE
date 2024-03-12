@@ -25,7 +25,6 @@ export class MeetingRoom extends BaseEntity {
     name: "password",
     nullable: true,
   })
-  @Exclude()
   password: string;
 
   @Column({
@@ -74,6 +73,9 @@ export class MeetingRoom extends BaseEntity {
   @Column({ name: 'event_id', nullable: true })
   public eventId: number;
 
+  @Column({ name: 'is_archived', nullable: true, default: false })
+  public isArchived: boolean;
+
   @ManyToMany(() => User, (attendee) => attendee.meetingRooms)
   @JoinTable({
     name: 'meeting_room_attendees',
@@ -87,20 +89,6 @@ export class MeetingRoom extends BaseEntity {
     },
   })
   attendees: User[];
-
-  @BeforeInsert()
-  async hashPassword() {
-    if (this.password) {
-      this.password = await bcrypt.hash(this.password, 12);
-    }
-  }
-
-  static async comparePasswords(
-    candidatePassword: string,
-    hashedPassword: string
-  ) {
-    return await bcrypt.compare(candidatePassword, hashedPassword);
-  }
 
   toJSON() {
     return instanceToPlain(this);

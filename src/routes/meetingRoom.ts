@@ -10,7 +10,7 @@ export const meetingRoomRoutes = () => {
   router.post('/', deserializeUser, meetingRoomController.create);
   router.get('/roomUid/:roomUid', meetingRoomController.getMeetingRoomByRoomUid);
   router.post('/:id/verify-password', meetingRoomController.verifyPassword);
-  router.put('/:id', meetingRoomController.update);
+  router.put('/:id', deserializeUser, meetingRoomController.update);
 
 
   return router;
