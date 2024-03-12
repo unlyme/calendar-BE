@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a2999e9-eaf6-451d-8960-ae19a4d612d7" name="Changes" comment="feat: api verify meeting room password" />
+    <list default="true" id="0a2999e9-eaf6-451d-8960-ae19a4d612d7" name="Changes" comment="feat: add roomUid to events">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,23 +32,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "E:/workspace/scheduler-node/src/controller",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/workspace/scheduler-node/src/controller&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\workspace\scheduler-node\src\controller" />
@@ -123,6 +125,16 @@
       <workItem from="1700543895462" duration="14000" />
       <workItem from="1700543998433" duration="18000" />
       <workItem from="1700632862765" duration="76000" />
+      <workItem from="1709122571340" duration="160000" />
+      <workItem from="1709122802235" duration="17000" />
+      <workItem from="1709182449814" duration="33000" />
+      <workItem from="1709266309811" duration="38000" />
+      <workItem from="1709266353770" duration="1000" />
+      <workItem from="1709537734703" duration="151000" />
+      <workItem from="1709707780315" duration="738000" />
+      <workItem from="1709787481707" duration="117000" />
+      <workItem from="1709878622005" duration="106000" />
+      <workItem from="1710143116208" duration="433000" />
     </task>
     <task id="LOCAL-00001" summary="fix: fixed api issue">
       <option name="closed" value="true" />
@@ -308,7 +320,79 @@
       <option name="project" value="LOCAL" />
       <updated>1708678258225</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="feat: update logic to get owned and attend meeting">
+      <option name="closed" value="true" />
+      <created>1709122607663</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1709122607663</updated>
+    </task>
+    <task id="LOCAL-00025" summary="README: add deployment steps">
+      <option name="closed" value="true" />
+      <created>1709122643803</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1709122643803</updated>
+    </task>
+    <task id="LOCAL-00026" summary="feat: update logic to get owned and attend meeting">
+      <option name="closed" value="true" />
+      <created>1709122728795</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1709122728795</updated>
+    </task>
+    <task id="LOCAL-00027" summary="feat: update logic to get owned and attend meeting">
+      <option name="closed" value="true" />
+      <created>1709182459349</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1709182459349</updated>
+    </task>
+    <task id="LOCAL-00028" summary="feat: add frecency to meeting rooms">
+      <option name="closed" value="true" />
+      <created>1709787561765</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1709787561765</updated>
+    </task>
+    <task id="LOCAL-00029" summary="feat: add meeting for recurring meeting rooms">
+      <option name="closed" value="true" />
+      <created>1709787574359</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1709787574359</updated>
+    </task>
+    <task id="LOCAL-00030" summary="chore: fix side from recurring meetings">
+      <option name="closed" value="true" />
+      <created>1709787582502</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1709787582502</updated>
+    </task>
+    <task id="LOCAL-00031" summary="feat: fetch schedule meetings">
+      <option name="closed" value="true" />
+      <created>1710143476230</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1710143476230</updated>
+    </task>
+    <task id="LOCAL-00032" summary="feat: add roomUid to events">
+      <option name="closed" value="true" />
+      <created>1710143488216</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1710143488216</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -326,11 +410,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix: fixed api issue" />
-    <MESSAGE value="feat: setup admin module" />
-    <MESSAGE value="feat: admin auth login routes" />
-    <MESSAGE value="feat: add logout and refresh admin api" />
-    <MESSAGE value="feat: admin users api" />
     <MESSAGE value="feat: add staffs api" />
     <MESSAGE value="feat: update Staff auth" />
     <MESSAGE value="feat: add staff apis" />
@@ -349,6 +428,13 @@
     <MESSAGE value="feat: update logic to assign and unassign service" />
     <MESSAGE value="feat: api get room by room id" />
     <MESSAGE value="feat: api verify meeting room password" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: api verify meeting room password" />
+    <MESSAGE value="README: add deployment steps" />
+    <MESSAGE value="feat: update logic to get owned and attend meeting" />
+    <MESSAGE value="feat: add frecency to meeting rooms" />
+    <MESSAGE value="feat: add meeting for recurring meeting rooms" />
+    <MESSAGE value="chore: fix side from recurring meetings" />
+    <MESSAGE value="feat: fetch schedule meetings" />
+    <MESSAGE value="feat: add roomUid to events" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add roomUid to events" />
   </component>
 </project>

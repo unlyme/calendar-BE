@@ -190,6 +190,15 @@ export class MeetingRoomService {
     return meetRoom;
   };
 
+  public update = async (id: number, payload: Partial<MeetingRoom>) => {
+    const updateResult = await this.meetingRoomRepository.update(id, payload);
+    if (updateResult) {
+      const updatedMeeting = await this.meetingRoomRepository.findOne(id);
+      return updatedMeeting;
+    }
+    return undefined;
+  }
+
   public getMeetingRoomByRoomUid = async (roomUid: string) => {
     const room = await this.meetingRoomRepository.findOne({
       roomUid: roomUid,

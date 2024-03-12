@@ -71,6 +71,9 @@ export class MeetingRoom extends BaseEntity {
   @Column({ name: 'is_enabled_e2ee', nullable: true })
   public isEnabledE2EE: boolean;
 
+  @Column({ name: 'event_id', nullable: true })
+  public eventId: number;
+
   @ManyToMany(() => User, (attendee) => attendee.meetingRooms)
   @JoinTable({
     name: 'meeting_room_attendees',

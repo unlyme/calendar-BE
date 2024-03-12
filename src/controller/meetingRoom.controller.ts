@@ -40,6 +40,17 @@ export class MeetingRoomController {
     }
   };
 
+  public update = async (req: Request, res: Response) => {
+    try {
+      const payload = req["body"] as Partial<MeetingRoom>;
+      const { id } = req["params"];
+      const updatedMeetingRoom = await this.meetingRoomService.update(parseInt(id), payload);
+      return res.status(200).json({ meetingRoom: updatedMeetingRoom });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
   public getMeetingRoomByRoomUid = async (req: Request, res: Response) => {
     try {
       const params = req["params"];
