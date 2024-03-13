@@ -237,6 +237,10 @@ export class MeetingRoomService {
     const recurringData = [];
 
     for (const meetingRoom of mMeetingRooms) {
+      if (meetingRoom.frecency === FRECENCY.ONCE) {
+        recurringData.push(meetingRoom);
+      }
+
       if (meetingRoom.frecency === FRECENCY.WEEKLY) {
         let startAt = meetingRoom.startAt;
         let endAt = meetingRoom.endAt;
