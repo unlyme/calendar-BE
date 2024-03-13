@@ -11,7 +11,9 @@ export const meetingRoomRoutes = () => {
   router.get('/roomUid/:roomUid', meetingRoomController.getMeetingRoomByRoomUid);
   router.post('/:id/verify-password', meetingRoomController.verifyPassword);
   router.put('/:id', deserializeUser, meetingRoomController.update);
-
+  router.get('/get-history', deserializeUser, meetingRoomController.getHistory);
+  router.get('/get-upcoming', deserializeUser, meetingRoomController.getUpcoming);
+  router.delete('/:id', deserializeUser, meetingRoomController.delete);
 
   return router;
 }

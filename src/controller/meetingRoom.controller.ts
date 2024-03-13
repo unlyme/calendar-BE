@@ -28,6 +28,40 @@ export class MeetingRoomController {
     }
   };
 
+  public getHistory = async (req: Request, res: Response) => {
+    try {
+      const query = req["query"];
+      const user = res["locals"]["user"] as User;
+      const { to, projectId } = query;
+
+      const meetingRooms = await this.meetingRoomService.getHistory(user.id, {
+        to: to as string,
+        projectId: projectId ? parseInt(projectId?.toString()) : undefined,
+      });
+
+      return res.status(200).json({ meetingRooms: meetingRooms });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  };
+
+  public getUpcoming = async (req: Request, res: Response) => {
+    try {
+      const query = req["query"];
+      const user = res["locals"]["user"] as User;
+      const { from, projectId } = query;
+
+      const meetingRooms = await this.meetingRoomService.getUpcoming(user.id, {
+        from: from as string,
+        projectId: projectId ? parseInt(projectId?.toString()) : undefined,
+      });
+
+      return res.status(200).json({ meetingRooms: meetingRooms });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  };
+
   public create = async (req: Request, res: Response) => {
     try {
       const payload = req["body"] as MeetingRoom;
@@ -46,6 +80,16 @@ export class MeetingRoomController {
       const { id } = req["params"];
       const updatedMeetingRoom = await this.meetingRoomService.update(parseInt(id), payload);
       return res.status(200).json({ meetingRoom: updatedMeetingRoom });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+  public delete = async (req: Request, res: Response) => {
+    try {
+      const { id } = req["params"];
+      await this.meetingRoomService.delete(parseInt(id));
+      return res.status(200).json({ success: true });
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }

@@ -3,14 +3,17 @@ import { EventService } from "../services/event.service";
 import { EVENT_ALLOW_FIELDS } from "../constants/Event.constant";
 import { UserService } from "../services/user.service";
 import { User } from "../database/entities/user.entity"; // import service
+import { CalendarService } from "../services/calendar.service";
 
 export class EventController {
   private eventService: EventService;
   private userService: UserService;
+  private calendarService: CalendarService;
 
   constructor(){
     this.eventService = new EventService();
     this.userService = new UserService();
+    this.calendarService = new CalendarService();
   }
 
   public index = async (req: Request, res: Response) => {
@@ -37,6 +40,11 @@ export class EventController {
         if (EVENT_ALLOW_FIELDS.indexOf(f) !== -1) {
           event[f] = req.body[f];
         }
+      }
+
+      if (event.calendar === 'meeting') {
+        const meetingCalendar = await this.calendarService.findByText('Meeting');
+        event['calendar'] = meetingCalendar;
       }
 
       const newEvent = await this.eventService.create(event, user!);

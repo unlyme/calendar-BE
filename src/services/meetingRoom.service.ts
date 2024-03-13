@@ -1,10 +1,10 @@
-import { getConnection } from "typeorm";
+import { In, getConnection } from "typeorm";
 import { MeetingRoomRepository } from "../repository/meetingRoom.repository";
 import { FRECENCY, MeetingRoom } from "../database/entities/meetingRoom.entity";
 import { UserRepository } from "../repository/user.repository";
 import { MeetingRoomAttendeeRepository } from "../repository/meetingRoomAttendee.repository";
 import dayjs from "dayjs";
-import { orderBy } from "lodash";
+import { orderBy, uniq, uniqBy } from "lodash";
 
 export class MeetingRoomService {
   private meetingRoomRepository: MeetingRoomRepository;
@@ -163,6 +163,81 @@ export class MeetingRoomService {
     return ordered;
   };
 
+  public getHistory = async (
+    userId: number,
+    filter: {
+      to?: string;
+      projectId?: number;
+    }
+  ) => {
+    const query = this.meetingRoomAttendeeRepository
+      .createQueryBuilder("meeting_room_attendees")
+      .where("meeting_room_attendees.attendeeId = :userId", { userId });
+
+    const meetingRoomAttendees = await query.getMany();
+    const ids = meetingRoomAttendees.map((mra) => mra.meetingRoomId);
+
+    const rMeetingRooms = await this.meetingRoomRepository
+      .createQueryBuilder("meeting_rooms")
+      .where("meeting_rooms.id IN (:...ids)", { ids: ids })
+      .where("meeting_rooms.project_id = :projectId", {
+        projectId: filter.projectId,
+      })
+      .where("meeting_rooms.start_at < :to", { from: filter.to })
+      .where("meeting_rooms.is_archived = TRUE")
+      .orderBy("meeting_rooms.start_at", "DESC")
+      .getMany();
+
+    const mIds = rMeetingRooms.map((r) => r.id);
+
+    const meetingRooms = await this.meetingRoomRepository.find({
+      where: {
+        id: In(mIds),
+      },
+      relations: ["user", "attendees"],
+      order: { startAt: "DESC" },
+    });
+
+    return meetingRooms;
+  };
+
+  public getUpcoming = async (
+    userId: number,
+    filter: {
+      from?: string;
+      projectId?: number;
+    }
+  ) => {
+    const query = this.meetingRoomAttendeeRepository
+      .createQueryBuilder("meeting_room_attendees")
+      .where("meeting_room_attendees.attendeeId = :userId", { userId });
+
+    const meetingRoomAttendees = await query.getMany();
+    const ids = meetingRoomAttendees.map((mra) => mra.meetingRoomId);
+
+    const rMeetingRooms = await this.meetingRoomRepository
+      .createQueryBuilder("meeting_rooms")
+      .where("meeting_rooms.id IN (:...ids)", { ids: ids })
+      .where("meeting_rooms.project_id = :projectId", {
+        projectId: filter.projectId,
+      })
+      .where("meeting_rooms.end_at >= :from", { from: filter.from })
+      .where("meeting_rooms.is_archived = FALSE")
+      .getMany();
+
+    const mIds = rMeetingRooms.map((r) => r.id);
+
+    const meetingRooms = await this.meetingRoomRepository.find({
+      where: {
+        id: In(mIds),
+      },
+      relations: ["user", "attendees"],
+      order: { startAt: "DESC" },
+    });
+
+    return meetingRooms;
+  };
+
   public create = async (payload: MeetingRoom) => {
     const attendeeIds = payload.attendees;
 
@@ -191,13 +266,32 @@ export class MeetingRoomService {
   };
 
   public update = async (id: number, payload: Partial<MeetingRoom>) => {
+    const attendeeIds = uniq(payload.attendees);
+    if (payload.attendees) {
+      const attendees = await this.userRepository.findByIds(attendeeIds);
+      await this.meetingRoomAttendeeRepository.delete({
+        meetingRoomId: id,
+      });
+
+      for (const attendee of attendees) {
+        await this.meetingRoomAttendeeRepository.save(
+          this.meetingRoomAttendeeRepository.create({
+            meetingRoomId: id,
+            attendeeId: attendee.id,
+          })
+        );
+      }
+    }
+    delete payload.attendees;
+
     const updateResult = await this.meetingRoomRepository.update(id, payload);
+
     if (updateResult) {
       const updatedMeeting = await this.meetingRoomRepository.findOne(id);
       return updatedMeeting;
     }
     return undefined;
-  }
+  };
 
   public getMeetingRoomByRoomUid = async (roomUid: string) => {
     const room = await this.meetingRoomRepository.findOne({
@@ -211,5 +305,19 @@ export class MeetingRoomService {
     const room = await this.meetingRoomRepository.findOne(roomId);
     const boolFlag = password === room?.password;
     return boolFlag;
+  };
+
+  public delete = async (id: number) => {
+    const attendees = await this.meetingRoomAttendeeRepository.find({
+      meetingRoomId: id,
+    });
+    const attendeeIds = attendees.map((a) => a.id);
+
+    await this.meetingRoomAttendeeRepository.delete({
+      id: In(attendeeIds),
+    });
+
+    const result = await this.meetingRoomRepository.delete(id);
+    return result;
   };
 }

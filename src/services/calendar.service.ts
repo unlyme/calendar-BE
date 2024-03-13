@@ -108,4 +108,10 @@ export class CalendarService {
 
     return true;
   }
+
+  public findByText = async (text: string) => {
+    return await this.calendarRepository.findOne({
+      text: text as CALENDAR_TEXT
+    })
+  }
 }
