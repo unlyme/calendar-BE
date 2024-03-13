@@ -227,13 +227,79 @@ export class MeetingRoomService {
 
     const mIds = rMeetingRooms.map((r) => r.id);
 
-    const meetingRooms = await this.meetingRoomRepository.find({
+    const mMeetingRooms = await this.meetingRoomRepository.find({
       where: {
         id: In(mIds),
       },
-      relations: ["user", "attendees"],
-      order: { startAt: "DESC" },
+      relations: ["user", "attendees"]
     });
+
+    const recurringData = [];
+
+    for (const meetingRoom of mMeetingRooms) {
+      if (meetingRoom.frecency === FRECENCY.WEEKLY) {
+        let startAt = meetingRoom.startAt;
+        let endAt = meetingRoom.endAt;
+        if (dayjs(startAt).isSame(dayjs(), 'date')) {
+          recurringData.push(meetingRoom)
+        } else {
+          const range = dayjs(startAt).diff(dayjs(), 'days');
+          startAt = dayjs(startAt).add(range ,'day').format('DD/MM/YYYYTHH:ss');
+          endAt = dayjs(endAt).add(range ,'day').format('DD/MM/YYYYTHH:ss');
+          recurringData.push({
+            ...meetingRoom,
+            startAt: startAt,
+            endAt: endAt,
+          })
+        }
+
+        for (let i = 1; i <= 4; i++) {
+          recurringData.push({
+            ...meetingRoom,
+            startAt: dayjs(startAt)
+              .add(7 * i, "day")
+              .format(),
+            endAt: meetingRoom.endAt
+              ? dayjs(startAt)
+                  .add(7 * i, "day")
+                  .format()
+              : null,
+          });
+        }
+      }
+      if (meetingRoom.frecency === FRECENCY.DAILY) {
+        let startAt = meetingRoom.startAt;
+        let endAt = meetingRoom.endAt;
+        if (dayjs(startAt).isSame(dayjs(), 'date')) {
+          recurringData.push(meetingRoom)
+        } else {
+          const range = dayjs(startAt).diff(dayjs(), 'days');
+          startAt = dayjs(startAt).add(range ,'day').format('DD/MM/YYYYTHH:ss');
+          endAt = dayjs(endAt).add(range ,'day').format('DD/MM/YYYYTHH:ss');
+          recurringData.push({
+            ...meetingRoom,
+            startAt: startAt,
+            endAt: endAt,
+          })
+        }
+
+        for (let i = 1; i <= 7; i++) {
+          recurringData.push({
+            ...meetingRoom,
+            startAt: dayjs(startAt)
+              .add(1 * i, "day")
+              .format(),
+            endAt: meetingRoom.endAt
+              ? dayjs(endAt)
+                  .add(1 * i, "day")
+                  .format()
+              : null,
+          });
+        }
+      }
+    }
+
+    const meetingRooms = orderBy(recurringData, "startAt", "desc");
 
     return meetingRooms;
   };
