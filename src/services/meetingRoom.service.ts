@@ -177,14 +177,31 @@ export class MeetingRoomService {
     const meetingRoomAttendees = await query.getMany();
     const ids = meetingRoomAttendees.map((mra) => mra.meetingRoomId);
 
+    const unarchivedRooms = await this.meetingRoomRepository
+      .createQueryBuilder("meeting_rooms")
+      .where("meeting_rooms.id IN (:...ids)", { ids: ids })
+      .andWhere("meeting_rooms.project_id = :projectId", {
+        projectId: filter.projectId,
+      })
+      .where("meeting_rooms.is_archived IS FALSE")
+      .where("meeting_rooms.frecency = 'ONCE'")
+      .getMany();
+
+    if (unarchivedRooms.length > 0) {
+      const unarchivedRoomIds = unarchivedRooms.filter(ur => dayjs(ur.endAt).isBefore(dayjs())).map(ur => ur.id);
+      if (unarchivedRoomIds.length) {
+        await this.meetingRoomRepository.update(unarchivedRoomIds, { isArchived: true })
+      }
+    }
+
     const rMeetingRooms = await this.meetingRoomRepository
       .createQueryBuilder("meeting_rooms")
       .where("meeting_rooms.id IN (:...ids)", { ids: ids })
-      .where("meeting_rooms.project_id = :projectId", {
+      .andWhere("meeting_rooms.project_id = :projectId", {
         projectId: filter.projectId,
       })
       .where("meeting_rooms.start_at < :to", { from: filter.to })
-      .where("meeting_rooms.is_archived = TRUE")
+      .where("meeting_rooms.is_archived IS TRUE")
       .orderBy("meeting_rooms.start_at", "DESC")
       .getMany();
 
@@ -218,11 +235,11 @@ export class MeetingRoomService {
     const rMeetingRooms = await this.meetingRoomRepository
       .createQueryBuilder("meeting_rooms")
       .where("meeting_rooms.id IN (:...ids)", { ids: ids })
-      .where("meeting_rooms.project_id = :projectId", {
+      .andWhere("meeting_rooms.project_id = :projectId", {
         projectId: filter.projectId,
       })
-      .where("meeting_rooms.end_at >= :from", { from: filter.from })
-      .where("meeting_rooms.is_archived = FALSE")
+      .andWhere("meeting_rooms.end_at >= :from", { from: filter.from })
+      .andWhere("meeting_rooms.is_archived IS FALSE")
       .getMany();
 
     const mIds = rMeetingRooms.map((r) => r.id);
@@ -231,30 +248,32 @@ export class MeetingRoomService {
       where: {
         id: In(mIds),
       },
-      relations: ["user", "attendees"]
+      relations: ["user", "attendees"],
     });
 
     const recurringData = [];
 
     for (const meetingRoom of mMeetingRooms) {
       if (meetingRoom.frecency === FRECENCY.ONCE) {
-        recurringData.push(meetingRoom);
+        if (dayjs(meetingRoom.startAt).isSame(dayjs(), "date")) {
+          recurringData.push(meetingRoom);
+        }
       }
 
       if (meetingRoom.frecency === FRECENCY.WEEKLY) {
         let startAt = meetingRoom.startAt;
         let endAt = meetingRoom.endAt;
-        if (dayjs(startAt).isSame(dayjs(), 'date')) {
-          recurringData.push(meetingRoom)
+        if (dayjs(startAt).isSame(dayjs(), "date")) {
+          recurringData.push(meetingRoom);
         } else {
-          const range = dayjs(startAt).diff(dayjs(), 'days');
-          startAt = dayjs(startAt).add(range ,'day').format('DD/MM/YYYYTHH:ss');
-          endAt = dayjs(endAt).add(range ,'day').format('DD/MM/YYYYTHH:ss');
+          const range = dayjs(startAt).diff(dayjs(), "days");
+          startAt = dayjs(startAt).add(range, "day").format("DD/MM/YYYYTHH:ss");
+          endAt = dayjs(endAt).add(range, "day").format("DD/MM/YYYYTHH:ss");
           recurringData.push({
             ...meetingRoom,
             startAt: startAt,
             endAt: endAt,
-          })
+          });
         }
 
         for (let i = 1; i <= 4; i++) {
@@ -274,17 +293,17 @@ export class MeetingRoomService {
       if (meetingRoom.frecency === FRECENCY.DAILY) {
         let startAt = meetingRoom.startAt;
         let endAt = meetingRoom.endAt;
-        if (dayjs(startAt).isSame(dayjs(), 'date')) {
-          recurringData.push(meetingRoom)
+        if (dayjs(startAt).isSame(dayjs(), "date")) {
+          recurringData.push(meetingRoom);
         } else {
-          const range = dayjs(startAt).diff(dayjs(), 'days');
-          startAt = dayjs(startAt).add(range ,'day').format('DD/MM/YYYYTHH:ss');
-          endAt = dayjs(endAt).add(range ,'day').format('DD/MM/YYYYTHH:ss');
+          const range = dayjs(startAt).diff(dayjs(), "days");
+          startAt = dayjs(startAt).add(range, "day").format("DD/MM/YYYYTHH:ss");
+          endAt = dayjs(endAt).add(range, "day").format("DD/MM/YYYYTHH:ss");
           recurringData.push({
             ...meetingRoom,
             startAt: startAt,
             endAt: endAt,
-          })
+          });
         }
 
         for (let i = 1; i <= 7; i++) {
@@ -303,7 +322,7 @@ export class MeetingRoomService {
       }
     }
 
-    const meetingRooms = orderBy(recurringData, "startAt", "desc");
+    const meetingRooms = orderBy(recurringData, "startAt", "asc");
 
     return meetingRooms;
   };
