@@ -61,6 +61,13 @@ export class MeetingRoom extends BaseEntity {
   })
   public endAt: string;
 
+  @Column({
+    name: 'notes',
+    type: 'jsonb',
+    nullable: true,
+  })
+  public notes: any[];
+
   @Column({ name: 'timezone', nullable: true })
   public timezone: string;
 
