@@ -188,9 +188,13 @@ export class MeetingRoomService {
       .getMany();
 
     if (unarchivedRooms.length > 0) {
-      const unarchivedRoomIds = unarchivedRooms.filter(ur => dayjs(ur.endAt).isBefore(dayjs())).map(ur => ur.id);
+      const unarchivedRoomIds = unarchivedRooms
+        .filter((ur) => dayjs(ur.endAt).isBefore(dayjs()))
+        .map((ur) => ur.id);
       if (unarchivedRoomIds.length) {
-        await this.meetingRoomRepository.update(unarchivedRoomIds, { isArchived: true })
+        await this.meetingRoomRepository.update(unarchivedRoomIds, {
+          isArchived: true,
+        });
       }
     }
 
@@ -255,7 +259,10 @@ export class MeetingRoomService {
 
     for (const meetingRoom of mMeetingRooms) {
       if (meetingRoom.frecency === FRECENCY.ONCE) {
-        if (dayjs(meetingRoom.startAt).isSame(dayjs(), "date")) {
+        if (
+          dayjs(meetingRoom.startAt).isSame(dayjs(), "date") ||
+          dayjs(meetingRoom.startAt).isAfter(dayjs(), "date")
+        ) {
           recurringData.push(meetingRoom);
         }
       }
