@@ -197,6 +197,7 @@ export class UserService {
 
     // default service which activated for all projects
     const calendarService = await this.serviceService.getByName("Calendar");
+    const meetService = await this.serviceService.getByName("VideoConferencing");
 
     const newProject = await this.projectService.create(
       {
@@ -205,7 +206,7 @@ export class UserService {
         balance: 0,
         geography: "N/A",
       },
-      [calendarService!.id]
+      [calendarService!.id, meetService!.id]
     );
 
     await this.projectService.assginUser(Number(newProject.id), Number(newUser.id));
