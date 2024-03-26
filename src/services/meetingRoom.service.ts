@@ -260,8 +260,8 @@ export class MeetingRoomService {
     for (const meetingRoom of mMeetingRooms) {
       if (meetingRoom.frecency === FRECENCY.ONCE) {
         if (
-          dayjs(meetingRoom.startAt).isSame(dayjs(), "date") ||
-          dayjs(meetingRoom.startAt).isAfter(dayjs(), "date")
+          dayjs(meetingRoom.endAt).isSame(dayjs(), "date") ||
+          dayjs(meetingRoom.endAt).isAfter(dayjs(), "date")
         ) {
           recurringData.push(meetingRoom);
         }
