@@ -7,6 +7,7 @@ export class RegistrationMailer {
   constructor() {
     this.transporter = nodemailer.createTransport({
       host: process.env.MAILER_HOST || 'localhost',
+      port: 25,
       auth: {
         user: process.env.MAILER_USER || 'user',
         pass: process.env.MAILER_PASSWORD || 'password'
