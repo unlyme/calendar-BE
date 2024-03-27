@@ -10,6 +10,7 @@ import { ServiceService } from "./service.service";
 import { PROJECT_STATUS } from "../database/enums/project.enum";
 import { AccessCodeService } from "./accessCode.service";
 import { RegistrationMailer } from "../mailers/registration.mailer";
+import { mailerQueue } from "../queue/mailer.queue";
 require("dotenv").config();
 
 export class UserService {
@@ -84,9 +85,9 @@ export class UserService {
 
   public findUserByIds = async (ids: number[]) => {
     return await this.userRepository.find({
-      id: In(ids)
-    })
-  }
+      id: In(ids),
+    });
+  };
 
   public create = async (user: Partial<User>) => {
     return await this.userRepository.save(this.userRepository.create(user));
@@ -181,7 +182,7 @@ export class UserService {
     lastName: string,
     email: string,
     projectName: string,
-    accessCode: string,
+    accessCode: string
   ) => {
     const password = Math.random().toString(36).slice(2, 12);
 
@@ -197,7 +198,9 @@ export class UserService {
 
     // default service which activated for all projects
     const calendarService = await this.serviceService.getByName("Calendar");
-    const meetService = await this.serviceService.getByName("VideoConferencing");
+    const meetService = await this.serviceService.getByName(
+      "VideoConferencing"
+    );
 
     const newProject = await this.projectService.create(
       {
@@ -209,24 +212,38 @@ export class UserService {
       [calendarService!.id, meetService!.id]
     );
 
-    await this.projectService.assginUser(Number(newProject.id), Number(newUser.id));
+    await this.projectService.assginUser(
+      Number(newProject.id),
+      Number(newUser.id)
+    );
 
     const accessCodeRecord = await this.accessCodeService.getByCode(accessCode);
 
     if (!accessCodeRecord || accessCodeRecord.userId) {
-      throw Error('Invalid code');
+      throw Error("Invalid code");
     }
 
-    await this.accessCodeService.updateUsedByEmail(accessCodeRecord.id, newUser.id);
-    const mailer = new RegistrationMailer();
-
-    await mailer.send(
-      firstName,
-      lastName,
-      projectName,
-      email,
-      password
+    await this.accessCodeService.updateUsedByEmail(
+      accessCodeRecord.id,
+      newUser.id
     );
+
+    await mailerQueue.add({
+        firstName,
+        lastName,
+        projectName,
+        email,
+        password
+    });
+
+    // const mailer = new RegistrationMailer();
+    // await mailer.send(
+    //   firstName,
+    //   lastName,
+    //   projectName,
+    //   email,
+    //   password
+    // );
 
     return { newUser };
   };

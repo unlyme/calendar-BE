@@ -177,6 +177,10 @@ export class MeetingRoomService {
     const meetingRoomAttendees = await query.getMany();
     const ids = meetingRoomAttendees.map((mra) => mra.meetingRoomId);
 
+    if (!ids.length) {
+      return [];
+    }
+
     const unarchivedRooms = await this.meetingRoomRepository
       .createQueryBuilder("meeting_rooms")
       .where("meeting_rooms.id IN (:...ids)", { ids: ids })
@@ -201,7 +205,7 @@ export class MeetingRoomService {
     const rMeetingRooms = await this.meetingRoomRepository
       .createQueryBuilder("meeting_rooms")
       .where("meeting_rooms.id IN (:...ids)", { ids: ids })
-      .andWhere("meeting_rooms.project_id = :projectId", {
+      .where("meeting_rooms.project_id = :projectId", {
         projectId: filter.projectId,
       })
       .where("meeting_rooms.start_at < :to", { from: filter.to })
@@ -214,6 +218,7 @@ export class MeetingRoomService {
     const meetingRooms = await this.meetingRoomRepository.find({
       where: {
         id: In(mIds),
+        projectId: filter.projectId
       },
       relations: ["user", "attendees"],
       order: { startAt: "DESC" },
@@ -235,6 +240,10 @@ export class MeetingRoomService {
 
     const meetingRoomAttendees = await query.getMany();
     const ids = meetingRoomAttendees.map((mra) => mra.meetingRoomId);
+
+    if (!ids.length) {
+      return [];
+    }
 
     const rMeetingRooms = await this.meetingRoomRepository
       .createQueryBuilder("meeting_rooms")
