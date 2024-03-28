@@ -21,25 +21,20 @@ export class SendCodeMailer {
     email: string,
     code: string
   ) => {
-    try {
-      let html = sendCodeTemplate({
-        feHost: process.env.FE_URL as string,
-        code
-      });
+    let html = sendCodeTemplate({
+      feHost: process.env.FE_URL as string,
+      code
+    });
 
-      const message = {
-        from: process.env.EMAIl_FROM || 'ai@unlyme.com',
-        to: email,
-        subject: '[Ulyme] Thank you for requesting access to Unlyme AI OS',
-        html: html
-      };
+    const message = {
+      from: process.env.EMAIl_FROM || 'ai@unlyme.com',
+      to: email,
+      subject: '[Ulyme] Thank you for requesting access to Unlyme AI OS',
+      html: html
+    };
 
-      await this.transporter.sendMail(message);
+    await this.transporter.sendMail(message);
 
-      return true;
-    } catch (error) {
-      console.log('Mailer error:', error);
-      return false;
-    }
+    return true;
   };
 }
