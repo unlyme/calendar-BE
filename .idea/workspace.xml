@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a2999e9-eaf6-451d-8960-ae19a4d612d7" name="Changes" comment="feat: add roomUid to events">
+    <list default="true" id="0a2999e9-eaf6-451d-8960-ae19a4d612d7" name="Changes" comment="chore: add auto restart to redis docker">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -135,6 +135,23 @@
       <workItem from="1709787481707" duration="117000" />
       <workItem from="1709878622005" duration="106000" />
       <workItem from="1710143116208" duration="433000" />
+      <workItem from="1710748726165" duration="365000" />
+      <workItem from="1710828861227" duration="116000" />
+      <workItem from="1710914616221" duration="170000" />
+      <workItem from="1710999104918" duration="388000" />
+      <workItem from="1710999539760" duration="327000" />
+      <workItem from="1710999895721" duration="35000" />
+      <workItem from="1710999934584" duration="1000" />
+      <workItem from="1711045135170" duration="35000" />
+      <workItem from="1711095164453" duration="6000" />
+      <workItem from="1711344821604" duration="260000" />
+      <workItem from="1711383858500" duration="70000" />
+      <workItem from="1711431363032" duration="683000" />
+      <workItem from="1711516815463" duration="531000" />
+      <workItem from="1711603328161" duration="310000" />
+      <workItem from="1711688631522" duration="24000" />
+      <workItem from="1711952619217" duration="17000" />
+      <workItem from="1712171788598" duration="804000" />
     </task>
     <task id="LOCAL-00001" summary="fix: fixed api issue">
       <option name="closed" value="true" />
@@ -392,7 +409,87 @@
       <option name="project" value="LOCAL" />
       <updated>1710143488216</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="feat: auto archive meeting">
+      <option name="closed" value="true" />
+      <created>1710914664071</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1710914664071</updated>
+    </task>
+    <task id="LOCAL-00034" summary="feat: meeting notes">
+      <option name="closed" value="true" />
+      <created>1710999147361</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1710999147361</updated>
+    </task>
+    <task id="LOCAL-00035" summary="chore: fix upcoming meetings">
+      <option name="closed" value="true" />
+      <created>1710999158905</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1710999158905</updated>
+    </task>
+    <task id="LOCAL-00036" summary="feat: make VideoConferencing as default service">
+      <option name="closed" value="true" />
+      <created>1711431399899</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1711431399899</updated>
+    </task>
+    <task id="LOCAL-00037" summary="chore: fix meet now list">
+      <option name="closed" value="true" />
+      <created>1711431414300</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1711431414300</updated>
+    </task>
+    <task id="LOCAL-00038" summary="chore: add default port">
+      <option name="closed" value="true" />
+      <created>1711516846769</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1711516846769</updated>
+    </task>
+    <task id="LOCAL-00039" summary="chore: add default port">
+      <option name="closed" value="true" />
+      <created>1711516871850</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1711516871850</updated>
+    </task>
+    <task id="LOCAL-00040" summary="feat: add background job to handle send mail">
+      <option name="closed" value="true" />
+      <created>1711516938064</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1711516938064</updated>
+    </task>
+    <task id="LOCAL-00041" summary="chore: response error when failed send mail">
+      <option name="closed" value="true" />
+      <created>1711603485701</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1711603485701</updated>
+    </task>
+    <task id="LOCAL-00042" summary="chore: add auto restart to redis docker">
+      <option name="closed" value="true" />
+      <created>1711603495852</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1711603495852</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -410,15 +507,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: add staffs api" />
-    <MESSAGE value="feat: update Staff auth" />
-    <MESSAGE value="feat: add staff apis" />
-    <MESSAGE value="feat: update swagger for staff api" />
-    <MESSAGE value="feat: add Project, Service entities" />
-    <MESSAGE value="feat: add project index api" />
-    <MESSAGE value="feat: project/services api" />
-    <MESSAGE value="feat: add cors" />
-    <MESSAGE value="feat: add calendar for user and filter events by calendar" />
     <MESSAGE value="feat: update event response with relation" />
     <MESSAGE value="feat: note api" />
     <MESSAGE value="chore: fix typo" />
@@ -435,6 +523,15 @@
     <MESSAGE value="chore: fix side from recurring meetings" />
     <MESSAGE value="feat: fetch schedule meetings" />
     <MESSAGE value="feat: add roomUid to events" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add roomUid to events" />
+    <MESSAGE value="feat: auto archive meeting" />
+    <MESSAGE value="feat: meeting notes" />
+    <MESSAGE value="chore: fix upcoming meetings" />
+    <MESSAGE value="feat: make VideoConferencing as default service" />
+    <MESSAGE value="chore: fix meet now list" />
+    <MESSAGE value="chore: add default port" />
+    <MESSAGE value="feat: add background job to handle send mail" />
+    <MESSAGE value="chore: response error when failed send mail" />
+    <MESSAGE value="chore: add auto restart to redis docker" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: add auto restart to redis docker" />
   </component>
 </project>

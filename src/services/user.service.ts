@@ -11,6 +11,7 @@ import { PROJECT_STATUS } from "../database/enums/project.enum";
 import { AccessCodeService } from "./accessCode.service";
 import { RegistrationMailer } from "../mailers/registration.mailer";
 import { mailerQueue } from "../queue/mailer.queue";
+import { NotificationRepository } from "../repository/notification.repository";
 require("dotenv").config();
 
 export class UserService {
@@ -19,10 +20,14 @@ export class UserService {
   private projectService: ProjectService;
   private serviceService: ServiceService;
   private accessCodeService: AccessCodeService;
+  private notificationRepo: NotificationRepository;
 
   constructor() {
     this.userRepository =
       getConnection("schedule").getCustomRepository(UserRepository);
+    this.notificationRepo = getConnection("schedule").getCustomRepository(
+      NotificationRepository
+    );
     this.projectUserService = new ProjectUserService();
     this.projectService = new ProjectService();
     this.serviceService = new ServiceService();
@@ -228,12 +233,28 @@ export class UserService {
       newUser.id
     );
 
+    await this.notificationRepo.save({
+      category: "general",
+      title: `Project ${projectName} has been created`,
+      message: `Project ${projectName} has been created`,
+      translationKey: "NOTIFICATION.GENERAL.PROJECT_CREATED",
+      userId: Number(newUser.id),
+    });
+
+    await this.notificationRepo.save({
+      category: "general",
+      title: `User ${firstName} ${lastName} has been added to the project ${projectName}`,
+      message: `User ${firstName} ${lastName} has been added to the project ${projectName}`,
+      translationKey: "NOTIFICATION.GENERAL.USER_ADDED_TO_PROJECT",
+      userId: Number(newUser.id),
+    });
+
     await mailerQueue.add({
-        firstName,
-        lastName,
-        projectName,
-        email,
-        password
+      firstName,
+      lastName,
+      projectName,
+      email,
+      password,
     });
 
     // const mailer = new RegistrationMailer();

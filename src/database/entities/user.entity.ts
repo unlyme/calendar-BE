@@ -18,6 +18,7 @@ import { instanceToPlain, Exclude } from "class-transformer";
 import { USER_STATUS } from "../enums/user.enum";
 import AccessCode from "./accessCode.entity";
 import { MeetingRoom } from "./meetingRoom.entity";
+import Notification from "./notification.entity";
 
 @Entity({
   name: "users",
@@ -55,6 +56,9 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Task, (task) => task.user)
   tasks: Task[];
+
+  @OneToMany(() => Notification, (notification) => notification.user)
+  notifications: Notification[];
 
   @ManyToMany(() => MeetingRoom, (meetingRoom) => meetingRoom.attendees)
   @JoinTable({
