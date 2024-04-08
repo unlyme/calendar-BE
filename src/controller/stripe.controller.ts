@@ -19,4 +19,17 @@ export class StripeController {
       return res.status(400).json({ error: error.message });
     }
   }
+
+  public webhook = async (req: Request, res: Response) => {
+    try {
+      const payload = req.body;
+      const sig = req.headers['stripe-signature'];
+
+      const event = this.stripeService.verifyWebhookEvent(payload, sig);
+
+
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
 }

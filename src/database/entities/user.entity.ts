@@ -41,6 +41,9 @@ export class User extends BaseEntity {
   })
   public contacts: string[];
 
+  @Column({ default: 0 })
+  public balance: number;
+
   @Column()
   @Exclude()
   password!: string;

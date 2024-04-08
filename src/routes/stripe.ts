@@ -7,6 +7,7 @@ export const stripeRoutes = () => {
   const stripeController = new StripeController();
 
   router.post('/topup', deserializeUser, stripeController.topup);
+  router.post('/webhook', stripeController.webhook);
 
   return router;
 };
