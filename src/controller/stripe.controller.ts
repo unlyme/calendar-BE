@@ -25,9 +25,14 @@ export class StripeController {
       const payload = req.body;
       const sig = req.headers['stripe-signature'];
 
+      // Debug
+      console.log('===== payload', req.body);
+      console.log('===== sig', sig);
+
       const event = this.stripeService.verifyWebhookEvent(payload, sig);
+      await this.stripeService.postTopup(event);
 
-
+      return res.status(200).json({ success: true });
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }

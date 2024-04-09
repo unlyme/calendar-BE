@@ -12,15 +12,6 @@ export class StripeService {
   }
 
   public topup = async (user: User, amount: number, currency: string) => {
-    // const webhookEndpoint = await this.stripe.webhookEndpoints.create({
-    //   enabled_events: ['*'],
-    //   url: 'https://id.unlyme.com/api/stripe/webhook/endpoint',
-    // });
-
-    // console.log('?>?>?>?>?>?>?>', webhookEndpoint);
-
-    // return { url: webhookEndpoint };
-
     const unitAmount = amount * 100;
 
     const existingUsersRes = await this.stripe.customers.list({
