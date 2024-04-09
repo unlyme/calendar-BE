@@ -57,7 +57,7 @@ export class StripeService {
   public verifyWebhookEvent = (payload: any, sig: any) => {
     const endpointSecret = process.env.STRIPE_WHSEC!;
     let event;
-    event = this.stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+    event = this.stripe.webhooks.constructEvent(JSON.stringify(payload, null, 2), sig, endpointSecret);
 
     return event;
   };
