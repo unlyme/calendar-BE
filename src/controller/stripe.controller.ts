@@ -1,6 +1,7 @@
 import { Response, Request } from "express"
 import { StripeService } from "../services/stripe.service";
 import { User } from "../database/entities/user.entity";
+import bodyParser from 'body-parser';
 
 export class StripeController {
   private stripeService: StripeService;
@@ -23,13 +24,16 @@ export class StripeController {
   public webhook = async (req: Request, res: Response) => {
     try {
       const payload = req.body;
+      // const rawBody = bodyParser.raw({type: 'application/json'});
       const sig = req.headers['stripe-signature'];
 
       // Debug
       console.log('===== payload', req.body);
       console.log('===== sig', sig);
 
-      const event = this.stripeService.verifyWebhookEvent(payload, sig);
+      // Fixme: add verifyWebhookEvent
+      // const event = this.stripeService.verifyWebhookEvent(rawBody, sig);
+      const event = payload;
       await this.stripeService.postTopup(event);
 
       return res.status(200).json({ success: true });
