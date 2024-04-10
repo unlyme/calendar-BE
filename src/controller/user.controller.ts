@@ -14,6 +14,7 @@ export class UserController {
     try {
       const user = res['locals']['user'] as User;
       const { password, ...rest } = user;
+      user.balance = user.balance / 100;
       return res.status(200).json({ user })
     } catch (error: any) {
       return res.status(400).json({ error: error.message })
