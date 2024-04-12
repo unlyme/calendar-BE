@@ -13,6 +13,7 @@ import { projectRoutes } from './routes/project';
 import { meetingRoomRoutes } from './routes/meetingRoom';
 import { notificationRoutes } from './routes/notification';
 import { stripeRoutes } from './routes/stripe';
+import { adminHostingRoutes } from './routes/admin/hosting';
 const swagger = require("./utils/swagger");
 require('dotenv').config();
 
@@ -61,6 +62,7 @@ class Server {
     this.app.use('/meetingRooms', meetingRoomRoutes());
     this.app.use('/notifications', notificationRoutes());
     this.app.use('/stripe', stripeRoutes())
+    this.app.use('/hosting', adminHostingRoutes())
   }
 
   /**
