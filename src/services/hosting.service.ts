@@ -1,12 +1,11 @@
 import {
   Argument,
   WhmApiRequest,
-  WhmApiResponse,
   WhmApiTokenHeader,
   WhmApiType,
 } from "@cpanel/api";
 import axios from "axios";
-import fetch from 'node-fetch';
+const https = require('https');
 
 export class HostingService {
   token: string;
@@ -15,47 +14,140 @@ export class HostingService {
     this.token = process.env.WHM_TOKEN!;
   }
 
-  public async createAccount() {
+  public listAccounts = async () => {
+    const request = new WhmApiRequest(WhmApiType.JsonApi, {
+      method: "listaccts",
+      headers: [new WhmApiTokenHeader(this.token, "root")],
+    }).generate();
+
+    const whmResponse = await axios.get(
+      process.env.CPANEL_URL + '/listaccts',
+      {
+        headers: request.headers.toObject(),
+        httpsAgent: new https.Agent({
+          rejectUnauthorized: false
+        })
+      }
+    );
+
+    const { data } = whmResponse;
+    return data.data.acct;
+  }
+
+  public async createAccount(payload: {
+    domain: string,
+    username: string,
+    password: string,
+    pkgname: string
+  }) {
     const request = new WhmApiRequest(WhmApiType.JsonApi, {
       method: "createacct",
       arguments: [
-        new Argument("domain", "example.com"),
-        new Argument("username", "cusername"),
-        new Argument("password", "Test123123!"),
-        new Argument("pkgname", "Start"),
+        new Argument("domain", payload.domain),
+        new Argument("username", payload.username),
+        new Argument("password", payload.password),
+        new Argument("pkgname", payload.pkgname),
       ],
       headers: [new WhmApiTokenHeader(this.token, "root")],
     }).generate();
 
-    fetch('https://34.65.176.137:2087', {
-      method: 'POST',
-      headers: request.headers.toObject(),
-      body: request.body
-  })
-    .then((response: any) => response.json())
-    .then((response: any) => {
-        response.data = new WhmApiResponse(response.data);
-        if(!response.data.status) {
-          throw new Error(response.data.errors[0].message);
-        }
-        return response;
-    })
-    .then((data: any) => console.log(data));
+    const whmResponse = await axios.get(
+      process.env.CPANEL_URL + '/createacct?' + request.body,
+      {
+        headers: request.headers.toObject(),
+        httpsAgent: new https.Agent({
+          rejectUnauthorized: false
+        })
+      }
+    );
 
-    // const whmResponse = await axios.get(
-    //   process.env.CPANEL_URL!,
-    //   {
-    //     headers: request.headers.toObject(),
-    //     httpsAgent: new https.Agent({
-    //       rejectUnauthorized: false
-    //     })
-    //   }
-    //   // request.body,
+    const { data } = whmResponse;
 
-    // );
+    if (!data?.data) {
+      throw Error(data?.metadata?.reason || 'Something went wrong')
+    }
 
-    // console.log('>>>>>>>>>>>>>', whmResponse)
+    return data.data;
+  }
 
-    return true;
+  public suspendAccount = async (username: string) => {
+    const request = new WhmApiRequest(WhmApiType.JsonApi, {
+      method: "suspendacct",
+      arguments: [
+        new Argument("user", username),
+      ],
+      headers: [new WhmApiTokenHeader(this.token, "root")],
+    }).generate();
+
+    const whmResponse = await axios.get(
+      process.env.CPANEL_URL + '/suspendacct?' + request.body,
+      {
+        headers: request.headers.toObject(),
+        httpsAgent: new https.Agent({
+          rejectUnauthorized: false
+        })
+      }
+    );
+    const { data } = whmResponse;
+
+    if (!data?.metadata?.result) {
+      throw Error(data?.metadata?.reason || 'Something went wrong')
+    }
+
+    return data.metadata;
+  }
+
+  public unsuspendAccount = async (username: string) => {
+    const request = new WhmApiRequest(WhmApiType.JsonApi, {
+      method: "unsuspendacct",
+      arguments: [
+        new Argument("user", username),
+      ],
+      headers: [new WhmApiTokenHeader(this.token, "root")],
+    }).generate();
+
+    const whmResponse = await axios.get(
+      process.env.CPANEL_URL + '/unsuspendacct?' + request.body,
+      {
+        headers: request.headers.toObject(),
+        httpsAgent: new https.Agent({
+          rejectUnauthorized: false
+        })
+      }
+    );
+    const { data } = whmResponse;
+
+    if (!data?.metadata?.result) {
+      throw Error(data?.metadata?.reason || 'Something went wrong')
+    }
+
+    return data.metadata;
+  }
+
+  public deleteAccount = async (username: string) => {
+    const request = new WhmApiRequest(WhmApiType.JsonApi, {
+      method: "removeacct",
+      arguments: [
+        new Argument("user", username),
+      ],
+      headers: [new WhmApiTokenHeader(this.token, "root")],
+    }).generate();
+
+    const whmResponse = await axios.get(
+      process.env.CPANEL_URL + '/removeacct?' + request.body,
+      {
+        headers: request.headers.toObject(),
+        httpsAgent: new https.Agent({
+          rejectUnauthorized: false
+        })
+      }
+    );
+    const { data } = whmResponse;
+
+    if (!data?.metadata?.result) {
+      throw Error(data?.metadata?.reason || 'Something went wrong')
+    }
+
+    return data.metadata;
   }
 }

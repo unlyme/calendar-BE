@@ -11,7 +11,35 @@ export const adminHostingRoutes = () => {
     "/accounts",
     deserializeUser,
     requireAdmin,
-    adminHostingController.create
+    adminHostingController.createAccount
+  )
+
+  router.get(
+    "/accounts",
+    deserializeUser,
+    requireAdmin,
+    adminHostingController.listAccount
+  )
+
+  router.patch(
+    "/accounts/suspend",
+    deserializeUser,
+    requireAdmin,
+    adminHostingController.suspendAccount
+  )
+
+  router.patch(
+    "/accounts/unsuspend",
+    deserializeUser,
+    requireAdmin,
+    adminHostingController.unsuspendAccount
+  )
+
+  router.delete(
+    "/accounts/unsuspend",
+    deserializeUser,
+    requireAdmin,
+    adminHostingController.deleteAccount
   )
 
   return router;

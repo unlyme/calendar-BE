@@ -8,11 +8,54 @@ export class AdminHostingController {
     this.hostingService = new HostingService();
   }
 
-  public create = async (req: Request, res: Response) => {
+  public createAccount = async (req: Request, res: Response) => {
     try {
-      const account = await this.hostingService.createAccount();
+      const account = await this.hostingService.createAccount(req.body);
 
       return res.status(200).json({ account })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+  public suspendAccount = async (req: Request, res: Response) => {
+    try {
+      const { username } = req.body;
+      const account = await this.hostingService.suspendAccount(username);
+
+      return res.status(200).json({ account })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+  public unsuspendAccount = async (req: Request, res: Response) => {
+    try {
+      const { username } = req.body;
+      const account = await this.hostingService.unsuspendAccount(username);
+
+      return res.status(200).json({ account })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+  public deleteAccount = async (req: Request, res: Response) => {
+    try {
+      const { username } = req.body;
+      const account = await this.hostingService.deleteAccount(username);
+
+      return res.status(200).json({ account })
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  }
+
+  public listAccount = async (_req: Request, res: Response) => {
+    try {
+      const accounts = await this.hostingService.listAccounts();
+
+      return res.status(200).json({ accounts })
     } catch (error: any) {
       return res.status(400).json({ error: error.message });
     }
