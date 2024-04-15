@@ -36,7 +36,7 @@ export const adminHostingRoutes = () => {
   )
 
   router.delete(
-    "/accounts/unsuspend",
+    "/accounts",
     deserializeUser,
     requireAdmin,
     adminHostingController.deleteAccount
