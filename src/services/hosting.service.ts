@@ -31,7 +31,7 @@ export class HostingService {
     );
 
     const { data } = whmResponse;
-    return data.data.acct;
+    return data.acct;
   }
 
   public async createAccount(payload: {

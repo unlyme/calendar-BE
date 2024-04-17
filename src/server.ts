@@ -62,7 +62,6 @@ class Server {
     this.app.use('/meetingRooms', meetingRoomRoutes());
     this.app.use('/notifications', notificationRoutes());
     this.app.use('/stripe', stripeRoutes())
-    this.app.use('/hosting', adminHostingRoutes())
   }
 
   /**

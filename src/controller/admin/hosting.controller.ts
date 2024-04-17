@@ -14,7 +14,7 @@ export class AdminHostingController {
 
       return res.status(200).json({ account })
     } catch (error: any) {
-      return res.status(400).json({ error: error.message });
+      return res.status(200).json({ error: error.message });
     }
   }
 
@@ -42,8 +42,8 @@ export class AdminHostingController {
 
   public deleteAccount = async (req: Request, res: Response) => {
     try {
-      const { username } = req.body;
-      const account = await this.hostingService.deleteAccount(username);
+      const { username } = req.query;
+      const account = await this.hostingService.deleteAccount(username as string);
 
       return res.status(200).json({ account })
     } catch (error: any) {
