@@ -150,4 +150,32 @@ export class HostingService {
 
     return data.metadata;
   }
+
+  public createUserSession = async (username: string) => {
+    const request = new WhmApiRequest(WhmApiType.JsonApi, {
+      method: "create_user_session",
+      arguments: [
+        new Argument("user", username),
+        new Argument("service", "cpaneld")
+      ],
+      headers: [new WhmApiTokenHeader(this.token, "root")],
+    }).generate();
+
+    const whmResponse = await axios.get(
+      process.env.CPANEL_URL + '/create_user_session?' + request.body,
+      {
+        headers: request.headers.toObject(),
+        httpsAgent: new https.Agent({
+          rejectUnauthorized: false
+        })
+      }
+    );
+    const { data } = whmResponse;
+
+    if (!data?.metadata?.result) {
+      throw Error(data?.metadata?.reason || 'Something went wrong')
+    }
+
+    return data.data;
+  }
 }

@@ -42,5 +42,12 @@ export const adminHostingRoutes = () => {
     adminHostingController.deleteAccount
   )
 
+  router.post(
+    "/accounts/user-session",
+    deserializeUser,
+    requireAdmin,
+    adminHostingController.createUserSession
+  )
+
   return router;
 }
