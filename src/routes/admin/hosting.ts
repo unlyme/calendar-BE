@@ -49,5 +49,19 @@ export const adminHostingRoutes = () => {
     adminHostingController.createUserSession
   )
 
+  router.patch(
+    "/accounts/assign-to-project",
+    deserializeUser,
+    requireAdmin,
+    adminHostingController.assignToProject
+  )
+
+  router.get(
+    "/accounts/internal-hosting-records",
+    deserializeUser,
+    requireAdmin,
+    adminHostingController.getHostingRecords
+  )
+
   return router;
 }

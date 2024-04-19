@@ -73,4 +73,31 @@ export class AdminHostingController {
       return res.status(400).json({ error: error.message });
     }
   };
+
+  public assignToProject = async (req: Request, res: Response) => {
+    try {
+      const { cpanelUsername, projectId } = req.body;
+      const hostingRecord = await this.hostingService.assignToProject(
+        parseInt(projectId),
+        cpanelUsername
+      );
+
+      return res.status(200).json({ hostingRecord });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  };
+
+  public getHostingRecords = async (req: Request, res: Response) => {
+    try {
+      const { skipAssigned } = req.query;
+      const hostingRecords = await this.hostingService.listHostingRecords(
+        Boolean(skipAssigned)
+      );
+
+      return res.status(200).json({ hostingRecords });
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
+    }
+  };
 }
