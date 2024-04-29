@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a2999e9-eaf6-451d-8960-ae19a4d612d7" name="Changes" comment="feat: notification">
+    <list default="true" id="0a2999e9-eaf6-451d-8960-ae19a4d612d7" name="Changes" comment="feat: hosting service">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +19,16 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitRewordedCommitMessages">
+    <option name="commitMessagesMapping">
+      <RewordedCommitMessageMapping>
+        <option name="originalMessage" value="feat: body parser stripe webhook" />
+        <option name="rewordedMessage" value="feat: body parser stripe webhook" />
+      </RewordedCommitMessageMapping>
+    </option>
+    <option name="currentCommit" value="1" />
+    <option name="onto" value="55a388fdc1dcb05cd380b1d1b2d76c7bc33e21b2" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -93,6 +103,13 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-WS-241.14494.235" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -152,19 +169,26 @@
       <workItem from="1711688631522" duration="24000" />
       <workItem from="1711952619217" duration="17000" />
       <workItem from="1712171788598" duration="804000" />
-      <workItem from="1712212972767" duration="44000" />
-      <workItem from="1712260520684" duration="322000" />
-      <workItem from="1712313804730" duration="371000" />
-      <workItem from="1712328555189" duration="22000" />
-      <workItem from="1712328599131" duration="36000" />
-    </task>
-    <task id="LOCAL-00001" summary="fix: fixed api issue">
-      <option name="closed" value="true" />
-      <created>1696240580297</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1696240580297</updated>
+      <workItem from="1712738094885" duration="43000" />
+      <workItem from="1712773726533" duration="18000" />
+      <workItem from="1712859249174" duration="46000" />
+      <workItem from="1712904239180" duration="61000" />
+      <workItem from="1712917555920" duration="56000" />
+      <workItem from="1713155268793" duration="169000" />
+      <workItem from="1713250687186" duration="40000" />
+      <workItem from="1713341602331" duration="194000" />
+      <workItem from="1713374871867" duration="69000" />
+      <workItem from="1713416904894" duration="26000" />
+      <workItem from="1713459021184" duration="224000" />
+      <workItem from="1713500888663" duration="36000" />
+      <workItem from="1713771681863" duration="39000" />
+      <workItem from="1713866589514" duration="14000" />
+      <workItem from="1713893000710" duration="14000" />
+      <workItem from="1713983890383" duration="16000" />
+      <workItem from="1714023748145" duration="16000" />
+      <workItem from="1714072462905" duration="17000" />
+      <workItem from="1714373122845" duration="214000" />
+      <workItem from="1714374463389" duration="175000" />
     </task>
     <task id="LOCAL-00002" summary="feat: setup admin module">
       <option name="closed" value="true" />
@@ -494,15 +518,71 @@
       <option name="project" value="LOCAL" />
       <updated>1711603495852</updated>
     </task>
-    <task id="LOCAL-00043" summary="feat: notification">
+    <task id="LOCAL-00043" summary="chore: correct balance">
       <option name="closed" value="true" />
-      <created>1712213005384</created>
+      <created>1712738127084</created>
       <option name="number" value="00043" />
       <option name="presentableId" value="LOCAL-00043" />
       <option name="project" value="LOCAL" />
-      <updated>1712213005384</updated>
+      <updated>1712738127084</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="debug: cpanel api">
+      <option name="closed" value="true" />
+      <created>1712904277920</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1712904277920</updated>
+    </task>
+    <task id="LOCAL-00045" summary="feat: integrate Cpanel Account api">
+      <option name="closed" value="true" />
+      <created>1712904288800</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1712904288800</updated>
+    </task>
+    <task id="LOCAL-00046" summary="chore: fix routes">
+      <option name="closed" value="true" />
+      <created>1713155284245</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1713155284245</updated>
+    </task>
+    <task id="LOCAL-00047" summary="feat(action log): handle selection for farm, photos and reject reason">
+      <option name="closed" value="true" />
+      <created>1713250716854</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1713250716854</updated>
+    </task>
+    <task id="LOCAL-00048" summary="chore: delete api use query">
+      <option name="closed" value="true" />
+      <created>1713341662018</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1713341662018</updated>
+    </task>
+    <task id="LOCAL-00049" summary="feat: go to cpanel account">
+      <option name="closed" value="true" />
+      <created>1713416920327</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1713416920327</updated>
+    </task>
+    <task id="LOCAL-00050" summary="feat: hosting service">
+      <option name="closed" value="true" />
+      <created>1713500906260</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1713500906260</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -520,13 +600,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: note api" />
-    <MESSAGE value="chore: fix typo" />
-    <MESSAGE value="feat: add api update delete for service unit" />
-    <MESSAGE value="feat: update api update delete for service unit" />
-    <MESSAGE value="feat: upate delete project logic" />
-    <MESSAGE value="feat: update logic to assign and unassign service" />
-    <MESSAGE value="feat: api get room by room id" />
     <MESSAGE value="feat: api verify meeting room password" />
     <MESSAGE value="README: add deployment steps" />
     <MESSAGE value="feat: update logic to get owned and attend meeting" />
@@ -544,7 +617,14 @@
     <MESSAGE value="feat: add background job to handle send mail" />
     <MESSAGE value="chore: response error when failed send mail" />
     <MESSAGE value="chore: add auto restart to redis docker" />
-    <MESSAGE value="feat: notification" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: notification" />
+    <MESSAGE value="chore: correct balance" />
+    <MESSAGE value="debug: cpanel api" />
+    <MESSAGE value="feat: integrate Cpanel Account api" />
+    <MESSAGE value="chore: fix routes" />
+    <MESSAGE value="feat(action log): handle selection for farm, photos and reject reason" />
+    <MESSAGE value="chore: delete api use query" />
+    <MESSAGE value="feat: go to cpanel account" />
+    <MESSAGE value="feat: hosting service" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: hosting service" />
   </component>
 </project>

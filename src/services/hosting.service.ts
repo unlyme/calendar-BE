@@ -15,7 +15,7 @@ export class HostingService {
 
   constructor() {
     this.token = process.env.WHM_TOKEN!;
-    this.hostingRecordRepo = getConnection("schedule").getCustomRepository(HostingRecordRepository);;
+    this.hostingRecordRepo = getConnection("schedule").getCustomRepository(HostingRecordRepository);
   }
 
   public listAccounts = async () => {
