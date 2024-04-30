@@ -100,4 +100,25 @@ export class AdminAlphaHostingController {
       return res.status(400).json({ error: error.message });
     }
   };
+
+  public getPlans = async (_req: Request, res: Response) => {
+    try {
+      const plans = await this.hostingService.getPlans();
+
+      return res.status(200).json({ plans });
+    } catch (err: any) {
+      return res.status(400).json({ error: err.message });
+    }
+  }
+
+  public getUserServices = async (req: Request, res: Response) => {
+    try {
+      const { uid } = req.query;
+      const userSevices = await this.hostingService.getUserServices(Number(uid));
+
+      return res.status(200).json({ userSevices });
+    } catch (err: any) {
+      return res.status(400).json({ error: err.message });
+    }
+  }
 }

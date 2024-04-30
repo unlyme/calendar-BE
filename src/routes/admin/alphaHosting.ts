@@ -63,5 +63,19 @@ export const adminAlphaHostingRoutes = () => {
     adminHostingController.getHostingRecords
   )
 
+  router.get(
+    "/plans",
+    deserializeUser,
+    requireAdmin,
+    adminHostingController.getPlans
+  )
+
+  router.get(
+    "/accounts/user-services",
+    deserializeUser,
+    requireAdmin,
+    adminHostingController.getUserServices
+  )
+
   return router;
 }

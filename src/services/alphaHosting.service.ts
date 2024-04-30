@@ -135,11 +135,24 @@ export class AlphaHostingService {
     const url = this.apiUrl + `/api/admin/users/${uid}/login-as-user-sso-token`;
 
     const response = await axios.post(url, {}, this.axiosConfig);
-
-    console.log('?>?>?>?>?', response);
-
     const { data } = response.data;
 
     return data;
   };
+
+  public getPlans = async () => {
+    const url = this.apiUrl + '/api/admin/plans';
+    const response = await axios.get(url, this.axiosConfig);
+    const { data } = response.data;
+
+    return data;
+  }
+
+  public getUserServices = async (uid: number) => {
+    const url = this.apiUrl + `/api/admin/users/${uid}/services`;
+    const response = await axios.get(url, this.axiosConfig);
+    const { data } = response.data;
+
+    return data;
+  }
 }
