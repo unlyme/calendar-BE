@@ -140,6 +140,22 @@ export class AlphaHostingService {
     return data;
   };
 
+  public createUserSessionFromWeb = async (projectId: number) => {
+    const hostingRecord = await this.hostingRecordRepo.findOne({
+      projectId: projectId
+    });
+
+    if (!hostingRecord) {
+      throw Error('Project does not support Panel Alpha Hosting');
+    };
+
+    const url = this.apiUrl + `/api/admin/users/${hostingRecord.uid}/sso-token`;
+    const response = await axios.post(url, {}, this.axiosConfig);
+
+    const { data } = response.data;
+    return data;
+  }
+
   public getPlans = async () => {
     const url = this.apiUrl + '/api/admin/plans';
     const response = await axios.get(url, this.axiosConfig);
