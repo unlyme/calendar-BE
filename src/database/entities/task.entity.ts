@@ -1,6 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from "typeorm";
 import BaseEntity from "./base.entity";
-import { User } from "./user.entity";
+import { Project } from "./project.entity";
 
 @Entity({
   name: "tasks",
@@ -11,12 +11,11 @@ export class Task extends BaseEntity {
   })
   public task: string;
 
-  @ManyToOne(() => User, (user) => user.notes)
-  @JoinColumn({ name: 'user_id' })
-  public user: User;
+  @OneToOne(() => Project, (project) => project.task)
+  public project: Project;
 
-  @Column({ name: 'user_id' })
-  public userId: number;
+  @Column({ name: 'project_id' })
+  public projectId: number;
 }
 
 export default Task;

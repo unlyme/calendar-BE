@@ -57,9 +57,6 @@ export class User extends BaseEntity {
   @OneToMany(() => Note, (note) => note.user)
   notes: Note[];
 
-  @OneToMany(() => Task, (task) => task.user)
-  tasks: Task[];
-
   @OneToMany(() => Notification, (notification) => notification.user)
   notifications: Notification[];
 

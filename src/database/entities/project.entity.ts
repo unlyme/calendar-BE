@@ -4,23 +4,25 @@ import {
   ManyToMany,
   JoinTable,
   OneToMany,
-} from 'typeorm';
-import BaseEntity from './base.entity';
-import { User } from './user.entity';
-import { PROJECT_STATUS } from '../enums/project.enum';
-import { Service } from './service.entity';
-import { Event } from './event.entity';
-import Calendar from './calendar.entity';
-import { MeetingRoom } from './meetingRoom.entity';
+  OneToOne,
+} from "typeorm";
+import BaseEntity from "./base.entity";
+import { User } from "./user.entity";
+import { PROJECT_STATUS } from "../enums/project.enum";
+import { Service } from "./service.entity";
+import { Event } from "./event.entity";
+import Calendar from "./calendar.entity";
+import { MeetingRoom } from "./meetingRoom.entity";
+import Task from "./task.entity";
 
 @Entity({
-  name: 'projects'
+  name: "projects",
 })
 export class Project extends BaseEntity {
   @Column()
   name!: string;
 
-  @Column({ type: 'decimal', default: 0 })
+  @Column({ type: "decimal", default: 0 })
   balance!: number;
 
   @Column()
@@ -29,33 +31,33 @@ export class Project extends BaseEntity {
   @Column({ enum: PROJECT_STATUS, default: PROJECT_STATUS.ACTIVE })
   status: PROJECT_STATUS;
 
-  @ManyToMany(() => Service, service => service.projects)
+  @ManyToMany(() => Service, (service) => service.projects)
   @JoinTable({
-    name: 'project_service_units',
+    name: "project_service_units",
     joinColumn: {
-      name: 'project_id',
-      referencedColumnName: 'id',
+      name: "project_id",
+      referencedColumnName: "id",
     },
     inverseJoinColumn: {
-      name: 'service_id',
-      referencedColumnName: 'id'
-    }
+      name: "service_id",
+      referencedColumnName: "id",
+    },
   })
-  services: Service[]
+  services: Service[];
 
   @ManyToMany(() => User, (user) => user.projects)
   @JoinTable({
-    name: 'project_users',
+    name: "project_users",
     joinColumn: {
-      name: 'project_id',
-      referencedColumnName: 'id',
+      name: "project_id",
+      referencedColumnName: "id",
     },
     inverseJoinColumn: {
-      name: 'user_id',
-      referencedColumnName: 'id',
+      name: "user_id",
+      referencedColumnName: "id",
     },
   })
-  users: User[]
+  users: User[];
 
   @OneToMany(() => Event, (event) => event.project)
   events: Event[];
@@ -65,4 +67,7 @@ export class Project extends BaseEntity {
 
   @OneToMany(() => MeetingRoom, (meetingRoom) => meetingRoom.user)
   meetingRooms: MeetingRoom[];
+
+  @OneToOne(() => Task, (task) => task.project)
+  public task: Task;
 }

@@ -10,14 +10,11 @@ export class TaskService {
       getConnection("schedule").getCustomRepository(TaskRepository);
   }
 
-  public index = async (userId: number) => {
-    return await this.taskRepository.find({
+  public index = async (projectId: number) => {
+    return await this.taskRepository.findOne({
       where: {
-        userId: userId,
-      },
-      order: {
-        id: "ASC",
-      },
+        projectId: projectId,
+      }
     });
   };
 

@@ -11,10 +11,10 @@ export class TaskController {
     this.taskService = new TaskService();
   }
 
-  public index = async (_req: Request, res: Response) => {
+  public index = async (req: Request, res: Response) => {
     try {
-      const user = res['locals']['user'] as User;
-      const tasks = await this.taskService.index(user.id);
+      const projectId = req.query.projectId!.toString();
+      const tasks = await this.taskService.index(parseInt(projectId));
       return res.status(200).json({ tasks });
     } catch (error: any) {
       return res.status(400).json({ error: error.message })
