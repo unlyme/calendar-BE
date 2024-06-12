@@ -1,8 +1,8 @@
-import {Router} from "express";
+import { Router } from "express";
 import { TaskController } from "../controller/task.controller";
 import { deserializeUser } from "../middleware/deserializeUser";
 
-export const noteRoutes = () => {
+export const tasksRoutes = () => {
   const router = Router();
   const taskController = new TaskController();
   /**
@@ -57,8 +57,9 @@ export const noteRoutes = () => {
    *         description: Some server error
    */
 
-  router.get('/', deserializeUser, taskController.index);
-  router.put('/:id', deserializeUser, taskController.update);
+  router.get("/", deserializeUser, taskController.index);
+  router.put("/:id", deserializeUser, taskController.update);
+  router.post("/", deserializeUser, taskController.create);
 
   return router;
-}
+};

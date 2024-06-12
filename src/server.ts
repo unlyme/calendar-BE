@@ -16,6 +16,7 @@ import { stripeRoutes } from './routes/stripe';
 import { adminHostingRoutes } from './routes/admin/hosting';
 import { hostingRoutes } from './routes/hosting';
 import { alphaHostingRoutes } from './routes/alphaHosting';
+import { tasksRoutes } from './routes/task';
 const swagger = require("./utils/swagger");
 require('dotenv').config();
 
@@ -66,6 +67,7 @@ class Server {
     this.app.use('/stripe', stripeRoutes())
     this.app.use('/hosting', hostingRoutes());
     this.app.use('/alpha-hosting', alphaHostingRoutes());
+    this.app.use('/tasks', tasksRoutes());
   }
 
   /**

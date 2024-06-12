@@ -31,4 +31,15 @@ export class TaskService {
 
     return undefined;
   }
+
+  public create = async (projectId: number, taskInit: any) => {
+    const newTask = await this.taskRepository.save(
+      this.taskRepository.create({
+        task: taskInit,
+        projectId: projectId
+      })
+    )
+
+    return newTask;
+  }
 }
