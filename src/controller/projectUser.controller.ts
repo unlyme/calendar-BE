@@ -15,9 +15,13 @@ export class ProjectUserController {
   public index = async (req: Request, res: Response) => {
     try {
       const user = res['locals']['user'] as User;
+      const includesCurrentUser = req['query']['includesCurrentUser'];
       const { id } = req.params;
       const project = await this.projectUserService.getByProject(parseInt(id));
-      const userIds = project.map(p => p.userId).filter(id => id !== user.id);
+      let userIds = project.map(p => p.userId)
+      if (!includesCurrentUser) {
+        userIds = project.map(p => p.userId).filter(id => id !== user.id);
+      }
       const users = await this.userService.findUserByIds(userIds);
 
       return res.status(200).json({ users })
