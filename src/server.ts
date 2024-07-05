@@ -17,6 +17,7 @@ import { hostingRoutes } from './routes/hosting';
 import { alphaHostingRoutes } from './routes/alphaHosting';
 import { tasksRoutes } from './routes/task';
 import { attachmentRoutes } from './routes/attachment';
+import { noteRoutes } from './routes/note';
 const swagger = require("./utils/swagger");
 require('dotenv').config();
 
@@ -69,6 +70,7 @@ class Server {
     this.app.use('/alpha-hosting', alphaHostingRoutes());
     this.app.use('/tasks', tasksRoutes());
     this.app.use('/attachments', attachmentRoutes());
+    this.app.use('/notes', noteRoutes());
   }
 
   /**

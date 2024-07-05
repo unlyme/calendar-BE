@@ -27,6 +27,7 @@ export class S3Service {
       new PutObjectCommand({ Bucket: this.bucket, Key: `${folder}/${fileName}` }),
       { expiresIn: 3600 }
     );
+
     return url;
   };
 }

@@ -4,13 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a2999e9-eaf6-451d-8960-ae19a4d612d7" name="Changes" comment="feat: hosting service">
+    <list default="true" id="0a2999e9-eaf6-451d-8960-ae19a4d612d7" name="Changes" comment="feat: tasks upload api">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -23,12 +28,12 @@
   <component name="GitRewordedCommitMessages">
     <option name="commitMessagesMapping">
       <RewordedCommitMessageMapping>
-        <option name="originalMessage" value="feat: body parser stripe webhook" />
-        <option name="rewordedMessage" value="feat: body parser stripe webhook" />
+        <option name="originalMessage" value="feat: update task model and controller" />
+        <option name="rewordedMessage" value="feat: update task model and controller" />
       </RewordedCommitMessageMapping>
     </option>
     <option name="currentCommit" value="1" />
-    <option name="onto" value="55a388fdc1dcb05cd380b1d1b2d76c7bc33e21b2" />
+    <option name="onto" value="561677c32d6a6fef5fb9b97776284746fe63c8db" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -55,7 +60,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -106,7 +111,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-WS-241.14494.235" />
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-WS-241.15989.105" />
       </set>
     </attachedChunks>
   </component>
@@ -189,30 +194,21 @@
       <workItem from="1714072462905" duration="17000" />
       <workItem from="1714373122845" duration="214000" />
       <workItem from="1714374463389" duration="175000" />
-    </task>
-    <task id="LOCAL-00002" summary="feat: setup admin module">
-      <option name="closed" value="true" />
-      <created>1696534071147</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1696534071147</updated>
-    </task>
-    <task id="LOCAL-00003" summary="feat: admin auth login routes">
-      <option name="closed" value="true" />
-      <created>1696534084036</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1696534084037</updated>
-    </task>
-    <task id="LOCAL-00004" summary="feat: add logout and refresh admin api">
-      <option name="closed" value="true" />
-      <created>1696534095045</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1696534095045</updated>
+      <workItem from="1718093638701" duration="21000" />
+      <workItem from="1718176795012" duration="34000" />
+      <workItem from="1718176861861" duration="51000" />
+      <workItem from="1718258579008" duration="28000" />
+      <workItem from="1718350147050" duration="198000" />
+      <workItem from="1718601946237" duration="44000" />
+      <workItem from="1718693542536" duration="17000" />
+      <workItem from="1718776649074" duration="17000" />
+      <workItem from="1718879720231" duration="19000" />
+      <workItem from="1718880002062" duration="131000" />
+      <workItem from="1718948589442" duration="17000" />
+      <workItem from="1719208711599" duration="370000" />
+      <workItem from="1719420811759" duration="21000" />
+      <workItem from="1719834727746" duration="31000" />
+      <workItem from="1720089221585" duration="221000" />
     </task>
     <task id="LOCAL-00005" summary="feat: admin users api">
       <option name="closed" value="true" />
@@ -582,7 +578,31 @@
       <option name="project" value="LOCAL" />
       <updated>1713500906260</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="feat: task create api">
+      <option name="closed" value="true" />
+      <created>1717743756586</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1717743756586</updated>
+    </task>
+    <task id="LOCAL-00052" summary="feat: task create api">
+      <option name="closed" value="true" />
+      <created>1718176894002</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1718176894003</updated>
+    </task>
+    <task id="LOCAL-00053" summary="feat: tasks upload api">
+      <option name="closed" value="true" />
+      <created>1718350319085</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1718350319085</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -600,9 +620,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: api verify meeting room password" />
-    <MESSAGE value="README: add deployment steps" />
-    <MESSAGE value="feat: update logic to get owned and attend meeting" />
     <MESSAGE value="feat: add frecency to meeting rooms" />
     <MESSAGE value="feat: add meeting for recurring meeting rooms" />
     <MESSAGE value="chore: fix side from recurring meetings" />
@@ -625,6 +642,9 @@
     <MESSAGE value="chore: delete api use query" />
     <MESSAGE value="feat: go to cpanel account" />
     <MESSAGE value="feat: hosting service" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: hosting service" />
+    <MESSAGE value="feat: update task model and controller" />
+    <MESSAGE value="feat: task create api" />
+    <MESSAGE value="feat: tasks upload api" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: tasks upload api" />
   </component>
 </project>

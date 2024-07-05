@@ -248,6 +248,7 @@ export class UserService {
       translationKey: "NOTIFICATION.GENERAL.USER_ADDED_TO_PROJECT",
       userId: Number(newUser.id),
     });
+    console.log('>>>>>>>>>>>>>>>>>>>>', password)
 
     await mailerQueue.add({
       firstName,
@@ -256,6 +257,7 @@ export class UserService {
       email,
       password,
     });
+
 
     // const mailer = new RegistrationMailer();
     // await mailer.send(

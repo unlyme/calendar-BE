@@ -9,10 +9,11 @@ export class NoteService {
       getConnection("schedule").getCustomRepository(NoteRepository);
   }
 
-  public index = async (userId: number) => {
+  public index = async (userId: number, projectId: number) => {
     return await this.noteRepository.find({
       where: {
-        userId: userId
+        userId: userId,
+        projectId: projectId,
       },
       order: {
         id: "DESC",
@@ -22,7 +23,7 @@ export class NoteService {
 
   public findNoteById = async (id: number) => {
     return await this.noteRepository.findOne(id);
-  }
+  };
 
   public create = async (note: Note) => {
     return await this.noteRepository.save(note);

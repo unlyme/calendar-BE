@@ -14,6 +14,7 @@ import { Event } from "./event.entity";
 import Calendar from "./calendar.entity";
 import { MeetingRoom } from "./meetingRoom.entity";
 import Task from "./task.entity";
+import Note from "./note.entity";
 
 @Entity({
   name: "projects",
@@ -70,4 +71,7 @@ export class Project extends BaseEntity {
 
   @OneToOne(() => Task, (task) => task.project)
   public task: Task;
+
+  @OneToMany(() => Note, (note) => note.project)
+  public notes: Note[];
 }
