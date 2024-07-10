@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import BaseEntity from "./base.entity";
 import { User } from "./user.entity";
 import { Project } from "./project.entity";
@@ -55,11 +55,6 @@ export class Note extends BaseEntity {
     nullable: true
   })
   public members: any;
-
-  @BeforeInsert()
-  async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 12);
-  }
 
   static async comparePasswords(
     candidatePassword: string,

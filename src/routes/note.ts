@@ -1,4 +1,4 @@
-import {Router} from "express";
+import { Router } from "express";
 import { NoteController } from "../controller/note.controller";
 import { deserializeUser } from "../middleware/deserializeUser";
 
@@ -100,10 +100,11 @@ export const noteRoutes = () => {
    *         description: Some server error
    */
 
-  router.get('/', deserializeUser, noteController.index);
-  router.post('/', deserializeUser, noteController.create);
-  router.put('/:id', deserializeUser, noteController.update);
-  router.delete('/:id', deserializeUser, noteController.delete);
+  router.get("/", deserializeUser, noteController.index);
+  router.post("/", deserializeUser, noteController.create);
+  router.put("/:id", deserializeUser, noteController.update);
+  router.delete("/:id", deserializeUser, noteController.delete);
+  router.post("/:id/verify-password", deserializeUser, noteController.verifyPassword);
 
   return router;
-}
+};

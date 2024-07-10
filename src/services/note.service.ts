@@ -1,6 +1,7 @@
 import { getConnection } from "typeorm";
 import { Note } from "../database/entities/note.entity";
 import { NoteRepository } from "../repository/note.repository";
+import bcrypt from "bcryptjs";
 
 export class NoteService {
   private noteRepository: NoteRepository;
@@ -30,6 +31,10 @@ export class NoteService {
   };
 
   public update = async (id: number, note: Partial<Note>) => {
+    if (note.password) {
+      note.password = await bcrypt.hash(note.password, 12);
+    }
+
     const updateResult = await this.noteRepository.update(id, note);
 
     if (updateResult) {
@@ -42,4 +47,10 @@ export class NoteService {
   public delete = async (id: number) => {
     return await this.noteRepository.delete(id);
   };
+
+  public verifyPassword = async (id: number, password: string) => {
+    const record = await this.findNoteById(id);
+    const match = await Note.comparePasswords(password, record?.password!)
+    return match;
+  }
 }

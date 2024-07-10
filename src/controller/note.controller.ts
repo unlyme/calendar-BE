@@ -60,4 +60,15 @@ export class NoteController {
       return res.json({ status: 400, error: error.message });
     }
   };
+
+  public verifyPassword = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { password } = req.body;
+      const match = await this.noteService.verifyPassword(Number(id), password);
+      return res.json({ status: 200, data: { isValid: match } });
+    } catch (error: any) {
+      return res.json({ status: 400, error: error.message });
+    }
+  };
 }
