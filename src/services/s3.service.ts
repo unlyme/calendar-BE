@@ -20,8 +20,8 @@ export class S3Service {
     });
   }
 
-  public generateUploadUrl = async (taskId: number, fileName: string) => {
-    const folder = `task-${taskId}`;
+  public generateUploadUrl = async (taskId: number, fileName: string, resource: string = 'task') => {
+    const folder = `${resource}-${taskId}`;
     const url = await getSignedUrl(
       this.s3Client,
       new PutObjectCommand({ Bucket: this.bucket, Key: `${folder}/${fileName}` }),

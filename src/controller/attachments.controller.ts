@@ -10,12 +10,15 @@ export class AttachmentsController {
 
   public generateUploadUrl = async (req: Request, res: Response) => {
     try {
-      const { taskId, fileName } = req.body;
+      const { taskId, fileName, resource } = req.body;
       const url = await this.s3Service.generateUploadUrl(
         Number(taskId),
-        fileName
+        fileName,
+        resource
       );
       return res.status(200).json({ url });
-    } catch (error) {}
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
   };
 }

@@ -5,6 +5,12 @@ import { Project } from "./project.entity";
 import bcrypt from "bcryptjs";
 import { instanceToPlain, Exclude } from "class-transformer";
 
+export enum Visibility {
+  ALL = "ALL",
+  ONLY_ME = "ONLY_ME",
+  MEMBERS = "MEMBERS",
+}
+
 @Entity({
   name: "notes",
 })
@@ -52,9 +58,14 @@ export class Note extends BaseEntity {
   @Column({
     type: "jsonb",
     default: [],
-    nullable: true
+    nullable: true,
   })
   public members: any;
+
+  @Column({
+    default: Visibility.ALL,
+  })
+  public visibility: Visibility;
 
   static async comparePasswords(
     candidatePassword: string,
