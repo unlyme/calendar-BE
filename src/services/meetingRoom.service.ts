@@ -5,11 +5,13 @@ import { UserRepository } from "../repository/user.repository";
 import { MeetingRoomAttendeeRepository } from "../repository/meetingRoomAttendee.repository";
 import dayjs from "dayjs";
 import { orderBy, uniq, uniqBy } from "lodash";
+import { EventRepository } from "../repository/event.repository";
 
 export class MeetingRoomService {
   private meetingRoomRepository: MeetingRoomRepository;
   private userRepository: UserRepository;
   private meetingRoomAttendeeRepository: MeetingRoomAttendeeRepository;
+  private eventRepository: EventRepository;
 
   constructor() {
     this.meetingRoomRepository = getConnection("schedule").getCustomRepository(
@@ -20,6 +22,8 @@ export class MeetingRoomService {
     this.meetingRoomAttendeeRepository = getConnection(
       "schedule"
     ).getCustomRepository(MeetingRoomAttendeeRepository);
+    this.eventRepository =
+      getConnection("schedule").getCustomRepository(EventRepository);
   }
 
   public index = async (
@@ -218,7 +222,7 @@ export class MeetingRoomService {
     const meetingRooms = await this.meetingRoomRepository.find({
       where: {
         id: In(mIds),
-        projectId: filter.projectId
+        projectId: filter.projectId,
       },
       relations: ["user", "attendees"],
       order: { startAt: "DESC" },
@@ -417,6 +421,16 @@ export class MeetingRoomService {
       meetingRoomId: id,
     });
     const attendeeIds = attendees.map((a) => a.id);
+
+    const meeting = await this.meetingRoomRepository.findOne(id);
+
+    const eventRecord = await this.eventRepository.findOne({
+      id: meeting?.eventId,
+    });
+
+    if (eventRecord) {
+      await this.eventRepository.delete(eventRecord.id);
+    }
 
     await this.meetingRoomAttendeeRepository.delete({
       id: In(attendeeIds),
