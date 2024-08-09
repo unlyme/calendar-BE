@@ -2,6 +2,7 @@ import { getConnection } from "typeorm";
 import { Note } from "../database/entities/note.entity";
 import { NoteRepository } from "../repository/note.repository";
 import bcrypt from "bcryptjs";
+import { uniqBy } from "lodash";
 
 export class NoteService {
   private noteRepository: NoteRepository;
@@ -10,16 +11,41 @@ export class NoteService {
       getConnection("schedule").getCustomRepository(NoteRepository);
   }
 
-  public index = async (userId: number, projectId: number) => {
-    return await this.noteRepository.find({
+  public index = async (currentUserId: number, projectId: number) => {
+    const ownedNotes = await this.noteRepository.find({
       where: {
-        userId: userId,
+        userId: currentUserId,
         projectId: projectId,
       },
       order: {
         id: "DESC",
       },
     });
+
+    const projectNotes = await this.noteRepository.find({
+      where: {
+        projectId: projectId,
+      },
+    });
+
+    const sharedNotes = projectNotes.filter((r) => {
+      if (r.visibility === "ALL") {
+        return true;
+      }
+      if (r.visibility === "MEMBERS") {
+        const members = r.members as Array<any>;
+        if (members?.find((m) => m["id"] === currentUserId)) {
+          return true;
+        }
+      }
+
+      return false;
+    });
+
+    const data = [...ownedNotes, ...sharedNotes];
+    const finalData = uniqBy(data, 'id')
+
+    return finalData;
   };
 
   public findNoteById = async (id: number) => {
@@ -50,7 +76,7 @@ export class NoteService {
 
   public verifyPassword = async (id: number, password: string) => {
     const record = await this.findNoteById(id);
-    const match = await Note.comparePasswords(password, record?.password!)
+    const match = await Note.comparePasswords(password, record?.password!);
     return match;
-  }
+  };
 }
